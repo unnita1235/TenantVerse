@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-export default function SettingsPage({ params }: { params: { tenant: string } }) {
+export default async function SettingsPage({ params }: { params: Promise<{ tenant: string }> }) {
+  const { tenant } = await params;
   return (
     <div className="space-y-8 max-w-2xl">
       <div>
@@ -19,11 +20,11 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="org-name">Organization Name</Label>
-            <Input id="org-name" defaultValue={params.tenant.charAt(0).toUpperCase() + params.tenant.slice(1)} />
+            <Input id="org-name" defaultValue={tenant.charAt(0).toUpperCase() + tenant.slice(1)} />
           </div>
            <div className="space-y-2">
             <Label htmlFor="org-slug">Tenant Slug</Label>
-            <Input id="org-slug" defaultValue={params.tenant} disabled />
+            <Input id="org-slug" defaultValue={tenant} disabled />
           </div>
         </CardContent>
         <CardFooter>
@@ -40,7 +41,7 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
           <div className="flex justify-between items-center p-4 border border-destructive/50 rounded-lg bg-destructive/5">
             <div>
               <p className="font-medium text-destructive">Delete Organization</p>
-              <p className="text-sm text-muted-foreground">This will permanently delete the <span className="font-bold">{params.tenant}</span> organization and all its data.</p>
+              <p className="text-sm text-muted-foreground">This will permanently delete the <span className="font-bold">{tenant}</span> organization and all its data.</p>
             </div>
              <Button variant="destructive">Delete</Button>
           </div>

@@ -33,7 +33,8 @@ const roleVariant: { [key: string]: 'default' | 'secondary' | 'outline' } = {
   Member: 'outline',
 };
 
-export default function TeamPage({ params }: { params: { tenant: string } }) {
+export default async function TeamPage({ params }: { params: Promise<{ tenant: string }> }) {
+  const { tenant } = await params;
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between gap-4">
@@ -43,7 +44,7 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
         </div>
         <div className="flex flex-shrink-0 gap-2">
           <Button asChild>
-            <Link href={`/t/${params.tenant}/team/onboard`}>
+            <Link href={`/t/${tenant}/team/onboard`}>
               <PlusCircle className="mr-2 h-4 w-4" />
               AI Onboarding
             </Link>

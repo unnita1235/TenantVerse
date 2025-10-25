@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Bot, Loader2, BookOpen, ListChecks, Terminal } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -19,9 +20,14 @@ function SubmitButton() {
   );
 }
 
-export default function GuidesPage({ params }: { params: { tenant: string } }) {
-  const initialState = { success: false, data: null, error: null };
+export default function GuidesPage({ params }: { params: Promise<{ tenant: string }> }) {
+  const [tenant, setTenant] = useState<string>('');
+  const initialState = { success: false, data: null, error: '' };
   const [state, formAction] = useFormState(getPersonalizedGuide, initialState);
+
+  useEffect(() => {
+    params.then(({ tenant }) => setTenant(tenant));
+  }, [params]);
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
@@ -31,7 +37,7 @@ export default function GuidesPage({ params }: { params: { tenant: string } }) {
       </div>
 
       <form action={formAction}>
-        <input type="hidden" name="tenantName" value={params.tenant} />
+        <input type="hidden" name="tenantName" value={tenant} />
         <Card>
           <CardHeader>
             <CardTitle>User Profile</CardTitle>

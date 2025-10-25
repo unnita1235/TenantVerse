@@ -19,7 +19,7 @@ function SubmitButton() {
 }
 
 export default function OnboardPage() {
-  const initialState = { success: false, data: null, error: null };
+  const initialState = { success: false, data: null, error: '' };
   const [state, formAction] = useFormState(getRbacSuggestions, initialState);
 
   return (

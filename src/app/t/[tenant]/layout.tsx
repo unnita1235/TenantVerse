@@ -2,11 +2,12 @@ import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar'
 import { DashboardHeader } from './components/dashboard-header';
 import { DashboardNav } from './components/dashboard-nav';
 
-export default function DashboardLayout({ children, params }: { children: React.ReactNode; params: { tenant: string } }) {
+export default async function DashboardLayout({ children, params }: { children: React.ReactNode; params: Promise<{ tenant: string }> }) {
+  const { tenant } = await params;
   return (
     <SidebarProvider>
       <Sidebar variant="sidebar" collapsible="icon" className="group-data-[variant=sidebar]:bg-sidebar">
-        <DashboardNav tenant={params.tenant} />
+        <DashboardNav tenant={tenant} />
       </Sidebar>
       <SidebarInset>
         <DashboardHeader />
