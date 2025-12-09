@@ -1,8 +1,8 @@
-# CLAUDE.md - AI Assistant Development Guide
+# Development Guide
 
 **Project**: TenantVerse
 **Last Updated**: 2025-12-09
-**Purpose**: Comprehensive guide for AI assistants working on this codebase
+**Purpose**: Comprehensive development guide for developers working on this codebase
 
 ---
 
@@ -45,7 +45,7 @@
 ## 🛠️ Tech Stack
 
 ### Core Framework
-- **Next.js**: 15.3.3 (App Router with RSC)
+- **Next.js**: 15.3.6 (App Router with RSC)
 - **React**: 18.3.1
 - **TypeScript**: 5.x (strict mode enabled)
 - **Node.js**: 18+ required
@@ -62,8 +62,8 @@
 - **@hookform/resolvers**: 4.1.3
 
 ### AI Integration
-- **Genkit**: 1.14.1 (Firebase AI framework)
-- **@genkit-ai/googleai**: 1.14.1
+- **Genkit**: 1.25.0 (Firebase AI framework)
+- **@genkit-ai/googleai**: 1.25.0
 - **Model**: `googleai/gemini-2.5-flash`
 
 ### Data & Charts
@@ -911,16 +911,16 @@ Use conventional commits:
 ```
 feat: add billing page
 fix: correct tenant routing issue
-docs: update CLAUDE.md
+docs: update development guide
 refactor: split dashboard into client component
 ```
 
 ### Branch Strategy
 
 - `main`: Production-ready code
-- `claude/[session-id]`: AI assistant work branches
 - Feature branches: `feature/feature-name`
 - Bug fixes: `fix/bug-name`
+- Hotfixes: `hotfix/hotfix-name`
 
 ### Code Review Checklist
 
@@ -946,7 +946,7 @@ refactor: split dashboard into client component
 
 **Last Updated**: 2025-12-09
 **Version**: 0.1.0
-**Maintainer**: Claude AI Assistant
+**Maintainer**: Unni T A
 
 ---
 
