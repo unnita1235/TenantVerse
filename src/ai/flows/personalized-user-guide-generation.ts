@@ -37,7 +37,7 @@ const prompt = ai.definePrompt({
   name: 'personalizedUserGuidePrompt',
   input: {schema: PersonalizedUserGuideInputSchema},
   output: {schema: PersonalizedUserGuideOutputSchema},
-  prompt: `You are an AI assistant specialized in creating personalized user guides and onboarding flows for SaaS applications.
+  prompt: `You are a specialized system for creating personalized user guides and onboarding flows for SaaS applications.
 
   Based on the tenant name, user role, permission settings, and expected app usage, generate a user guide and an onboarding flow tailored to the user's specific needs.
 
