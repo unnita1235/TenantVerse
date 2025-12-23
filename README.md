@@ -4,12 +4,14 @@
 
 **Status**: ✅ Production Ready | **Tech Stack**: Next.js, Node.js, MongoDB, Stripe
 
-### 🌐 Live Demo
+### 🌐 Live Demo & Links
 
-- **Frontend**: [Deploy to Vercel](https://vercel.com) - [Add your Vercel URL here]
-- **Backend API**: [Deploy to Render/Railway](https://render.com) - [Add your backend URL here]
-- **GitHub Repository**: https://github.com/unnita1235/TenantVerse
-- **CI/CD Status**: ![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)
+- **GitHub Repository**: [https://github.com/unnita1235/TenantVerse](https://github.com/unnita1235/TenantVerse)
+- **CI/CD Status**: [![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)](https://github.com/unnita1235/TenantVerse/actions)
+- **Frontend**: [Deploy to Vercel](https://vercel.com/new) - *Add your Vercel URL after deployment*
+- **Backend API**: [Deploy to Render](https://render.com) or [Railway](https://railway.app) - *Add your backend URL after deployment*
+
+> **Note**: Once deployed, update the URLs above with your actual deployment links.
 
 ## 🚀 Features
 
