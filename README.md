@@ -6,12 +6,13 @@
 
 ### 🌐 Live Demo & Links
 
-- **GitHub Repository**: [https://github.com/unnita1235/TenantVerse](https://github.com/unnita1235/TenantVerse)
-- **CI/CD Status**: [![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)](https://github.com/unnita1235/TenantVerse/actions)
-- **Frontend**: [Deploy to Vercel](https://vercel.com/new) - *Add your Vercel URL after deployment*
-- **Backend API**: [Deploy to Render](https://render.com) or [Railway](https://railway.app) - *Add your backend URL after deployment*
+- **🌍 Live Application**: [https://tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
+- **📦 GitHub Repository**: [https://github.com/unnita1235/TenantVerse](https://github.com/unnita1235/TenantVerse)
+- **✅ CI/CD Status**: [![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)](https://github.com/unnita1235/TenantVerse/actions)
+- **🚀 Frontend**: Deployed on [Vercel](https://vercel.com) - [tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
+- **⚙️ Backend API**: [Deploy to Render](https://render.com) or [Railway](https://railway.app) - *Add your backend URL after deployment*
 
-> **Note**: Once deployed, update the URLs above with your actual deployment links.
+> **Note**: Frontend is live! Backend deployment URL can be added once deployed.
 
 ## 🚀 Features
 
