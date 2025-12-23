@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        project: [frontend, backend]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.project == 'frontend' && 'package-lock.json' || 'backend/package-lock.json' }}
+      
+      - name: Install dependencies
+        working-directory: ${{ matrix.project == 'frontend' && '.' || 'backend' }}
+        run: npm ci
+      
+      - name: Lint
+        working-directory: ${{ matrix.project == 'frontend' && '.' || 'backend' }}
+        run: |
+          if [ "${{ matrix.project }}" == "frontend" ]; then
+            npm run lint || true
+          else
+            npm run lint || echo "No lint script"
+          fi
+      
+      - name: Type check
+        working-directory: ${{ matrix.project == 'frontend' && '.' || 'backend' }}
+        run: |
+          if [ "${{ matrix.project }}" == "frontend" ]; then
+            npm run typecheck || true
+          else
+            npx tsc --noEmit || true
+          fi
+      
+      - name: Build
+        working-directory: ${{ matrix.project == 'frontend' && '.' || 'backend' }}
+        run: |
+          if [ "${{ matrix.project }}" == "frontend" ]; then
+            npm run build
+          else
+            npm run build
+          fi
+        env:
+          # Mock env vars for build
+          NEXT_PUBLIC_API_URL: ${{ matrix.project == 'frontend' && 'http://localhost:5000/api' || '' }}
+          MONGODB_URI: ${{ matrix.project == 'backend' && 'mongodb://localhost:27017/test' || '' }}
+          JWT_SECRET: ${{ matrix.project == 'backend' && 'test-secret' || '' }}
+

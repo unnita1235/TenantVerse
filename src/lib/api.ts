@@ -1,0 +1,207 @@
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  errors?: any[];
+}
+
+class ApiClient {
+  private baseUrl: string;
+  private token: string | null = null;
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+    if (typeof window !== 'undefined') {
+      this.token = localStorage.getItem('token') || this.getCookie('token');
+    }
+  }
+
+  private getCookie(name: string): string | null {
+    if (typeof document === 'undefined') return null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  }
+
+  setToken(token: string | null) {
+    this.token = token;
+    if (typeof window !== 'undefined') {
+      if (token) {
+        localStorage.setItem('token', token);
+        // Also set in cookie for middleware
+        document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`; // 7 days
+      } else {
+        localStorage.removeItem('token');
+        document.cookie = 'token=; path=/; max-age=0';
+      }
+    }
+  }
+
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
+    const url = `${this.baseUrl}${endpoint}`;
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    };
+
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: data.message || 'An error occurred',
+          errors: data.errors,
+        };
+      }
+
+      return {
+        success: true,
+        data: data.user || data.tenant || data.users || data.tenants || data.stats || data.subscription || data.plans || data,
+        ...data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.message || 'Network error',
+      };
+    }
+  }
+
+  // Auth
+  async register(data: {
+    email: string;
+    password: string;
+    name: string;
+    organizationName: string;
+    organizationSlug?: string;
+  }) {
+    return this.request<{ user: any; tenant: any; token: string }>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async login(email: string, password: string) {
+    const response = await this.request<{ user: any; tenant: any; token: string }>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.success && response.data?.token) {
+      this.setToken(response.data.token);
+    }
+
+    return response;
+  }
+
+  async getCurrentUser() {
+    return this.request<{ user: any }>('/auth/me');
+  }
+
+  logout() {
+    this.setToken(null);
+  }
+
+  // Tenants
+  async getTenant(slug: string) {
+    return this.request<{ tenant: any }>(`/tenants/${slug}`);
+  }
+
+  async updateTenant(slug: string, data: { name?: string }) {
+    return this.request<{ tenant: any }>(`/tenants/${slug}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  // Users
+  async getUsers() {
+    return this.request<{ users: any[] }>('/users');
+  }
+
+  async getUser(id: string) {
+    return this.request<{ user: any }>(`/users/${id}`);
+  }
+
+  async inviteUser(data: { email: string; name: string; role: string }) {
+    return this.request<{ user: any }>('/users/invite', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateUserRole(id: string, role: string) {
+    return this.request<{ user: any }>(`/users/${id}/role`, {
+      method: 'PUT',
+      body: JSON.stringify({ role }),
+    });
+  }
+
+  async deleteUser(id: string) {
+    return this.request('/users/' + id, {
+      method: 'DELETE',
+    });
+  }
+
+  // Subscriptions
+  async getPlans() {
+    return this.request<{ plans: any[] }>('/subscriptions/plans');
+  }
+
+  async getCurrentSubscription() {
+    return this.request<{ subscription: any }>('/subscriptions/current');
+  }
+
+  async createCheckout(plan: string) {
+    return this.request<{ sessionId: string; url: string }>('/subscriptions/create-checkout', {
+      method: 'POST',
+      body: JSON.stringify({ plan }),
+    });
+  }
+
+  async cancelSubscription() {
+    return this.request('/subscriptions/cancel', {
+      method: 'POST',
+    });
+  }
+
+  // Dashboard
+  async getDashboardStats() {
+    return this.request<{
+      stats: any;
+      chartData: any[];
+      recentSignups: any[];
+    }>('/dashboard/stats');
+  }
+
+  // Admin
+  async getAdminTenants() {
+    return this.request<{ tenants: any[]; summary: any }>('/admin/tenants');
+  }
+
+  async updateTenantStatus(id: string, status: string) {
+    return this.request(`/admin/tenants/${id}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    });
+  }
+}
+
+export const apiClient = new ApiClient(API_BASE_URL);
+
