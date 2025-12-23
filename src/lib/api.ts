@@ -201,6 +201,12 @@ class ApiClient {
       body: JSON.stringify({ status }),
     });
   }
+
+  async deleteTenant(id: string) {
+    return this.request(`/admin/tenants/${id}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);

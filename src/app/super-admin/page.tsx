@@ -81,6 +81,35 @@ export default function SuperAdminPage() {
     }
   };
 
+  const handleDeleteTenant = async (tenantId: string, tenantName: string) => {
+    if (!confirm(`Are you absolutely sure you want to delete "${tenantName}"? This action cannot be undone and will permanently delete all tenant data.`)) {
+      return;
+    }
+
+    try {
+      const response = await apiClient.deleteTenant(tenantId);
+      if (response.success) {
+        toast({
+          title: 'Success',
+          description: 'Tenant deleted successfully',
+        });
+        fetchTenants();
+      } else {
+        toast({
+          title: 'Error',
+          description: response.message || 'Failed to delete tenant',
+          variant: 'destructive',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to delete tenant',
+        variant: 'destructive',
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="space-y-8">
@@ -174,7 +203,10 @@ export default function SuperAdminPage() {
                         <DropdownMenuItem onClick={() => handleStatusChange(tenant.id, tenant.status === 'active' ? 'expired' : 'active')}>
                           {tenant.status === 'active' ? 'Suspend Tenant' : 'Activate Tenant'}
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
+                        <DropdownMenuItem
+                          className="text-destructive"
+                          onClick={() => handleDeleteTenant(tenant.id, tenant.name)}
+                        >
                           Delete Tenant
                         </DropdownMenuItem>
                       </DropdownMenuContent>
