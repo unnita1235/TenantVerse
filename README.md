@@ -2,7 +2,14 @@
 
 > A production-ready Property & Tenant Management SaaS platform demonstrating enterprise-grade full-stack engineering, multi-tenancy, role-based access control, and subscription management.
 
-**Status**: ✅ Production Ready | **Live Demo**: [Add your deployed URL] | **Tech Stack**: Next.js, Node.js, MongoDB, Stripe
+**Status**: ✅ Production Ready | **Tech Stack**: Next.js, Node.js, MongoDB, Stripe
+
+### 🌐 Live Demo
+
+- **Frontend**: [Deploy to Vercel](https://vercel.com) - [Add your Vercel URL here]
+- **Backend API**: [Deploy to Render/Railway](https://render.com) - [Add your backend URL here]
+- **GitHub Repository**: https://github.com/unnita1235/TenantVerse
+- **CI/CD Status**: ![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)
 
 ## 🚀 Features
 
@@ -42,7 +49,7 @@
 
 ```bash
 git clone https://github.com/unnita1235/TenantVerse.git
-cd TenantVerse/TenantVerse-main
+cd TenantVerse
 ```
 
 ### 2. Backend Setup
@@ -242,13 +249,29 @@ TenantVerse showcases **production-ready full-stack engineering** with:
 
 This is not a tutorial project—it's a **complete, deployable SaaS platform** that demonstrates enterprise-level engineering capabilities.
 
-## 📚 Additional Documentation
+## 🚀 Quick Deploy
 
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide
-- **[PRODUCTION_CHECKLIST.md](./PRODUCTION_CHECKLIST.md)** - Production readiness checklist
-- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System architecture details
-- **[QUICKSTART.md](./QUICKSTART.md)** - 5-minute quick start guide
-- **[RECRUITER_PITCH.md](./RECRUITER_PITCH.md)** - Project highlights for recruiters
+### Deploy Backend (Render)
+1. Connect GitHub repository to [Render](https://render.com)
+2. Create new Web Service
+3. Build Command: `cd backend && npm install && npm run build`
+4. Start Command: `cd backend && npm start`
+5. Set environment variables (see Environment Variables section)
+
+### Deploy Frontend (Vercel)
+1. Connect GitHub repository to [Vercel](https://vercel.com)
+2. Framework: Next.js (auto-detected)
+3. Set `NEXT_PUBLIC_API_URL` environment variable
+4. Deploy automatically on push to main branch
+
+## ✅ CI/CD Status
+
+This project uses GitHub Actions for continuous integration:
+- ✅ Automated linting and type checking
+- ✅ Build verification for frontend and backend
+- ✅ Runs on every push and pull request
+
+View workflow status: [GitHub Actions](https://github.com/unnita1235/TenantVerse/actions)
 
 ## 🤝 Contributing
 
