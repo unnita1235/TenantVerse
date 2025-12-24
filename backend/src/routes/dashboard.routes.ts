@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import User from '../models/User.model';
 import Tenant from '../models/Tenant.model';
 import { authenticate, requireTenant, AuthRequest } from '../middleware/auth.middleware';
@@ -15,7 +15,7 @@ router.use(requireTenant);
 // @route   GET /api/dashboard/stats
 // @desc    Get dashboard statistics
 // @access  Private
-router.get('/stats', asyncHandler(async (req: AuthRequest, res) => {
+router.get('/stats', asyncHandler(async (req: AuthRequest, res: Response) => {
   const tenantId = req.user!.tenantId;
 
   if (!tenantId) {

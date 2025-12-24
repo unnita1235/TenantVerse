@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.model';
@@ -15,9 +15,9 @@ const generateToken = (id: string): string => {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET not configured');
   }
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE || '7d'
-  });
+  // Use 7 days in seconds as default
+  const expiresInSeconds = 7 * 24 * 60 * 60; // 7 days
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: expiresInSeconds });
 };
 
 // @route   POST /api/auth/register
@@ -121,24 +121,24 @@ router.post(
     }
 
     const { email, password } = req.body;
+    logger.info(`Login attempt for: ${email}`);
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
+      logger.warn(`Login failed: User not found for ${email}`);
       throw new AuthenticationError('Invalid credentials');
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
+      logger.warn(`Login failed: Password mismatch for ${email}`);
       throw new AuthenticationError('Invalid credentials');
     }
 
     const token = generateToken(user._id.toString());
 
     // Get tenant info
-    let tenant = null;
-    if (user.tenantId) {
-      tenant = await Tenant.findById(user.tenantId);
-    }
+    const tenant = user.tenantId ? await Tenant.findById(user.tenantId) : null;
 
     logger.info('User logged in', { userId: user._id, email: user.email });
 
@@ -164,9 +164,9 @@ router.post(
 // @route   GET /api/auth/me
 // @desc    Get current user
 // @access  Private
-router.get('/me', authenticate, asyncHandler(async (req: AuthRequest, res) => {
+router.get('/me', authenticate, asyncHandler(async (req: AuthRequest, res: Response) => {
   const user = await User.findById(req.user!.id).populate('tenantId');
-  
+
   if (!user) {
     throw new NotFoundError('User');
   }

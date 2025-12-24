@@ -62,7 +62,7 @@ const seedData = async () => {
       }
     ];
 
-    const createdTenants = [];
+    const createdTenants: any[] = [];
     for (const tenantData of tenants) {
       // Create owner
       const owner = await User.create({

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import Stripe from 'stripe';
 import Tenant from '../models/Tenant.model';
 import Subscription from '../models/Subscription.model';
@@ -13,10 +13,10 @@ if (!process.env.STRIPE_SECRET_KEY) {
   logger.warn('STRIPE_SECRET_KEY not configured - payment features will be disabled');
 }
 
-const stripe = process.env.STRIPE_SECRET_KEY 
+const stripe = process.env.STRIPE_SECRET_KEY
   ? new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2024-11-20.acacia'
-    })
+    apiVersion: '2023-10-16'
+  })
   : null;
 
 // All routes require authentication
@@ -26,7 +26,7 @@ router.use(requireTenant);
 // @route   GET /api/subscriptions/plans
 // @desc    Get available subscription plans
 // @access  Private
-router.get('/plans', asyncHandler(async (req, res) => {
+router.get('/plans', asyncHandler(async (req: AuthRequest, res: Response) => {
   const plans = [
     {
       id: 'starter',
@@ -60,7 +60,7 @@ router.get('/plans', asyncHandler(async (req, res) => {
 router.post(
   '/create-checkout',
   requireRole('owner', 'admin', 'super_admin'),
-  asyncHandler(async (req: AuthRequest, res) => {
+  asyncHandler(async (req: AuthRequest, res: Response) => {
     if (!stripe) {
       throw new Error('Stripe is not configured');
     }
@@ -131,7 +131,7 @@ router.post(
 // @route   GET /api/subscriptions/current
 // @desc    Get current subscription
 // @access  Private
-router.get('/current', asyncHandler(async (req: AuthRequest, res) => {
+router.get('/current', asyncHandler(async (req: AuthRequest, res: Response) => {
   const tenant = await Tenant.findById(req.user!.tenantId);
   if (!tenant) {
     throw new NotFoundError('Tenant');
@@ -157,7 +157,7 @@ router.get('/current', asyncHandler(async (req: AuthRequest, res) => {
 // @route   POST /api/subscriptions/cancel
 // @desc    Cancel subscription
 // @access  Private (owner or admin only)
-router.post('/cancel', requireRole('owner', 'admin', 'super_admin'), asyncHandler(async (req: AuthRequest, res) => {
+router.post('/cancel', requireRole('owner', 'admin', 'super_admin'), asyncHandler(async (req: AuthRequest, res: Response) => {
   if (!stripe) {
     throw new Error('Stripe is not configured');
   }
@@ -215,15 +215,15 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
         const tenantId = session.metadata?.tenantId;
-        
+
         if (tenantId && session.subscription) {
           const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
           const tenant = await Tenant.findById(tenantId);
-          
+
           if (tenant) {
             tenant.stripeSubscriptionId = subscription.id;
             tenant.subscriptionStatus = subscription.status === 'active' ? 'active' : 'trial';
-            tenant.subscriptionPlan = session.metadata?.plan || 'pro';
+            tenant.subscriptionPlan = (session.metadata?.plan || 'pro') as 'free' | 'starter' | 'pro' | 'enterprise';
             tenant.subscriptionStartDate = new Date(subscription.current_period_start * 1000);
             tenant.subscriptionEndDate = new Date(subscription.current_period_end * 1000);
             await tenant.save();
@@ -252,7 +252,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
         const tenant = await Tenant.findOne({ stripeSubscriptionId: subscription.id });
-        
+
         if (tenant) {
           if (event.type === 'customer.subscription.deleted') {
             tenant.subscriptionStatus = 'cancelled';
@@ -260,7 +260,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           } else {
             tenant.subscriptionStatus = subscription.status === 'active' ? 'active' : 'expired';
             tenant.subscriptionEndDate = new Date(subscription.current_period_end * 1000);
-            
+
             await Subscription.findOneAndUpdate(
               { tenantId: tenant._id },
               {

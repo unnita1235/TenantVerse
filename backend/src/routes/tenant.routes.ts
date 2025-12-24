@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import Tenant from '../models/Tenant.model';
 import { authenticate, requireRole, requireTenant, AuthRequest } from '../middleware/auth.middleware';
@@ -25,9 +25,9 @@ router.get('/:slug', requireTenant, async (req: AuthRequest, res) => {
     }
 
     // Regular users can only access their own tenant
-    const tenant = await Tenant.findOne({ 
+    const tenant = await Tenant.findOne({
       slug,
-      _id: req.user!.tenantId 
+      _id: req.user!.tenantId
     }).populate('ownerId', 'name email');
 
     if (!tenant) {
@@ -51,7 +51,7 @@ router.put(
   [
     body('name').optional().trim().notEmpty()
   ],
-  async (req: AuthRequest, res) => {
+  async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {

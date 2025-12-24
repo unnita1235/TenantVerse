@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import User from '../models/User.model';
 import Tenant from '../models/Tenant.model';
@@ -39,7 +39,7 @@ router.get('/', async (req: AuthRequest, res) => {
 router.get('/:id', async (req: AuthRequest, res) => {
   try {
     let user;
-    
+
     if (req.user!.role === 'super_admin') {
       user = await User.findById(req.params.id).select('-password').populate('tenantId');
     } else {
@@ -83,9 +83,9 @@ router.post(
       // Check if user already exists
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'User with this email already exists' 
+        return res.status(400).json({
+          success: false,
+          message: 'User with this email already exists'
         });
       }
 
@@ -151,9 +151,9 @@ router.put(
 
       // Prevent changing owner role (only super admin can)
       if (user.role === 'owner' && req.user!.role !== 'super_admin') {
-        return res.status(403).json({ 
-          success: false, 
-          message: 'Cannot change owner role' 
+        return res.status(403).json({
+          success: false,
+          message: 'Cannot change owner role'
         });
       }
 
@@ -196,17 +196,17 @@ router.delete('/:id', requireRole('owner', 'admin', 'super_admin'), async (req: 
 
     // Prevent deleting owner (only super admin can)
     if (user.role === 'owner' && req.user!.role !== 'super_admin') {
-      return res.status(403).json({ 
-        success: false, 
-        message: 'Cannot delete owner' 
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot delete owner'
       });
     }
 
     // Prevent deleting yourself
     if (user._id.toString() === req.user!.id) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Cannot delete yourself' 
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot delete yourself'
       });
     }
 
