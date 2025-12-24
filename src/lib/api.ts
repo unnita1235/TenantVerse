@@ -130,6 +130,12 @@ class ApiClient {
     });
   }
 
+  async deleteTenantBySlug(slug: string) {
+    return this.request(`/tenants/${slug}`, {
+      method: 'DELETE',
+    });
+  }
+
   // Users
   async getUsers() {
     return this.request<{ users: any[] }>('/users');
