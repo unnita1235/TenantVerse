@@ -1,40 +1,41 @@
-import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../utils/errors';
-import { logger } from '../utils/logger';
+import { Request, Response, NextFunction } from "express";
+import { AppError } from "../utils/errors";
+import { logger } from "../utils/logger";
 
 export const errorHandler = (
   err: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void => {
   if (err instanceof AppError) {
     logger.error(`AppError: ${err.message}`, err, {
       path: req.path,
       method: req.method,
-      statusCode: err.statusCode
+      statusCode: err.statusCode,
     });
 
     res.status(err.statusCode).json({
       success: false,
       message: err.message,
-      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
     });
     return;
   }
 
   // Handle unexpected errors
-  logger.error('Unexpected error:', err, {
+  logger.error("Unexpected error:", err, {
     path: req.path,
-    method: req.method
+    method: req.method,
   });
 
   res.status(500).json({
     success: false,
-    message: process.env.NODE_ENV === 'production' 
-      ? 'Internal server error' 
-      : err.message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Internal server error"
+        : err.message,
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 };
 
@@ -43,4 +44,3 @@ export const asyncHandler = (fn: Function) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
-

@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { CreditCard, LayoutDashboard, Users } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useState } from "react";
+import { CreditCard, LayoutDashboard, Users } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -10,25 +16,37 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from '@/components/ui/chart';
-import { Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend as RechartsLegend } from 'recharts';
-import { apiClient } from '@/lib/api';
-import { Skeleton } from '@/components/ui/skeleton';
-import { formatDistanceToNow } from 'date-fns';
+} from "@/components/ui/chart";
+import {
+  Line,
+  LineChart as RechartsLineChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend as RechartsLegend,
+} from "recharts";
+import { apiClient } from "@/lib/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { formatDistanceToNow } from "date-fns";
 
 const chartConfig = {
-  desktop: { label: 'Desktop', color: 'hsl(var(--primary))' },
-  mobile: { label: 'Mobile', color: 'hsl(var(--accent))' },
+  desktop: { label: "Desktop", color: "hsl(var(--primary))" },
+  mobile: { label: "Mobile", color: "hsl(var(--accent))" },
 };
 
-export default function DashboardPage({ params }: { params: { tenant: string } }) {
+export default function DashboardPage({
+  params,
+}: {
+  params: { tenant: string };
+}) {
   const [stats, setStats] = useState<any>(null);
   const [chartData, setChartData] = useState<any[]>([]);
   const [recentSignups, setRecentSignups] = useState<any[]>([]);
@@ -44,7 +62,7 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
           setRecentSignups(response.data.recentSignups || []);
         }
       } catch (error) {
-        console.error('Failed to fetch dashboard stats:', error);
+        console.error("Failed to fetch dashboard stats:", error);
       } finally {
         setLoading(false);
       }
@@ -68,7 +86,9 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
 
   return (
     <div className="grid gap-4 md:gap-8">
-      <h1 className="font-headline text-3xl font-bold tracking-tight">Welcome to {params.tenant}</h1>
+      <h1 className="font-headline text-3xl font-bold tracking-tight">
+        Welcome to {params.tenant}
+      </h1>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -76,8 +96,12 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
             <span className="text-2xl">💰</span>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats?.totalRevenue?.toLocaleString() || '0'}</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+            <div className="text-2xl font-bold">
+              ${stats?.totalRevenue?.toLocaleString() || "0"}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              +20.1% from last month
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -87,7 +111,9 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+{stats?.activeUsers || 0}</div>
-            <p className="text-xs text-muted-foreground">+180.1% from last month</p>
+            <p className="text-xs text-muted-foreground">
+              +180.1% from last month
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -106,7 +132,9 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.subscription || 'Free Plan'}</div>
+            <div className="text-2xl font-bold">
+              {stats?.subscription || "Free Plan"}
+            </div>
             <p className="text-xs text-muted-foreground">Renews next month</p>
           </CardContent>
         </Card>
@@ -121,12 +149,32 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
               <ChartContainer config={chartConfig} className="h-[300px] w-full">
                 <RechartsLineChart data={chartData}>
                   <CartesianGrid vertical={false} />
-                  <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                  />
                   <YAxis tickLine={false} axisLine={false} />
-                  <RechartsTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+                  <RechartsTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="line" />}
+                  />
                   <RechartsLegend content={<ChartLegendContent />} />
-                  <Line dataKey="desktop" type="monotone" stroke={chartConfig.desktop.color} strokeWidth={2} dot={false} />
-                  <Line dataKey="mobile" type="monotone" stroke={chartConfig.mobile.color} strokeWidth={2} dot={false} />
+                  <Line
+                    dataKey="desktop"
+                    type="monotone"
+                    stroke={chartConfig.desktop.color}
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <Line
+                    dataKey="mobile"
+                    type="monotone"
+                    stroke={chartConfig.mobile.color}
+                    strokeWidth={2}
+                    dot={false}
+                  />
                 </RechartsLineChart>
               </ChartContainer>
             ) : (
@@ -139,7 +187,9 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
         <Card className="col-span-4 lg:col-span-3">
           <CardHeader>
             <CardTitle className="font-headline">Recent Signups</CardTitle>
-            <CardDescription>{recentSignups.length} new members joined this month.</CardDescription>
+            <CardDescription>
+              {recentSignups.length} new members joined this month.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {recentSignups.length > 0 ? (
@@ -155,10 +205,14 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
                     <TableRow key={index}>
                       <TableCell>
                         <div className="font-medium">{signup.name}</div>
-                        <div className="text-sm text-muted-foreground">{signup.email}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {signup.email}
+                        </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        {formatDistanceToNow(new Date(signup.date), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(signup.date), {
+                          addSuffix: true,
+                        })}
                       </TableCell>
                     </TableRow>
                   ))}

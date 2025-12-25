@@ -1,42 +1,48 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { apiClient } from '@/lib/api';
-import { Loader2 } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { apiClient } from "@/lib/api";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       const response = await apiClient.login(email, password);
-      
+
       if (response.success && response.data?.token && response.data?.tenant) {
         // Token is already set by apiClient, but also set cookie for middleware
-        if (typeof document !== 'undefined') {
+        if (typeof document !== "undefined") {
           document.cookie = `token=${response.data.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
         }
         router.push(`/t/${response.data.tenant.slug}`);
       } else {
-        setError(response.message || 'Login failed');
+        setError(response.message || "Login failed");
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -46,7 +52,9 @@ export default function LoginPage() {
     <Card>
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Welcome Back</CardTitle>
-        <CardDescription>Enter your email below to log in to your account.</CardDescription>
+        <CardDescription>
+          Enter your email below to log in to your account.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {error && (
@@ -57,13 +65,13 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="m@example.com" 
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required 
+              required
             />
           </div>
           <div className="grid gap-2">
@@ -73,12 +81,12 @@ export default function LoginPage() {
                 Forgot your password?
               </Link>
             </div>
-            <Input 
-              id="password" 
-              type="password" 
+            <Input
+              id="password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required 
+              required
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
@@ -88,12 +96,12 @@ export default function LoginPage() {
                 Logging in...
               </>
             ) : (
-              'Login'
+              "Login"
             )}
           </Button>
         </form>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{' '}
+          Don&apos;t have an account?{" "}
           <Link href="/signup" className="underline">
             Sign up
           </Link>

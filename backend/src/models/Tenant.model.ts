@@ -1,11 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface ITenant extends Document {
   name: string;
   slug: string;
   ownerId: mongoose.Types.ObjectId;
-  subscriptionStatus: 'trial' | 'active' | 'expired' | 'cancelled';
-  subscriptionPlan: 'free' | 'starter' | 'pro' | 'enterprise';
+  subscriptionStatus: "trial" | "active" | "expired" | "cancelled";
+  subscriptionPlan: "free" | "starter" | "pro" | "enterprise";
   subscriptionStartDate?: Date;
   subscriptionEndDate?: Date;
   stripeCustomerId?: string;
@@ -18,53 +18,55 @@ const TenantSchema = new Schema<ITenant>(
   {
     name: {
       type: String,
-      required: [true, 'Tenant name is required'],
-      trim: true
+      required: [true, "Tenant name is required"],
+      trim: true,
     },
     slug: {
       type: String,
-      required: [true, 'Tenant slug is required'],
+      required: [true, "Tenant slug is required"],
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens']
+      match: [
+        /^[a-z0-9-]+$/,
+        "Slug can only contain lowercase letters, numbers, and hyphens",
+      ],
     },
     ownerId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
+      ref: "User",
+      required: true,
     },
     subscriptionStatus: {
       type: String,
-      enum: ['trial', 'active', 'expired', 'cancelled'],
-      default: 'trial'
+      enum: ["trial", "active", "expired", "cancelled"],
+      default: "trial",
     },
     subscriptionPlan: {
       type: String,
-      enum: ['free', 'starter', 'pro', 'enterprise'],
-      default: 'free'
+      enum: ["free", "starter", "pro", "enterprise"],
+      default: "free",
     },
     subscriptionStartDate: {
-      type: Date
+      type: Date,
     },
     subscriptionEndDate: {
-      type: Date
+      type: Date,
     },
     stripeCustomerId: {
-      type: String
+      type: String,
     },
     stripeSubscriptionId: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 // Index for faster queries
 TenantSchema.index({ slug: 1 });
 TenantSchema.index({ ownerId: 1 });
 
-export default mongoose.model<ITenant>('Tenant', TenantSchema);
-
+export default mongoose.model<ITenant>("Tenant", TenantSchema);
