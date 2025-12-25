@@ -1,20 +1,31 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { apiClient } from '@/lib/api';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { apiClient } from "@/lib/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
-export default function SettingsPage({ params }: { params: { tenant: string } }) {
+export default function SettingsPage({
+  params,
+}: {
+  params: { tenant: string };
+}) {
   const router = useRouter();
   const [tenant, setTenant] = useState<any>(null);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
@@ -28,10 +39,10 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
       const response = await apiClient.getTenant(params.tenant);
       if (response.success && response.data) {
         setTenant(response.data);
-        setName(response.data.name || '');
+        setName(response.data.name || "");
       }
     } catch (error) {
-      console.error('Failed to fetch tenant:', error);
+      console.error("Failed to fetch tenant:", error);
     } finally {
       setLoading(false);
     }
@@ -43,22 +54,22 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
       const response = await apiClient.updateTenant(params.tenant, { name });
       if (response.success) {
         toast({
-          title: 'Success',
-          description: 'Settings updated successfully',
+          title: "Success",
+          description: "Settings updated successfully",
         });
         fetchTenant();
       } else {
         toast({
-          title: 'Error',
-          description: response.message || 'Failed to update settings',
-          variant: 'destructive',
+          title: "Error",
+          description: response.message || "Failed to update settings",
+          variant: "destructive",
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to update settings',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to update settings",
+        variant: "destructive",
       });
     } finally {
       setSaving(false);
@@ -66,7 +77,11 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Are you absolutely sure? This will permanently delete the "${params.tenant}" organization and all its data. This action cannot be undone.`)) {
+    if (
+      !confirm(
+        `Are you absolutely sure? This will permanently delete the "${params.tenant}" organization and all its data. This action cannot be undone.`,
+      )
+    ) {
       return;
     }
 
@@ -74,15 +89,15 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
       const response = await apiClient.updateTenant(params.tenant, {});
       // Note: Delete endpoint would need to be implemented
       toast({
-        title: 'Error',
-        description: 'Delete functionality requires backend implementation',
-        variant: 'destructive',
+        title: "Error",
+        description: "Delete functionality requires backend implementation",
+        variant: "destructive",
       });
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to delete organization',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to delete organization",
+        variant: "destructive",
       });
     }
   };
@@ -99,14 +114,20 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
   return (
     <div className="space-y-8 max-w-2xl">
       <div>
-        <h1 className="font-headline text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your organization's settings.</p>
+        <h1 className="font-headline text-3xl font-bold tracking-tight">
+          Settings
+        </h1>
+        <p className="text-muted-foreground">
+          Manage your organization's settings.
+        </p>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Organization Details</CardTitle>
-          <CardDescription>Update your organization's name and other details.</CardDescription>
+          <CardDescription>
+            Update your organization's name and other details.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -130,7 +151,7 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
                 Saving...
               </>
             ) : (
-              'Save Changes'
+              "Save Changes"
             )}
           </Button>
         </CardFooter>
@@ -139,14 +160,20 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
       <Card>
         <CardHeader>
           <CardTitle className="text-destructive">Danger Zone</CardTitle>
-          <CardDescription>These actions are irreversible. Please be certain.</CardDescription>
+          <CardDescription>
+            These actions are irreversible. Please be certain.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between items-center p-4 border border-destructive/50 rounded-lg bg-destructive/5">
             <div>
-              <p className="font-medium text-destructive">Delete Organization</p>
+              <p className="font-medium text-destructive">
+                Delete Organization
+              </p>
               <p className="text-sm text-muted-foreground">
-                This will permanently delete the <span className="font-bold">{params.tenant}</span> organization and all its data.
+                This will permanently delete the{" "}
+                <span className="font-bold">{params.tenant}</span> organization
+                and all its data.
               </p>
             </div>
             <Button variant="destructive" onClick={handleDelete}>

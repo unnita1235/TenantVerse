@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SidebarContent,
   SidebarHeader,
@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarSeparator,
-} from '@/components/ui/sidebar';
+} from "@/components/ui/sidebar";
 import {
   BookUser,
   CreditCard,
@@ -18,19 +18,19 @@ import {
   Settings,
   Shield,
   Users,
-} from 'lucide-react';
-import Logo from '@/components/logo';
+} from "lucide-react";
+import Logo from "@/components/logo";
 
 export function DashboardNav({ tenant }: { tenant: string }) {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
 
   const menuItems = [
-    { href: `/t/${tenant}`, label: 'Dashboard', icon: LayoutDashboard },
-    { href: `/t/${tenant}/team`, label: 'Team', icon: Users },
-    { href: `/t/${tenant}/guides`, label: 'AI Guides', icon: BookUser },
-    { href: `/t/${tenant}/billing`, label: 'Billing', icon: CreditCard },
-    { href: `/t/${tenant}/settings`, label: 'Settings', icon: Settings },
+    { href: `/t/${tenant}`, label: "Dashboard", icon: LayoutDashboard },
+    { href: `/t/${tenant}/team`, label: "Team", icon: Users },
+    { href: `/t/${tenant}/guides`, label: "AI Guides", icon: BookUser },
+    { href: `/t/${tenant}/billing`, label: "Billing", icon: CreditCard },
+    { href: `/t/${tenant}/settings`, label: "Settings", icon: Settings },
   ];
 
   return (
@@ -60,7 +60,7 @@ export function DashboardNav({ tenant }: { tenant: string }) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip={{ children: 'Super Admin' }}>
+            <SidebarMenuButton asChild tooltip={{ children: "Super Admin" }}>
               <Link href="/super-admin">
                 <Shield />
                 <span>Super Admin</span>

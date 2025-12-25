@@ -16,6 +16,7 @@ Your repository has been initialized and all changes have been committed.
    - **DO NOT** initialize with README, .gitignore, or license (we already have these)
 
 3. **Connect and push**:
+
 ```bash
 # Add remote (replace YOUR_USERNAME with your GitHub username)
 git remote add origin https://github.com/YOUR_USERNAME/TenantVerse.git
@@ -49,8 +50,9 @@ After pushing, configure these in GitHub:
    - Add repository topics: `saas`, `nextjs`, `nodejs`, `mongodb`, `stripe`, `typescript`
 
 2. **Add Repository Description**:
+
    ```
-   Production-ready Property & Tenant Management SaaS platform with multi-tenancy, 
+   Production-ready Property & Tenant Management SaaS platform with multi-tenancy,
    RBAC, and Stripe integration. Built with Next.js, Node.js, and MongoDB.
    ```
 
@@ -67,6 +69,7 @@ After pushing, configure these in GitHub:
 ## 🔒 Security Notes
 
 Before pushing, ensure:
+
 - ✅ No `.env` files are committed (check `.gitignore`)
 - ✅ No API keys or secrets in code
 - ✅ All sensitive data is in environment variables
@@ -97,4 +100,3 @@ git push origin main
 ---
 
 **Status**: ✅ Ready to push to GitHub
-

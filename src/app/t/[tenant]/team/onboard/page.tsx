@@ -1,18 +1,29 @@
-'use client';
-import { useFormState, useFormStatus } from 'react-dom';
-import { getRbacSuggestions } from '@/lib/actions';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Bot, Loader2, Lightbulb, Terminal } from 'lucide-react';
+"use client";
+import { useFormState, useFormStatus } from "react-dom";
+import { getRbacSuggestions } from "@/lib/actions";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Bot, Loader2, Lightbulb, Terminal } from "lucide-react";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending}>
-      {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Bot className="mr-2 h-4 w-4" />}
+      {pending ? (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        <Bot className="mr-2 h-4 w-4" />
+      )}
       Get Suggestions
     </Button>
   );
@@ -24,16 +35,23 @@ export default function OnboardPage() {
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
-       <div>
-        <h1 className="font-headline text-3xl font-bold tracking-tight">AI Team Onboarding</h1>
-        <p className="text-muted-foreground">Describe your team and let AI suggest the best roles for them.</p>
+      <div>
+        <h1 className="font-headline text-3xl font-bold tracking-tight">
+          AI Team Onboarding
+        </h1>
+        <p className="text-muted-foreground">
+          Describe your team and let AI suggest the best roles for them.
+        </p>
       </div>
 
       <form action={formAction}>
         <Card>
           <CardHeader>
             <CardTitle>Team Details</CardTitle>
-            <CardDescription>Provide information about your team members and how they'll use TenantVerse.</CardDescription>
+            <CardDescription>
+              Provide information about your team members and how they'll use
+              TenantVerse.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-2">
@@ -45,7 +63,9 @@ export default function OnboardPage() {
                 rows={5}
                 required
               />
-               <p className="text-sm text-muted-foreground">Enter one team member profile per line.</p>
+              <p className="text-sm text-muted-foreground">
+                Enter one team member profile per line.
+              </p>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="usage">Expected App Usage</Label>
@@ -63,7 +83,7 @@ export default function OnboardPage() {
           </CardFooter>
         </Card>
       </form>
-      
+
       {state.error && (
         <Alert variant="destructive">
           <Terminal className="h-4 w-4" />
@@ -79,7 +99,9 @@ export default function OnboardPage() {
               <Lightbulb className="text-accent" />
               Suggested Roles
             </CardTitle>
-            <CardDescription>Here are the RBAC roles our AI suggests for your team members.</CardDescription>
+            <CardDescription>
+              Here are the RBAC roles our AI suggests for your team members.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="list-disc space-y-2 pl-5 text-sm">
