@@ -47,18 +47,21 @@ Edit `README.md` and replace the placeholder URLs:
 ### Step 4: Update Backend CORS
 
 After deploying frontend, update your backend's `FRONTEND_URL` environment variable:
+
 - In Render/Railway dashboard
 - Set `FRONTEND_URL=https://your-app.vercel.app`
 
 ## 🔍 Verify Deployments
 
 ### Backend Health Check
+
 ```bash
 curl https://your-backend.onrender.com/api/health
 # Should return: {"status":"ok",...}
 ```
 
 ### Frontend
+
 - Visit your Vercel URL
 - Should load the landing page
 - Try logging in (if backend is connected)
@@ -72,7 +75,7 @@ curl https://your-backend.onrender.com/api/health
 ---
 
 **Quick Deploy Links**:
+
 - [Deploy Backend to Render](https://render.com)
 - [Deploy Backend to Railway](https://railway.app)
 - [Deploy Frontend to Vercel](https://vercel.com/new)
-

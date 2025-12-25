@@ -65,6 +65,7 @@ npm run dev
 ## 🔑 Demo Accounts
 
 After seeding:
+
 - Super Admin: `admin@tenantverse.com` / `admin123`
 - Tenant Owner: `owner@acme.com` / `password123`
 - Team Member: `john@acme.com` / `password123`
@@ -82,4 +83,3 @@ After seeding:
 - Configure Stripe for payment processing
 - Customize tenant features
 - Deploy to production
-

@@ -20,4 +20,3 @@ Express.js backend server for TenantVerse SaaS platform.
 ## API Documentation
 
 See main README.md for API endpoint documentation.
-

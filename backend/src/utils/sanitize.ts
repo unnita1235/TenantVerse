@@ -3,8 +3,8 @@
  */
 
 export const sanitizeString = (input: string): string => {
-  if (typeof input !== 'string') return '';
-  return input.trim().replace(/[<>]/g, '');
+  if (typeof input !== "string") return "";
+  return input.trim().replace(/[<>]/g, "");
 };
 
 export const sanitizeEmail = (email: string): string => {
@@ -14,12 +14,11 @@ export const sanitizeEmail = (email: string): string => {
 export const sanitizeSlug = (slug: string): string => {
   return sanitizeString(slug)
     .toLowerCase()
-    .replace(/[^a-z0-9-]/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 };
 
 export const validateSlug = (slug: string): boolean => {
   return /^[a-z0-9-]+$/.test(slug) && slug.length >= 2 && slug.length <= 50;
 };
-
