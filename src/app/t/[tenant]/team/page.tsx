@@ -1,19 +1,25 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { MoreHorizontal, PlusCircle } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -21,7 +27,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -30,25 +36,35 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { apiClient } from '@/lib/api';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { apiClient } from "@/lib/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
-const roleVariant: { [key: string]: 'default' | 'secondary' | 'outline' } = {
-  owner: 'default',
-  admin: 'secondary',
-  member: 'outline',
+const roleVariant: { [key: string]: "default" | "secondary" | "outline" } = {
+  owner: "default",
+  admin: "secondary",
+  member: "outline",
 };
 
 export default function TeamPage({ params }: { params: { tenant: string } }) {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [inviteOpen, setInviteOpen] = useState(false);
-  const [inviteData, setInviteData] = useState({ email: '', name: '', role: 'member' });
+  const [inviteData, setInviteData] = useState({
+    email: "",
+    name: "",
+    role: "member",
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -62,7 +78,7 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
         setUsers(response.data);
       }
     } catch (error) {
-      console.error('Failed to fetch users:', error);
+      console.error("Failed to fetch users:", error);
     } finally {
       setLoading(false);
     }
@@ -73,24 +89,24 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
       const response = await apiClient.inviteUser(inviteData);
       if (response.success) {
         toast({
-          title: 'Success',
-          description: 'User invited successfully',
+          title: "Success",
+          description: "User invited successfully",
         });
         setInviteOpen(false);
-        setInviteData({ email: '', name: '', role: 'member' });
+        setInviteData({ email: "", name: "", role: "member" });
         fetchUsers();
       } else {
         toast({
-          title: 'Error',
-          description: response.message || 'Failed to invite user',
-          variant: 'destructive',
+          title: "Error",
+          description: response.message || "Failed to invite user",
+          variant: "destructive",
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to invite user',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to invite user",
+        variant: "destructive",
       });
     }
   };
@@ -100,49 +116,49 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
       const response = await apiClient.updateUserRole(userId, newRole);
       if (response.success) {
         toast({
-          title: 'Success',
-          description: 'User role updated',
+          title: "Success",
+          description: "User role updated",
         });
         fetchUsers();
       } else {
         toast({
-          title: 'Error',
-          description: response.message || 'Failed to update role',
-          variant: 'destructive',
+          title: "Error",
+          description: response.message || "Failed to update role",
+          variant: "destructive",
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to update role',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to update role",
+        variant: "destructive",
       });
     }
   };
 
   const handleDelete = async (userId: string) => {
-    if (!confirm('Are you sure you want to remove this user?')) return;
+    if (!confirm("Are you sure you want to remove this user?")) return;
 
     try {
       const response = await apiClient.deleteUser(userId);
       if (response.success) {
         toast({
-          title: 'Success',
-          description: 'User removed successfully',
+          title: "Success",
+          description: "User removed successfully",
         });
         fetchUsers();
       } else {
         toast({
-          title: 'Error',
-          description: response.message || 'Failed to remove user',
-          variant: 'destructive',
+          title: "Error",
+          description: response.message || "Failed to remove user",
+          variant: "destructive",
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to remove user',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to remove user",
+        variant: "destructive",
       });
     }
   };
@@ -160,8 +176,12 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
     <div className="space-y-8">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="font-headline text-3xl font-bold tracking-tight">Team Management</h1>
-          <p className="text-muted-foreground">Invite and manage your team members.</p>
+          <h1 className="font-headline text-3xl font-bold tracking-tight">
+            Team Management
+          </h1>
+          <p className="text-muted-foreground">
+            Invite and manage your team members.
+          </p>
         </div>
         <div className="flex flex-shrink-0 gap-2">
           <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
@@ -174,7 +194,9 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Invite Team Member</DialogTitle>
-                <DialogDescription>Add a new member to your organization.</DialogDescription>
+                <DialogDescription>
+                  Add a new member to your organization.
+                </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
@@ -182,7 +204,9 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
                   <Input
                     id="name"
                     value={inviteData.name}
-                    onChange={(e) => setInviteData({ ...inviteData, name: e.target.value })}
+                    onChange={(e) =>
+                      setInviteData({ ...inviteData, name: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-2">
@@ -191,12 +215,19 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
                     id="email"
                     type="email"
                     value={inviteData.email}
-                    onChange={(e) => setInviteData({ ...inviteData, email: e.target.value })}
+                    onChange={(e) =>
+                      setInviteData({ ...inviteData, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="role">Role</Label>
-                  <Select value={inviteData.role} onValueChange={(value) => setInviteData({ ...inviteData, role: value })}>
+                  <Select
+                    value={inviteData.role}
+                    onValueChange={(value) =>
+                      setInviteData({ ...inviteData, role: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -224,7 +255,9 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
       <Card>
         <CardHeader>
           <CardTitle>Team Members</CardTitle>
-          <CardDescription>A list of all users in your organization.</CardDescription>
+          <CardDescription>
+            A list of all users in your organization.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -244,35 +277,50 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9">
-                        <AvatarImage src={`https://picsum.photos/seed/${user.email}/100/100`} alt={user.name} />
-                        <AvatarFallback>{user.name?.slice(0, 2).toUpperCase() || 'U'}</AvatarFallback>
+                        <AvatarImage
+                          src={`https://picsum.photos/seed/${user.email}/100/100`}
+                          alt={user.name}
+                        />
+                        <AvatarFallback>
+                          {user.name?.slice(0, 2).toUpperCase() || "U"}
+                        </AvatarFallback>
                       </Avatar>
                       {user.name}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={roleVariant[user.role] || 'outline'}>
-                      {user.role?.charAt(0).toUpperCase() + user.role?.slice(1) || 'Member'}
+                    <Badge variant={roleVariant[user.role] || "outline"}>
+                      {user.role?.charAt(0).toUpperCase() +
+                        user.role?.slice(1) || "Member"}
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">{user.email}</TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {user.email}
+                  </TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <Button
+                          aria-haspopup="true"
+                          size="icon"
+                          variant="ghost"
+                        >
                           <MoreHorizontal className="h-4 w-4" />
                           <span className="sr-only">Toggle menu</span>
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => {
-                          const newRole = user.role === 'admin' ? 'member' : 'admin';
-                          handleRoleChange(user._id || user.id, newRole);
-                        }}>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            const newRole =
+                              user.role === "admin" ? "member" : "admin";
+                            handleRoleChange(user._id || user.id, newRole);
+                          }}
+                        >
                           Change Role
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => handleDelete(user._id || user.id)}
                         >

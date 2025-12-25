@@ -3,12 +3,14 @@
 ## ✅ What Was Updated
 
 ### 1. CI/CD Workflow Improvements
+
 - ✅ Enhanced error handling in GitHub Actions workflow
 - ✅ Added `continue-on-error` for lint/type checks (warnings allowed)
 - ✅ Improved build verification for both frontend and backend
 - ✅ Proper environment variable handling for builds
 
 ### 2. README Updates
+
 - ✅ Added CI/CD status badge
 - ✅ Added deployment URLs section (ready for your URLs)
 - ✅ Added Quick Deploy section with Render/Vercel instructions
@@ -18,6 +20,7 @@
 ## 🔍 How to Verify CI/CD is Working
 
 ### Step 1: Check GitHub Actions
+
 1. Go to: https://github.com/unnita1235/TenantVerse/actions
 2. You should see a workflow run triggered by the latest push
 3. Click on the workflow run to see details
@@ -26,12 +29,15 @@
    - ✅ `lint-and-build (backend)` - Should pass
 
 ### Step 2: Check Workflow Status Badge
+
 The README now includes a CI badge that will show:
+
 - ✅ Green checkmark when CI passes
 - ❌ Red X when CI fails
 - ⏳ Yellow circle when running
 
 ### Step 3: Test CI/CD by Making a Change
+
 1. Make a small change (e.g., update README)
 2. Commit and push
 3. Watch GitHub Actions automatically run
@@ -40,12 +46,14 @@ The README now includes a CI badge that will show:
 ## 📊 Expected CI/CD Behavior
 
 ### On Push to Main/Develop
+
 - ✅ Automatically runs lint checks
 - ✅ Runs type checking
 - ✅ Builds both frontend and backend
 - ✅ Verifies no build errors
 
 ### On Pull Request
+
 - ✅ Same checks as push
 - ✅ Blocks merge if checks fail (if configured)
 
@@ -71,7 +79,9 @@ The README now includes a CI badge that will show:
 ## 📝 Next Steps
 
 ### Add Deployed URLs to README
+
 Once you deploy:
+
 1. Update README.md line 5-6 with your actual URLs:
    ```markdown
    - **Frontend**: https://your-app.vercel.app
@@ -79,6 +89,7 @@ Once you deploy:
    ```
 
 ### Optional: Add More CI Checks
+
 - Add test running (if you add tests)
 - Add security scanning
 - Add code coverage reports
@@ -97,4 +108,3 @@ Once you deploy:
 **Status**: ✅ CI/CD configured and ready to verify
 
 **Next**: Check https://github.com/unnita1235/TenantVerse/actions to see the workflow running!
-

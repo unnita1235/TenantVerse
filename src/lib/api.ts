@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -13,45 +14,45 @@ class ApiClient {
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    if (typeof window !== 'undefined') {
-      this.token = localStorage.getItem('token') || this.getCookie('token');
+    if (typeof window !== "undefined") {
+      this.token = localStorage.getItem("token") || this.getCookie("token");
     }
   }
 
   private getCookie(name: string): string | null {
-    if (typeof document === 'undefined') return null;
+    if (typeof document === "undefined") return null;
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
     return null;
   }
 
   setToken(token: string | null) {
     this.token = token;
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       if (token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
         // Also set in cookie for middleware
         document.cookie = `token=${token}; path=/; max-age=${7 * 24 * 60 * 60}`; // 7 days
       } else {
-        localStorage.removeItem('token');
-        document.cookie = 'token=; path=/; max-age=0';
+        localStorage.removeItem("token");
+        document.cookie = "token=; path=/; max-age=0";
       }
     }
   }
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<ApiResponse<T>> {
     const url = `${this.baseUrl}${endpoint}`;
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...options.headers,
     };
 
     if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
+      headers["Authorization"] = `Bearer ${this.token}`;
     }
 
     try {
@@ -65,20 +66,28 @@ class ApiClient {
       if (!response.ok) {
         return {
           success: false,
-          message: data.message || 'An error occurred',
+          message: data.message || "An error occurred",
           errors: data.errors,
         };
       }
 
       return {
         success: true,
-        data: data.user || data.tenant || data.users || data.tenants || data.stats || data.subscription || data.plans || data,
+        data:
+          data.user ||
+          data.tenant ||
+          data.users ||
+          data.tenants ||
+          data.stats ||
+          data.subscription ||
+          data.plans ||
+          data,
         ...data,
       };
     } catch (error: any) {
       return {
         success: false,
-        message: error.message || 'Network error',
+        message: error.message || "Network error",
       };
     }
   }
@@ -91,15 +100,22 @@ class ApiClient {
     organizationName: string;
     organizationSlug?: string;
   }) {
-    return this.request<{ user: any; tenant: any; token: string }>('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    return this.request<{ user: any; tenant: any; token: string }>(
+      "/auth/register",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      },
+    );
   }
 
   async login(email: string, password: string) {
-    const response = await this.request<{ user: any; tenant: any; token: string }>('/auth/login', {
-      method: 'POST',
+    const response = await this.request<{
+      user: any;
+      tenant: any;
+      token: string;
+    }>("/auth/login", {
+      method: "POST",
       body: JSON.stringify({ email, password }),
     });
 
@@ -111,7 +127,7 @@ class ApiClient {
   }
 
   async getCurrentUser() {
-    return this.request<{ user: any }>('/auth/me');
+    return this.request<{ user: any }>("/auth/me");
   }
 
   logout() {
@@ -125,14 +141,14 @@ class ApiClient {
 
   async updateTenant(slug: string, data: { name?: string }) {
     return this.request<{ tenant: any }>(`/tenants/${slug}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(data),
     });
   }
 
   // Users
   async getUsers() {
-    return this.request<{ users: any[] }>('/users');
+    return this.request<{ users: any[] }>("/users");
   }
 
   async getUser(id: string) {
@@ -140,44 +156,47 @@ class ApiClient {
   }
 
   async inviteUser(data: { email: string; name: string; role: string }) {
-    return this.request<{ user: any }>('/users/invite', {
-      method: 'POST',
+    return this.request<{ user: any }>("/users/invite", {
+      method: "POST",
       body: JSON.stringify(data),
     });
   }
 
   async updateUserRole(id: string, role: string) {
     return this.request<{ user: any }>(`/users/${id}/role`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify({ role }),
     });
   }
 
   async deleteUser(id: string) {
-    return this.request('/users/' + id, {
-      method: 'DELETE',
+    return this.request("/users/" + id, {
+      method: "DELETE",
     });
   }
 
   // Subscriptions
   async getPlans() {
-    return this.request<{ plans: any[] }>('/subscriptions/plans');
+    return this.request<{ plans: any[] }>("/subscriptions/plans");
   }
 
   async getCurrentSubscription() {
-    return this.request<{ subscription: any }>('/subscriptions/current');
+    return this.request<{ subscription: any }>("/subscriptions/current");
   }
 
   async createCheckout(plan: string) {
-    return this.request<{ sessionId: string; url: string }>('/subscriptions/create-checkout', {
-      method: 'POST',
-      body: JSON.stringify({ plan }),
-    });
+    return this.request<{ sessionId: string; url: string }>(
+      "/subscriptions/create-checkout",
+      {
+        method: "POST",
+        body: JSON.stringify({ plan }),
+      },
+    );
   }
 
   async cancelSubscription() {
-    return this.request('/subscriptions/cancel', {
-      method: 'POST',
+    return this.request("/subscriptions/cancel", {
+      method: "POST",
     });
   }
 
@@ -187,21 +206,20 @@ class ApiClient {
       stats: any;
       chartData: any[];
       recentSignups: any[];
-    }>('/dashboard/stats');
+    }>("/dashboard/stats");
   }
 
   // Admin
   async getAdminTenants() {
-    return this.request<{ tenants: any[]; summary: any }>('/admin/tenants');
+    return this.request<{ tenants: any[]; summary: any }>("/admin/tenants");
   }
 
   async updateTenantStatus(id: string, status: string) {
     return this.request(`/admin/tenants/${id}/status`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify({ status }),
     });
   }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
-

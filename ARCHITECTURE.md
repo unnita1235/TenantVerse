@@ -7,24 +7,29 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ## Architecture Decisions
 
 ### Backend: Node.js + Express
+
 - **Why**: Fast development, large ecosystem, TypeScript support
 - **Alternative considered**: NestJS (chose Express for simplicity)
 
 ### Database: MongoDB
+
 - **Why**: Flexible schema for multi-tenant data, easy horizontal scaling
 - **Schema**: Mongoose ODM for type safety
 
 ### Authentication: JWT
+
 - **Why**: Stateless, scalable, works well with microservices
 - **Implementation**: Token stored in localStorage + cookie for middleware
 
 ### Payment: Stripe
+
 - **Why**: Industry standard, robust webhook system, excellent documentation
 - **Implementation**: Checkout sessions + webhooks for subscription management
 
 ## Database Schema
 
 ### Users Collection
+
 ```typescript
 {
   email: string (unique, indexed)
@@ -39,6 +44,7 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ```
 
 ### Tenants Collection
+
 ```typescript
 {
   name: string
@@ -56,6 +62,7 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ```
 
 ### Subscriptions Collection
+
 ```typescript
 {
   tenantId: ObjectId (ref: Tenant, unique)
@@ -74,17 +81,20 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ## API Structure
 
 ### Authentication Flow
+
 1. User registers → Creates tenant + owner user
 2. User logs in → Receives JWT token
 3. Token sent in Authorization header for protected routes
 4. Middleware validates token and extracts user context
 
 ### Tenant Isolation
+
 - All queries filtered by `tenantId`
 - Super admin can access all tenants
 - Regular users can only access their tenant's data
 
 ### Role-Based Access Control
+
 - **Super Admin**: Full platform access
 - **Owner**: Full tenant control
 - **Admin**: Can manage users, settings
@@ -102,16 +112,19 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ## Frontend Architecture
 
 ### Routing
+
 - Next.js App Router
 - Dynamic routes: `/t/[tenant]/*`
 - Middleware for route protection
 
 ### State Management
+
 - React hooks for local state
 - API client for server communication
 - Token stored in localStorage + cookies
 
 ### Component Structure
+
 - UI components in `/components/ui`
 - Page components in `/app`
 - Reusable business components in `/app/t/[tenant]/components`
@@ -119,12 +132,14 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ## Deployment Considerations
 
 ### Backend
+
 - Environment variables for all secrets
 - MongoDB connection pooling
 - Error logging and monitoring
 - Rate limiting (to be added)
 
 ### Frontend
+
 - Static generation where possible
 - API route proxying for CORS
 - Environment-based configuration
@@ -132,11 +147,13 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ## Scalability
 
 ### Current Limitations
+
 - Single MongoDB instance
 - No caching layer
 - No CDN for static assets
 
 ### Future Improvements
+
 - Redis for session/token caching
 - MongoDB replica sets
 - CDN for frontend assets
@@ -146,12 +163,13 @@ TenantVerse is a multi-tenant SaaS platform built with a modern full-stack archi
 ## Monitoring & Logging
 
 ### Current
+
 - Console logging
 - Error middleware
 
 ### Recommended Additions
+
 - Structured logging (Winston/Pino)
 - Error tracking (Sentry)
 - Performance monitoring (New Relic)
 - Analytics (PostHog/Mixpanel)
-

@@ -13,6 +13,7 @@
 - **✅ CI/CD Status**: [![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)](https://github.com/unnita1235/TenantVerse/actions)
 
 **🔒 Test Credentials:**
+
 - Email: `demo@tenant.com`
 - Password: `demo123`
 
@@ -31,17 +32,20 @@
 ## 📊 Real-World Performance
 
 **Tenant Management:**
+
 - Supports 50+ concurrent tenants
 - Average response time: <150ms
 - Database queries optimized with indexing
 - 99.9% uptime on Vercel
 
 **Multi-Tenancy:**
+
 - Row-level security for tenant isolation
 - Subdomain routing working across all tenants
 - Stripe webhooks handling 100+ events/day
 
 **Security:**
+
 - JWT auth with role-based access control (RBAC)
 - All API routes protected
 - Input validation on all endpoints
@@ -50,6 +54,7 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS
@@ -57,6 +62,7 @@
 - React Hook Form + Zod
 
 ### Backend
+
 - Node.js + Express
 - MongoDB + Mongoose
 - JWT Authentication
@@ -143,14 +149,17 @@ The frontend will run on `http://localhost:9002`
 After running the seed script, you can use these credentials:
 
 ### Super Admin
+
 - Email: `admin@tenantverse.com`
 - Password: `admin123`
 
 ### Tenant Owners
+
 - Email: `owner@acme.com` (or any tenant slug)
 - Password: `password123`
 
 ### Team Members
+
 - Email: `john@acme.com`, `jane@acme.com`, etc.
 - Password: `password123`
 
@@ -180,6 +189,7 @@ TenantVerse-main/
 ## 🔐 Environment Variables
 
 ### Backend (.env)
+
 ```env
 PORT=5000
 NODE_ENV=development
@@ -195,6 +205,7 @@ STRIPE_PRICE_ID_ENTERPRISE=price_...
 ```
 
 ### Frontend (.env.local)
+
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 ```
@@ -202,22 +213,26 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 ## 🧪 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user & tenant
 - `POST /api/auth/login` - Login user
 - `GET /api/auth/me` - Get current user
 
 ### Tenants
+
 - `GET /api/tenants/:slug` - Get tenant details
 - `PUT /api/tenants/:slug` - Update tenant
 - `DELETE /api/tenants/:slug` - Delete tenant
 
 ### Users
+
 - `GET /api/users` - List all users in tenant
 - `POST /api/users/invite` - Invite new user
 - `PUT /api/users/:id/role` - Update user role
 - `DELETE /api/users/:id` - Remove user
 
 ### Subscriptions
+
 - `GET /api/subscriptions/plans` - Get available plans
 - `GET /api/subscriptions/current` - Get current subscription
 - `POST /api/subscriptions/create-checkout` - Create Stripe checkout
@@ -225,15 +240,18 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 - `POST /api/subscriptions/webhook` - Stripe webhook handler
 
 ### Dashboard
+
 - `GET /api/dashboard/stats` - Get dashboard statistics
 
 ### Admin
+
 - `GET /api/admin/tenants` - List all tenants (super admin)
 - `PUT /api/admin/tenants/:id/status` - Update tenant status
 
 ## 🚢 Production Deployment
 
 ### Backend
+
 1. Set `NODE_ENV=production`
 2. Use a production MongoDB instance (MongoDB Atlas recommended)
 3. Use strong, randomly generated `JWT_SECRET`
@@ -241,6 +259,7 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 5. Deploy to services like Railway, Render, or AWS
 
 ### Frontend
+
 1. Set `NEXT_PUBLIC_API_URL` to your production API URL
 2. Build: `npm run build`
 3. Start: `npm start`
@@ -255,7 +274,6 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 - Input validation with express-validator
 - CORS configuration
 - Environment variable protection
-
 
 ## 📝 License
 
@@ -299,6 +317,7 @@ This is not a tutorial project—it's a **complete, deployable SaaS platform** t
 ## 🚀 Quick Deploy
 
 ### Deploy Backend (Render)
+
 1. Connect GitHub repository to [Render](https://render.com)
 2. Create new Web Service
 3. Build Command: `cd backend && npm install && npm run build`
@@ -306,6 +325,7 @@ This is not a tutorial project—it's a **complete, deployable SaaS platform** t
 5. Set environment variables (see Environment Variables section)
 
 ### Deploy Frontend (Vercel)
+
 1. Connect GitHub repository to [Vercel](https://vercel.com)
 2. Framework: Next.js (auto-detected)
 3. Set `NEXT_PUBLIC_API_URL` environment variable
@@ -314,6 +334,7 @@ This is not a tutorial project—it's a **complete, deployable SaaS platform** t
 ## ✅ CI/CD Status
 
 This project uses GitHub Actions for continuous integration:
+
 - ✅ Automated linting and type checking
 - ✅ Build verification for frontend and backend
 - ✅ Runs on every push and pull request
@@ -323,7 +344,6 @@ View workflow status: [GitHub Actions](https://github.com/unnita1235/TenantVerse
 ## 🤝 Contributing
 
 This is a private project. For questions or issues, please contact the maintainer.
-
 
 ---
 
