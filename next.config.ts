@@ -1,4 +1,4 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -29,6 +29,14 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  webpack: (config) => {
+    config.ignoreWarnings = [
+      { module: /node_modules\/handlebars\/lib\/index.js/ },
+      { file: /node_modules\/handlebars\/lib\/index.js/ },
+      /require\.extensions is not supported by webpack/,
+    ];
+    return config;
   },
 };
 
