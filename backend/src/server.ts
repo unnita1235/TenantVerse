@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 
 // Security: Validate required environment variables
 const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
-const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+const missingVars = requiredEnvVars.filter((varName) => !process.env[varName]);
 if (missingVars.length > 0) {
   logger.error('Missing required environment variables:', new Error(missingVars.join(', ')));
   process.exit(1);
@@ -26,23 +26,25 @@ if (missingVars.length > 0) {
 
 // Middleware
 const allowedOrigins = process.env.FRONTEND_URL
-  ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+  ? process.env.FRONTEND_URL.split(',').map((url) => url.trim())
   : ['http://localhost:9002'];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200
-}));
+      if (allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+  }),
+);
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -53,7 +55,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
   });
 });
 
@@ -69,7 +71,7 @@ app.use('/api/admin', adminRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Route not found'
+    message: 'Route not found',
   });
 });
 
@@ -120,8 +122,8 @@ const connectDB = async () => {
 
   // Auto-seed if in-memory or empty
   try {
-    // Import models dynamically to ensure connection is established first if needed, 
-    // but we have them imported at top. 
+    // Import models dynamically to ensure connection is established first if needed,
+    // but we have them imported at top.
     // We check if we need to seed
     const { default: User } = await import('./models/User.model');
     const userCount = await User.countDocuments();
@@ -138,13 +140,18 @@ const connectDB = async () => {
         password: 'admin123',
         name: 'Super Admin',
         role: 'super_admin',
-        isEmailVerified: true
+        isEmailVerified: true,
       });
 
       // Create demo tenants
       const tenants = [
         { name: 'Acme Inc.', slug: 'acme', subscriptionStatus: 'active', subscriptionPlan: 'pro' },
-        { name: 'Stark Industries', slug: 'stark', subscriptionStatus: 'active', subscriptionPlan: 'enterprise' }
+        {
+          name: 'Stark Industries',
+          slug: 'stark',
+          subscriptionStatus: 'active',
+          subscriptionPlan: 'enterprise',
+        },
       ];
 
       for (const tenantData of tenants) {
@@ -156,13 +163,13 @@ const connectDB = async () => {
           name: `${tenantData.name} Owner`,
           role: 'owner',
           tenantId: tenantId,
-          isEmailVerified: true
+          isEmailVerified: true,
         });
 
         const tenant = await Tenant.create({
           _id: tenantId,
           ...tenantData,
-          ownerId: owner._id
+          ownerId: owner._id,
         });
 
         // no need to update owner.tenantId as it is already set
@@ -174,7 +181,7 @@ const connectDB = async () => {
           name: 'Team Member',
           role: 'member',
           tenantId: tenant._id,
-          isEmailVerified: true
+          isEmailVerified: true,
         });
       }
 
@@ -195,4 +202,3 @@ connectDB().then(() => {
 });
 
 export default app;
-

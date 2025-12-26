@@ -14,15 +14,13 @@ router.use(requireRole('super_admin'));
 // @access  Private (super admin only)
 router.get('/tenants', async (req, res) => {
   try {
-    const tenants = await Tenant.find()
-      .populate('ownerId', 'name email')
-      .sort({ createdAt: -1 });
+    const tenants = await Tenant.find().populate('ownerId', 'name email').sort({ createdAt: -1 });
 
     const tenantsWithStats = await Promise.all(
       tenants.map(async (tenant) => {
         const userCount = await User.countDocuments({ tenantId: tenant._id });
-        const revenue = tenant.subscriptionPlan === 'pro' ? 79 : 
-                       tenant.subscriptionPlan === 'starter' ? 29 : 0;
+        const revenue =
+          tenant.subscriptionPlan === 'pro' ? 79 : tenant.subscriptionPlan === 'starter' ? 29 : 0;
 
         return {
           id: tenant._id,
@@ -32,14 +30,16 @@ router.get('/tenants', async (req, res) => {
           plan: tenant.subscriptionPlan,
           revenue,
           joined: tenant.createdAt,
-          owner: tenant.ownerId
+          owner: tenant.ownerId,
         };
-      })
+      }),
     );
 
     const totalRevenue = tenantsWithStats.reduce((acc, t) => acc + t.revenue, 0);
-    const activeTenants = tenantsWithStats.filter(t => t.status === 'active' || t.status === 'trial').length;
-    const trialTenants = tenantsWithStats.filter(t => t.status === 'trial').length;
+    const activeTenants = tenantsWithStats.filter(
+      (t) => t.status === 'active' || t.status === 'trial',
+    ).length;
+    const trialTenants = tenantsWithStats.filter((t) => t.status === 'trial').length;
 
     res.json({
       success: true,
@@ -47,9 +47,9 @@ router.get('/tenants', async (req, res) => {
         totalRevenue,
         activeTenants,
         trialTenants,
-        totalTenants: tenants.length
+        totalTenants: tenants.length,
       },
-      tenants: tenantsWithStats
+      tenants: tenantsWithStats,
     });
   } catch (error: any) {
     console.error('Get tenants error:', error);
@@ -85,4 +85,3 @@ router.put('/tenants/:id/status', async (req, res) => {
 });
 
 export default router;
-

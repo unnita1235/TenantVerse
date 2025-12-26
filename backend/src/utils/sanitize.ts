@@ -22,4 +22,3 @@ export const sanitizeSlug = (slug: string): string => {
 export const validateSlug = (slug: string): boolean => {
   return /^[a-z0-9-]+$/.test(slug) && slug.length >= 2 && slug.length <= 50;
 };
-

@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongo:27017/tenantverse
+      - JWT_SECRET=docker_secret_key
+      - FRONTEND_URL=http://localhost:9002
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+
+  frontend:
+    build: .
+    ports:
+      - "9002:9002"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000/api
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

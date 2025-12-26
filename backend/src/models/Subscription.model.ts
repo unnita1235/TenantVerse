@@ -19,47 +19,46 @@ const SubscriptionSchema = new Schema<ISubscription>(
       type: Schema.Types.ObjectId,
       ref: 'Tenant',
       required: true,
-      unique: true
+      unique: true,
     },
     stripeSubscriptionId: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     stripeCustomerId: {
       type: String,
-      required: true
+      required: true,
     },
     plan: {
       type: String,
       enum: ['starter', 'pro', 'enterprise'],
-      required: true
+      required: true,
     },
     status: {
       type: String,
       enum: ['active', 'canceled', 'past_due', 'trialing', 'incomplete'],
-      required: true
+      required: true,
     },
     currentPeriodStart: {
       type: Date,
-      required: true
+      required: true,
     },
     currentPeriodEnd: {
       type: Date,
-      required: true
+      required: true,
     },
     cancelAtPeriodEnd: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 SubscriptionSchema.index({ tenantId: 1 });
 SubscriptionSchema.index({ stripeSubscriptionId: 1 });
 
 export default mongoose.model<ISubscription>('Subscription', SubscriptionSchema);
-

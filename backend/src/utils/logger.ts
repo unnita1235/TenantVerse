@@ -29,7 +29,7 @@ class Logger {
   error(message: string, error?: Error | unknown, ...args: any[]): void {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
-    
+
     console.error(this.formatMessage('error', message), errorMessage, ...args);
     if (errorStack && this.isDevelopment) {
       console.error('Stack:', errorStack);
@@ -45,4 +45,3 @@ class Logger {
 }
 
 export const logger = new Logger();
-

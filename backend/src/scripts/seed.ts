@@ -24,7 +24,7 @@ const seedData = async () => {
       password: 'admin123',
       name: 'Super Admin',
       role: 'super_admin',
-      isEmailVerified: true
+      isEmailVerified: true,
     });
     logger.info('Created super admin');
 
@@ -34,32 +34,32 @@ const seedData = async () => {
         name: 'Acme Inc.',
         slug: 'acme',
         subscriptionStatus: 'active' as const,
-        subscriptionPlan: 'pro' as const
+        subscriptionPlan: 'pro' as const,
       },
       {
         name: 'Stark Industries',
         slug: 'stark',
         subscriptionStatus: 'active' as const,
-        subscriptionPlan: 'enterprise' as const
+        subscriptionPlan: 'enterprise' as const,
       },
       {
         name: 'Wayne Enterprises',
         slug: 'wayne',
         subscriptionStatus: 'active' as const,
-        subscriptionPlan: 'pro' as const
+        subscriptionPlan: 'pro' as const,
       },
       {
         name: 'Globex Corporation',
         slug: 'globex',
         subscriptionStatus: 'trial' as const,
-        subscriptionPlan: 'starter' as const
+        subscriptionPlan: 'starter' as const,
       },
       {
         name: 'Cyberdyne Systems',
         slug: 'cyberdyne',
         subscriptionStatus: 'expired' as const,
-        subscriptionPlan: 'free' as const
-      }
+        subscriptionPlan: 'free' as const,
+      },
     ];
 
     const createdTenants: any[] = [];
@@ -71,13 +71,13 @@ const seedData = async () => {
         name: `${tenantData.name} Owner`,
         role: 'owner',
         tenantId: null as any,
-        isEmailVerified: true
+        isEmailVerified: true,
       });
 
       // Create tenant
       const tenant = await Tenant.create({
         ...tenantData,
-        ownerId: owner._id
+        ownerId: owner._id,
       });
 
       // Update owner with tenant ID
@@ -88,7 +88,11 @@ const seedData = async () => {
       const teamMembers = [
         { name: 'John Smith', email: `john@${tenantData.slug}.com`, role: 'admin' as const },
         { name: 'Jane Doe', email: `jane@${tenantData.slug}.com`, role: 'member' as const },
-        { name: 'Michael Johnson', email: `michael@${tenantData.slug}.com`, role: 'member' as const }
+        {
+          name: 'Michael Johnson',
+          email: `michael@${tenantData.slug}.com`,
+          role: 'member' as const,
+        },
       ];
 
       for (const member of teamMembers) {
@@ -96,7 +100,7 @@ const seedData = async () => {
           ...member,
           password: 'password123',
           tenantId: tenant._id,
-          isEmailVerified: true
+          isEmailVerified: true,
         });
       }
 
@@ -121,4 +125,3 @@ const seedData = async () => {
 };
 
 seedData();
-

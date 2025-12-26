@@ -16,7 +16,7 @@ export interface AuthRequest extends Request {
 export const authenticate = async (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
@@ -31,9 +31,9 @@ export const authenticate = async (
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
-    
+
     const user = await User.findById(decoded.id).select('-password');
-    
+
     if (!user) {
       throw new NotFoundError('User');
     }
@@ -42,7 +42,7 @@ export const authenticate = async (
       id: user._id.toString(),
       email: user.email,
       role: user.role,
-      tenantId: user.tenantId?.toString()
+      tenantId: user.tenantId?.toString(),
     };
 
     next();
@@ -51,7 +51,7 @@ export const authenticate = async (
       res.status(error.statusCode).json({ success: false, message: error.message });
       return;
     }
-    
+
     logger.error('Authentication error', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
   }
@@ -91,4 +91,3 @@ export const requireTenant = (req: AuthRequest, res: Response, next: NextFunctio
 
   next();
 };
-

@@ -13,9 +13,7 @@ import {
 } from '@/components/ui/table';
 import {
   ChartContainer,
-  ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
   ChartLegendContent,
 } from '@/components/ui/chart';
 import { Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend as RechartsLegend } from 'recharts';
@@ -28,9 +26,18 @@ const chartConfig = {
   mobile: { label: 'Mobile', color: 'hsl(var(--accent))' },
 };
 
+interface Signup {
+  name: string;
+  email: string;
+  date: string;
+}
+
 export default function DashboardPage({ params }: { params: { tenant: string } }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [stats, setStats] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [chartData, setChartData] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [recentSignups, setRecentSignups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,9 +46,11 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
       try {
         const response = await apiClient.getDashboardStats();
         if (response.success && response.data) {
-          setStats(response.data.stats);
-          setChartData(response.data.chartData || []);
-          setRecentSignups(response.data.recentSignups || []);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const data = response.data as any;
+          setStats(data.stats);
+          setChartData(data.chartData || []);
+          setRecentSignups(data.recentSignups || []);
         }
       } catch (error) {
         console.error('Failed to fetch dashboard stats:', error);
@@ -151,7 +160,7 @@ export default function DashboardPage({ params }: { params: { tenant: string } }
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recentSignups.map((signup: any, index: number) => (
+                  {recentSignups.map((signup: Signup, index: number) => (
                     <TableRow key={index}>
                       <TableCell>
                         <div className="font-medium">{signup.name}</div>

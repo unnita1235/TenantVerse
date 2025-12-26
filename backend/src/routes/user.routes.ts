@@ -2,7 +2,12 @@ import express, { Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import User from '../models/User.model';
 import Tenant from '../models/Tenant.model';
-import { authenticate, requireRole, requireTenant, AuthRequest } from '../middleware/auth.middleware';
+import {
+  authenticate,
+  requireRole,
+  requireTenant,
+  AuthRequest,
+} from '../middleware/auth.middleware';
 
 const router = express.Router();
 
@@ -45,7 +50,7 @@ router.get('/:id', async (req: AuthRequest, res) => {
     } else {
       user = await User.findOne({
         _id: req.params.id,
-        tenantId: req.user!.tenantId
+        tenantId: req.user!.tenantId,
       }).select('-password');
     }
 
@@ -69,7 +74,7 @@ router.post(
   [
     body('email').isEmail().normalizeEmail(),
     body('name').trim().notEmpty(),
-    body('role').isIn(['admin', 'member'])
+    body('role').isIn(['admin', 'member']),
   ],
   async (req: AuthRequest, res) => {
     try {
@@ -85,7 +90,7 @@ router.post(
       if (existingUser) {
         return res.status(400).json({
           success: false,
-          message: 'User with this email already exists'
+          message: 'User with this email already exists',
         });
       }
 
@@ -97,7 +102,7 @@ router.post(
         password: tempPassword,
         role: role || 'member',
         tenantId: req.user!.tenantId,
-        isEmailVerified: false
+        isEmailVerified: false,
       });
 
       // In production, send invitation email here
@@ -108,15 +113,15 @@ router.post(
           id: user._id,
           email: user.email,
           name: user.name,
-          role: user.role
+          role: user.role,
         },
-        message: 'User invited successfully. Temporary password sent via email.'
+        message: 'User invited successfully. Temporary password sent via email.',
       });
     } catch (error: any) {
       console.error('Invite user error:', error);
       res.status(500).json({ success: false, message: error.message });
     }
-  }
+  },
 );
 
 // @route   PUT /api/users/:id/role
@@ -125,9 +130,7 @@ router.post(
 router.put(
   '/:id/role',
   requireRole('owner', 'admin', 'super_admin'),
-  [
-    body('role').isIn(['owner', 'admin', 'member'])
-  ],
+  [body('role').isIn(['owner', 'admin', 'member'])],
   async (req: AuthRequest, res) => {
     try {
       const errors = validationResult(req);
@@ -153,7 +156,7 @@ router.put(
       if (user.role === 'owner' && req.user!.role !== 'super_admin') {
         return res.status(403).json({
           success: false,
-          message: 'Cannot change owner role'
+          message: 'Cannot change owner role',
         });
       }
 
@@ -166,58 +169,61 @@ router.put(
           id: user._id,
           email: user.email,
           name: user.name,
-          role: user.role
-        }
+          role: user.role,
+        },
       });
     } catch (error: any) {
       console.error('Update user role error:', error);
       res.status(500).json({ success: false, message: error.message });
     }
-  }
+  },
 );
 
 // @route   DELETE /api/users/:id
 // @desc    Remove user from tenant
 // @access  Private (owner or admin only)
-router.delete('/:id', requireRole('owner', 'admin', 'super_admin'), async (req: AuthRequest, res) => {
-  try {
-    const { id } = req.params;
+router.delete(
+  '/:id',
+  requireRole('owner', 'admin', 'super_admin'),
+  async (req: AuthRequest, res) => {
+    try {
+      const { id } = req.params;
 
-    let user;
-    if (req.user!.role === 'super_admin') {
-      user = await User.findById(id);
-    } else {
-      user = await User.findOne({ _id: id, tenantId: req.user!.tenantId });
+      let user;
+      if (req.user!.role === 'super_admin') {
+        user = await User.findById(id);
+      } else {
+        user = await User.findOne({ _id: id, tenantId: req.user!.tenantId });
+      }
+
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+
+      // Prevent deleting owner (only super admin can)
+      if (user.role === 'owner' && req.user!.role !== 'super_admin') {
+        return res.status(403).json({
+          success: false,
+          message: 'Cannot delete owner',
+        });
+      }
+
+      // Prevent deleting yourself
+      if (user._id.toString() === req.user!.id) {
+        return res.status(400).json({
+          success: false,
+          message: 'Cannot delete yourself',
+        });
+      }
+
+      await User.deleteOne({ _id: user._id });
+
+      res.json({ success: true, message: 'User removed successfully' });
+    } catch (error: any) {
+      console.error('Delete user error:', error);
+      res.status(500).json({ success: false, message: error.message });
     }
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    // Prevent deleting owner (only super admin can)
-    if (user.role === 'owner' && req.user!.role !== 'super_admin') {
-      return res.status(403).json({
-        success: false,
-        message: 'Cannot delete owner'
-      });
-    }
-
-    // Prevent deleting yourself
-    if (user._id.toString() === req.user!.id) {
-      return res.status(400).json({
-        success: false,
-        message: 'Cannot delete yourself'
-      });
-    }
-
-    await User.deleteOne({ _id: user._id });
-
-    res.json({ success: true, message: 'User removed successfully' });
-  } catch (error: any) {
-    console.error('Delete user error:', error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
+  },
+);
 
 export default router;
-

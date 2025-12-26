@@ -2,7 +2,12 @@ import express, { Response } from 'express';
 import Stripe from 'stripe';
 import Tenant from '../models/Tenant.model';
 import Subscription from '../models/Subscription.model';
-import { authenticate, requireRole, requireTenant, AuthRequest } from '../middleware/auth.middleware';
+import {
+  authenticate,
+  requireRole,
+  requireTenant,
+  AuthRequest,
+} from '../middleware/auth.middleware';
 import { asyncHandler } from '../middleware/error.middleware';
 import { ValidationError, NotFoundError } from '../utils/errors';
 import { logger } from '../utils/logger';
@@ -15,8 +20,8 @@ if (!process.env.STRIPE_SECRET_KEY) {
 
 const stripe = process.env.STRIPE_SECRET_KEY
   ? new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16'
-  })
+      apiVersion: '2023-10-16',
+    })
   : null;
 
 // All routes require authentication
@@ -26,33 +31,47 @@ router.use(requireTenant);
 // @route   GET /api/subscriptions/plans
 // @desc    Get available subscription plans
 // @access  Private
-router.get('/plans', asyncHandler(async (req: AuthRequest, res: Response) => {
-  const plans = [
-    {
-      id: 'starter',
-      name: 'Starter',
-      price: 29,
-      description: 'For small teams just getting started.',
-      features: ['5 Team Members', '10 Projects', 'Basic Analytics', 'Email Support']
-    },
-    {
-      id: 'pro',
-      name: 'Pro',
-      price: 79,
-      description: 'For growing businesses that need more power.',
-      features: ['25 Team Members', 'Unlimited Projects', 'Advanced Analytics', 'Priority Support', 'AI Features']
-    },
-    {
-      id: 'enterprise',
-      name: 'Enterprise',
-      price: 'Custom',
-      description: 'For large organizations with custom needs.',
-      features: ['Unlimited Members', 'Dedicated Account Manager', 'SSO & SAML', 'On-prem option']
-    }
-  ];
+router.get(
+  '/plans',
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const plans = [
+      {
+        id: 'starter',
+        name: 'Starter',
+        price: 29,
+        description: 'For small teams just getting started.',
+        features: ['5 Team Members', '10 Projects', 'Basic Analytics', 'Email Support'],
+      },
+      {
+        id: 'pro',
+        name: 'Pro',
+        price: 79,
+        description: 'For growing businesses that need more power.',
+        features: [
+          '25 Team Members',
+          'Unlimited Projects',
+          'Advanced Analytics',
+          'Priority Support',
+          'AI Features',
+        ],
+      },
+      {
+        id: 'enterprise',
+        name: 'Enterprise',
+        price: 'Custom',
+        description: 'For large organizations with custom needs.',
+        features: [
+          'Unlimited Members',
+          'Dedicated Account Manager',
+          'SSO & SAML',
+          'On-prem option',
+        ],
+      },
+    ];
 
-  res.json({ success: true, plans });
-}));
+    res.json({ success: true, plans });
+  }),
+);
 
 // @route   POST /api/subscriptions/create-checkout
 // @desc    Create Stripe checkout session
@@ -80,7 +99,7 @@ router.post(
     const priceIdMap: { [key: string]: string } = {
       starter: process.env.STRIPE_PRICE_ID_STARTER || '',
       pro: process.env.STRIPE_PRICE_ID_PRO || '',
-      enterprise: process.env.STRIPE_PRICE_ID_ENTERPRISE || ''
+      enterprise: process.env.STRIPE_PRICE_ID_ENTERPRISE || '',
     };
 
     const priceId = priceIdMap[plan];
@@ -95,8 +114,8 @@ router.post(
         email: req.user!.email,
         metadata: {
           tenantId: tenant._id.toString(),
-          tenantSlug: tenant.slug
-        }
+          tenantSlug: tenant.slug,
+        },
       });
       customerId = customer.id;
       tenant.stripeCustomerId = customerId;
@@ -110,78 +129,88 @@ router.post(
       line_items: [
         {
           price: priceId,
-          quantity: 1
-        }
+          quantity: 1,
+        },
       ],
       mode: 'subscription',
       success_url: `${process.env.FRONTEND_URL || 'http://localhost:9002'}/t/${tenant.slug}/billing?success=true`,
       cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:9002'}/t/${tenant.slug}/billing?canceled=true`,
       metadata: {
         tenantId: tenant._id.toString(),
-        plan: plan
-      }
+        plan: plan,
+      },
     });
 
     logger.info('Checkout session created', { sessionId: session.id, tenantId: tenant._id, plan });
 
     res.json({ success: true, sessionId: session.id, url: session.url });
-  })
+  }),
 );
 
 // @route   GET /api/subscriptions/current
 // @desc    Get current subscription
 // @access  Private
-router.get('/current', asyncHandler(async (req: AuthRequest, res: Response) => {
-  const tenant = await Tenant.findById(req.user!.tenantId);
-  if (!tenant) {
-    throw new NotFoundError('Tenant');
-  }
-
-  let subscription = null;
-  if (tenant.stripeSubscriptionId) {
-    subscription = await Subscription.findOne({ tenantId: tenant._id });
-  }
-
-  res.json({
-    success: true,
-    subscription: {
-      plan: tenant.subscriptionPlan,
-      status: tenant.subscriptionStatus,
-      startDate: tenant.subscriptionStartDate,
-      endDate: tenant.subscriptionEndDate,
-      details: subscription
+router.get(
+  '/current',
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    const tenant = await Tenant.findById(req.user!.tenantId);
+    if (!tenant) {
+      throw new NotFoundError('Tenant');
     }
-  });
-}));
+
+    let subscription = null;
+    if (tenant.stripeSubscriptionId) {
+      subscription = await Subscription.findOne({ tenantId: tenant._id });
+    }
+
+    res.json({
+      success: true,
+      subscription: {
+        plan: tenant.subscriptionPlan,
+        status: tenant.subscriptionStatus,
+        startDate: tenant.subscriptionStartDate,
+        endDate: tenant.subscriptionEndDate,
+        details: subscription,
+      },
+    });
+  }),
+);
 
 // @route   POST /api/subscriptions/cancel
 // @desc    Cancel subscription
 // @access  Private (owner or admin only)
-router.post('/cancel', requireRole('owner', 'admin', 'super_admin'), asyncHandler(async (req: AuthRequest, res: Response) => {
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
+router.post(
+  '/cancel',
+  requireRole('owner', 'admin', 'super_admin'),
+  asyncHandler(async (req: AuthRequest, res: Response) => {
+    if (!stripe) {
+      throw new Error('Stripe is not configured');
+    }
 
-  const tenant = await Tenant.findById(req.user!.tenantId);
-  if (!tenant || !tenant.stripeSubscriptionId) {
-    throw new NotFoundError('Active subscription');
-  }
+    const tenant = await Tenant.findById(req.user!.tenantId);
+    if (!tenant || !tenant.stripeSubscriptionId) {
+      throw new NotFoundError('Active subscription');
+    }
 
-  // Cancel at period end
-  await stripe.subscriptions.update(tenant.stripeSubscriptionId, {
-    cancel_at_period_end: true
-  });
+    // Cancel at period end
+    await stripe.subscriptions.update(tenant.stripeSubscriptionId, {
+      cancel_at_period_end: true,
+    });
 
-  const subscription = await Subscription.findOne({ tenantId: tenant._id });
-  if (subscription) {
-    subscription.cancelAtPeriodEnd = true;
-    await subscription.save();
-  }
+    const subscription = await Subscription.findOne({ tenantId: tenant._id });
+    if (subscription) {
+      subscription.cancelAtPeriodEnd = true;
+      await subscription.save();
+    }
 
-  logger.info('Subscription cancellation scheduled', { tenantId: tenant._id, subscriptionId: tenant.stripeSubscriptionId });
+    logger.info('Subscription cancellation scheduled', {
+      tenantId: tenant._id,
+      subscriptionId: tenant.stripeSubscriptionId,
+    });
 
-  res.json({ success: true, message: 'Subscription will be canceled at period end' });
-}));
+    res.json({ success: true, message: 'Subscription will be canceled at period end' });
+  }),
+);
 
 // @route   POST /api/subscriptions/webhook
 // @desc    Stripe webhook handler
@@ -223,7 +252,11 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           if (tenant) {
             tenant.stripeSubscriptionId = subscription.id;
             tenant.subscriptionStatus = subscription.status === 'active' ? 'active' : 'trial';
-            tenant.subscriptionPlan = (session.metadata?.plan || 'pro') as 'free' | 'starter' | 'pro' | 'enterprise';
+            tenant.subscriptionPlan = (session.metadata?.plan || 'pro') as
+              | 'free'
+              | 'starter'
+              | 'pro'
+              | 'enterprise';
             tenant.subscriptionStartDate = new Date(subscription.current_period_start * 1000);
             tenant.subscriptionEndDate = new Date(subscription.current_period_end * 1000);
             await tenant.save();
@@ -239,9 +272,9 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
                 status: subscription.status as any,
                 currentPeriodStart: new Date(subscription.current_period_start * 1000),
                 currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-                cancelAtPeriodEnd: subscription.cancel_at_period_end || false
+                cancelAtPeriodEnd: subscription.cancel_at_period_end || false,
               },
-              { upsert: true, new: true }
+              { upsert: true, new: true },
             );
           }
         }
@@ -266,8 +299,8 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
               {
                 status: subscription.status as any,
                 currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-                cancelAtPeriodEnd: subscription.cancel_at_period_end || false
-              }
+                cancelAtPeriodEnd: subscription.cancel_at_period_end || false,
+              },
             );
           }
           await tenant.save();
@@ -284,4 +317,3 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
 });
 
 export default router;
-

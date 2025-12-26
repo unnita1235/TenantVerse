@@ -4,6 +4,30 @@
 
 **Status**: ✅ Production Ready | **Tech Stack**: Next.js, Node.js, MongoDB, Stripe
 
+---
+
+## 🚀 Quick Start (Recruiter Friendly)
+
+Run the project locally in **2 minutes** with one of these methods:
+
+### Option 1: Docker (Recommended)
+*Requires Docker installed*
+```bash
+docker-compose up --build
+```
+- App: http://localhost:9002
+- API: http://localhost:5000
+
+### Option 2: Windows Application (No Docker)
+*Requires Node.js 18+ installed*
+1. Double-click the `start-dev.bat` file in the root directory.
+2. The script will automatically:
+   - Install all dependencies
+   - Configure environment variables
+   - Launch Backend & Frontend servers
+
+---
+
 ### 🌐 Live Demo & Links
 
 - **🌍 Frontend**: [https://tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)

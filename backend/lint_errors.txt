@@ -1,0 +1,64 @@
+
+> tenantverse-backend@1.0.0 lint
+> eslint src/**/*.ts
+
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\middleware\auth.middleware.ts
+  49:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\middleware\error.middleware.ts
+   9:3   warning  'next' is defined but never used. Allowed unused args must match /^_/u                                                   @typescript-eslint/no-unused-vars
+  39:34  error    The `Function` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\models\User.model.ts
+  68:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\routes\admin.routes.ts
+   4:37  warning  'AuthRequest' is defined but never used         @typescript-eslint/no-unused-vars
+  21:15  warning  'userCount' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  54:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  77:43  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  81:19  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\routes\dashboard.routes.ts
+  7:10  warning  'logger' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\routes\subscription.routes.ts
+  237:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  272:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  300:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  313:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\routes\tenant.routes.ts
+   43:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   85:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\routes\user.routes.ts
+    1:19  warning  'Response' is defined but never used      @typescript-eslint/no-unused-vars
+    4:8   warning  'Tenant' is defined but never used        @typescript-eslint/no-unused-vars
+   35:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   62:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  120:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  175:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  222:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\scripts\seed.ts
+  22:11  warning  'superAdmin' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  65:27  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+  73:27  warning  Unexpected any. Specify a different type         @typescript-eslint/no-explicit-any
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\server.ts
+  112:5  warning  'isMemoryServer' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\TenantVerse-main\TenantVerse-1\backend\src\utils\logger.ts
+  11:62  warning  'args' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  11:68  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  17:34  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  24:34  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  29:60  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+  40:35  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+
+Γ£û 34 problems (1 error, 33 warnings)
+

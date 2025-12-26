@@ -19,7 +19,7 @@ const TenantSchema = new Schema<ITenant>(
     name: {
       type: String,
       required: [true, 'Tenant name is required'],
-      trim: true
+      trim: true,
     },
     slug: {
       type: String,
@@ -27,39 +27,39 @@ const TenantSchema = new Schema<ITenant>(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens']
+      match: [/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens'],
     },
     ownerId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true
+      required: true,
     },
     subscriptionStatus: {
       type: String,
       enum: ['trial', 'active', 'expired', 'cancelled'],
-      default: 'trial'
+      default: 'trial',
     },
     subscriptionPlan: {
       type: String,
       enum: ['free', 'starter', 'pro', 'enterprise'],
-      default: 'free'
+      default: 'free',
     },
     subscriptionStartDate: {
-      type: Date
+      type: Date,
     },
     subscriptionEndDate: {
-      type: Date
+      type: Date,
     },
     stripeCustomerId: {
-      type: String
+      type: String,
     },
     stripeSubscriptionId: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 // Index for faster queries
@@ -67,4 +67,3 @@ TenantSchema.index({ slug: 1 });
 TenantSchema.index({ ownerId: 1 });
 
 export default mongoose.model<ITenant>('Tenant', TenantSchema);
-

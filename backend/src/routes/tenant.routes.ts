@@ -1,7 +1,12 @@
 import express, { Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import Tenant from '../models/Tenant.model';
-import { authenticate, requireRole, requireTenant, AuthRequest } from '../middleware/auth.middleware';
+import {
+  authenticate,
+  requireRole,
+  requireTenant,
+  AuthRequest,
+} from '../middleware/auth.middleware';
 
 const router = express.Router();
 
@@ -27,7 +32,7 @@ router.get('/:slug', requireTenant, async (req: AuthRequest, res) => {
     // Regular users can only access their own tenant
     const tenant = await Tenant.findOne({
       slug,
-      _id: req.user!.tenantId
+      _id: req.user!.tenantId,
     }).populate('ownerId', 'name email');
 
     if (!tenant) {
@@ -48,9 +53,7 @@ router.put(
   '/:slug',
   requireTenant,
   requireRole('owner', 'admin', 'super_admin'),
-  [
-    body('name').optional().trim().notEmpty()
-  ],
+  [body('name').optional().trim().notEmpty()],
   async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
@@ -83,35 +86,39 @@ router.put(
       console.error('Update tenant error:', error);
       res.status(500).json({ success: false, message: error.message });
     }
-  }
+  },
 );
 
 // @route   DELETE /api/tenants/:slug
 // @desc    Delete tenant
 // @access  Private (owner or super admin only)
-router.delete('/:slug', authenticate, requireRole('owner', 'super_admin'), async (req: AuthRequest, res) => {
-  try {
-    const { slug } = req.params;
+router.delete(
+  '/:slug',
+  authenticate,
+  requireRole('owner', 'super_admin'),
+  async (req: AuthRequest, res) => {
+    try {
+      const { slug } = req.params;
 
-    let tenant;
-    if (req.user!.role === 'super_admin') {
-      tenant = await Tenant.findOne({ slug });
-    } else {
-      tenant = await Tenant.findOne({ slug, ownerId: req.user!.id });
+      let tenant;
+      if (req.user!.role === 'super_admin') {
+        tenant = await Tenant.findOne({ slug });
+      } else {
+        tenant = await Tenant.findOne({ slug, ownerId: req.user!.id });
+      }
+
+      if (!tenant) {
+        return res.status(404).json({ success: false, message: 'Tenant not found' });
+      }
+
+      await Tenant.deleteOne({ _id: tenant._id });
+
+      res.json({ success: true, message: 'Tenant deleted successfully' });
+    } catch (error: any) {
+      console.error('Delete tenant error:', error);
+      res.status(500).json({ success: false, message: error.message });
     }
-
-    if (!tenant) {
-      return res.status(404).json({ success: false, message: 'Tenant not found' });
-    }
-
-    await Tenant.deleteOne({ _id: tenant._id });
-
-    res.json({ success: true, message: 'Tenant deleted successfully' });
-  } catch (error: any) {
-    console.error('Delete tenant error:', error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
+  },
+);
 
 export default router;
-
