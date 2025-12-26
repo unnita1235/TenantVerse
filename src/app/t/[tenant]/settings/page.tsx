@@ -71,13 +71,21 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
     }
 
     try {
-      const response = await apiClient.updateTenant(params.tenant, {});
-      // Note: Delete endpoint would need to be implemented
-      toast({
-        title: 'Error',
-        description: 'Delete functionality requires backend implementation',
-        variant: 'destructive',
-      });
+      const response = await apiClient.deleteTenantBySlug(params.tenant);
+      if (response.success) {
+        toast({
+          title: 'Success',
+          description: 'Organization deleted successfully',
+        });
+        // Redirect to home page after successful deletion
+        router.push('/');
+      } else {
+        toast({
+          title: 'Error',
+          description: response.message || 'Failed to delete organization',
+          variant: 'destructive',
+        });
+      }
     } catch (error: any) {
       toast({
         title: 'Error',
