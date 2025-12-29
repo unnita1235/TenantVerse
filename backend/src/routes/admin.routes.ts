@@ -1,7 +1,7 @@
 import express from 'express';
 import Tenant from '../models/Tenant.model';
 import User from '../models/User.model';
-import { authenticate, requireRole, AuthRequest } from '../middleware/auth.middleware';
+import { authenticate, requireRole } from '../middleware/auth.middleware';
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get('/tenants', async (req, res) => {
 
     const tenantsWithStats = await Promise.all(
       tenants.map(async (tenant) => {
-        const userCount = await User.countDocuments({ tenantId: tenant._id });
+        const memberCount = await User.countDocuments({ tenantId: tenant._id });
         const revenue =
           tenant.subscriptionPlan === 'pro' ? 79 : tenant.subscriptionPlan === 'starter' ? 29 : 0;
 
@@ -29,6 +29,7 @@ router.get('/tenants', async (req, res) => {
           status: tenant.subscriptionStatus,
           plan: tenant.subscriptionPlan,
           revenue,
+          memberCount,
           joined: tenant.createdAt,
           owner: tenant.ownerId,
         };
@@ -51,9 +52,10 @@ router.get('/tenants', async (req, res) => {
       },
       tenants: tenantsWithStats,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get tenants error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ success: false, message });
   }
 });
 
@@ -74,13 +76,14 @@ router.put('/tenants/:id/status', async (req, res) => {
       return res.status(404).json({ success: false, message: 'Tenant not found' });
     }
 
-    tenant.subscriptionStatus = status as any;
+    tenant.subscriptionStatus = status as 'trial' | 'active' | 'expired' | 'cancelled';
     await tenant.save();
 
     res.json({ success: true, tenant });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Update tenant status error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ success: false, message });
   }
 });
 

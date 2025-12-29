@@ -234,9 +234,10 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     logger.info('Webhook event received', { type: event.type, id: event.id });
-  } catch (err: any) {
+  } catch (err: unknown) {
     logger.error('Webhook signature verification failed', err);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    return res.status(400).send(`Webhook Error: ${message}`);
   }
 
   try {
@@ -269,7 +270,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
                 stripeSubscriptionId: subscription.id,
                 stripeCustomerId: subscription.customer as string,
                 plan: tenant.subscriptionPlan as 'starter' | 'pro' | 'enterprise',
-                status: subscription.status as any,
+                status: subscription.status,
                 currentPeriodStart: new Date(subscription.current_period_start * 1000),
                 currentPeriodEnd: new Date(subscription.current_period_end * 1000),
                 cancelAtPeriodEnd: subscription.cancel_at_period_end || false,
@@ -297,7 +298,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
             await Subscription.findOneAndUpdate(
               { tenantId: tenant._id },
               {
-                status: subscription.status as any,
+                status: subscription.status,
                 currentPeriodEnd: new Date(subscription.current_period_end * 1000),
                 cancelAtPeriodEnd: subscription.cancel_at_period_end || false,
               },
@@ -310,7 +311,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     }
 
     res.json({ received: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error('Webhook handler error', error, { eventType: event.type, eventId: event.id });
     res.status(500).json({ error: 'Webhook processing failed' });
   }

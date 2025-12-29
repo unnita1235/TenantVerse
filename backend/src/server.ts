@@ -17,7 +17,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Security: Validate required environment variables
-const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
+// Note: MONGODB_URI is optional because server has in-memory fallback
+const requiredEnvVars = ['JWT_SECRET'];
 const missingVars = requiredEnvVars.filter((varName) => !process.env[varName]);
 if (missingVars.length > 0) {
   logger.error('Missing required environment variables:', new Error(missingVars.join(', ')));
@@ -81,7 +82,6 @@ app.use(errorHandler);
 // Connect to MongoDB with Fallback to Memory Server
 const connectDB = async () => {
   let mongoUri = process.env.MONGODB_URI;
-  let isMemoryServer = false;
 
   const tryConnect = async (uri: string) => {
     try {
@@ -109,7 +109,6 @@ const connectDB = async () => {
     const { MongoMemoryServer } = await import('mongodb-memory-server');
     const mongod = await MongoMemoryServer.create();
     mongoUri = mongod.getUri();
-    isMemoryServer = true;
 
     logger.info(`Started in-memory MongoDB at ${mongoUri}`);
 

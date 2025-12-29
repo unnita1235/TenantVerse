@@ -40,9 +40,10 @@ router.get('/:slug', requireTenant, async (req: AuthRequest, res) => {
     }
 
     res.json({ success: true, tenant });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get tenant error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ success: false, message });
   }
 });
 
@@ -82,9 +83,10 @@ router.put(
       await tenant.save();
 
       res.json({ success: true, tenant });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Update tenant error:', error);
-      res.status(500).json({ success: false, message: error.message });
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, message });
     }
   },
 );
@@ -114,9 +116,10 @@ router.delete(
       await Tenant.deleteOne({ _id: tenant._id });
 
       res.json({ success: true, message: 'Tenant deleted successfully' });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Delete tenant error:', error);
-      res.status(500).json({ success: false, message: error.message });
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, message });
     }
   },
 );

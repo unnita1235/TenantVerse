@@ -19,7 +19,7 @@ const seedData = async () => {
     logger.info('Cleared existing data');
 
     // Create super admin
-    const superAdmin = await User.create({
+    await User.create({
       email: 'admin@tenantverse.com',
       password: 'admin123',
       name: 'Super Admin',
@@ -62,7 +62,7 @@ const seedData = async () => {
       },
     ];
 
-    const createdTenants: any[] = [];
+    const createdTenants: mongoose.Document[] = [];
     for (const tenantData of tenants) {
       // Create owner
       const owner = await User.create({
@@ -70,7 +70,7 @@ const seedData = async () => {
         password: 'password123',
         name: `${tenantData.name} Owner`,
         role: 'owner',
-        tenantId: null as any,
+        tenantId: undefined,
         isEmailVerified: true,
       });
 

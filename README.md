@@ -1,354 +1,255 @@
 # TenantVerse
 
-> A production-ready Property & Tenant Management SaaS platform demonstrating enterprise-grade full-stack engineering, multi-tenancy, role-based access control, and subscription management.
+> Full-Stack Multi-Tenant SaaS Boilerplate with Authentication, RBAC, and Payment Integration
 
-**Status**: ✅ Production Ready | **Tech Stack**: Next.js, Node.js, MongoDB, Stripe
-
----
-
-## 🚀 Quick Start (Recruiter Friendly)
-
-Run the project locally in **2 minutes** with one of these methods:
-
-### Option 1: Docker (Recommended)
-*Requires Docker installed*
-```bash
-docker-compose up --build
-```
-- App: http://localhost:9002
-- API: http://localhost:5000
-
-### Option 2: Windows Application (No Docker)
-*Requires Node.js 18+ installed*
-1. Double-click the `start-dev.bat` file in the root directory.
-2. The script will automatically:
-   - Install all dependencies
-   - Configure environment variables
-   - Launch Backend & Frontend servers
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
-### 🌐 Live Demo & Links
+## 🎯 What This Project Is
 
-- **🌍 Frontend**: [https://tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
-- **⚙️ Backend API**: [https://tenantverse-backend.up.railway.app/api](https://tenantverse-backend.up.railway.app/api)
-- **📊 API Health**: [https://tenantverse-backend.up.railway.app/health](https://tenantverse-backend.up.railway.app/health)
-- **📦 GitHub Repository**: [https://github.com/unnita1235/TenantVerse](https://github.com/unnita1235/TenantVerse)
-- **✅ CI/CD Status**: [![CI](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)](https://github.com/unnita1235/TenantVerse/actions)
+TenantVerse is a **full-stack SaaS starter/boilerplate** demonstrating enterprise-level multi-tenant architecture. It's built to showcase modern development practices and can serve as a foundation for building production SaaS applications.
 
-**🔒 Test Credentials:**
-- Email: `demo@tenant.com`
-- Password: `demo123`
+**Key Highlight:** Complete multi-tenant isolation, role-based access control, and payment infrastructure (Stripe integration) - all with TypeScript and modern frameworks.
 
-> **Note**: Both frontend and backend are live and fully functional!
+---
 
-## 🚀 Features
+## ✨ Core Features
 
-- **Multi-Tenant Architecture**: Isolated tenant spaces with custom subdomains
-- **Authentication & Authorization**: JWT-based auth with RBAC (Owner, Admin, Member roles)
-- **Subscription Management**: Stripe integration for billing and subscriptions
-- **Team Management**: Invite users, manage roles, and permissions
-- **Dashboard Analytics**: Real-time stats and activity tracking
-- **Super Admin Panel**: Platform-wide tenant management
-- **Modern UI**: Built with Next.js, TypeScript, and Tailwind CSS
+### Fully Implemented
+- ✅ **Multi-Tenant Architecture** - Complete data isolation per tenant
+- ✅ **JWT Authentication** - Secure token-based auth with bcrypt password hashing
+- ✅ **Role-Based Access Control (RBAC)** - Super Admin, Owner, Admin, Member roles
+- ✅ **Team Management** - User invitations, role updates, member removal
+- ✅ **Dashboard & Analytics** - Real-time stats and activity tracking
+- ✅ **REST API** - Comprehensive Express backend with proper error handling
+- ✅ **Modern Frontend** - Next.js 15 with TypeScript, Tailwind CSS, Radix UI
+- ✅ **Super Admin Panel** - Platform-wide tenant management
 
-## 📊 Real-World Performance
+### Requires Configuration
+- ⚙️ **Stripe Payments** - Full integration code (needs Stripe API keys)
+- ⚙️ **AI Features** - Google Genkit for onboarding (needs API key)
+- ⚙️ **Email Service** - Invitation system (needs SMTP/email provider)
 
-**Tenant Management:**
-- Supports 50+ concurrent tenants
-- Average response time: <150ms
-- Database queries optimized with indexing
-- 99.9% uptime on Vercel
-
-**Multi-Tenancy:**
-- Row-level security for tenant isolation
-- Subdomain routing working across all tenants
-- Stripe webhooks handling 100+ events/day
-
-**Security:**
-- JWT auth with role-based access control (RBAC)
-- All API routes protected
-- Input validation on all endpoints
-- CORS properly configured
+---
 
 ## 🛠️ Tech Stack
 
-### Frontend
+**Frontend**
 - Next.js 15 (App Router)
-- TypeScript
+- TypeScript (strict mode)
 - Tailwind CSS
 - Radix UI Components
 - React Hook Form + Zod
+- Google Genkit (AI)
 
-### Backend
+**Backend**
 - Node.js + Express
+- TypeScript
 - MongoDB + Mongoose
 - JWT Authentication
-- Stripe API
-- TypeScript
+- Stripe SDK
+- MongoDB Memory Server (dev fallback)
 
-## 📋 Prerequisites
+---
 
-- Node.js 18+ and npm
-- MongoDB (local or MongoDB Atlas)
-- Stripe account (for payments)
+## 🚀 Quick Start (2 Minutes)
 
-## 🔧 Setup Instructions
+### Prerequisites
+- Node.js 18+
+- (Optional) MongoDB - project works with in-memory fallback
 
-### 1. Clone the Repository
+### Installation
 
 ```bash
-git clone https://github.com/unnita1235/TenantVerse.git
+# 1. Clone repository
+git clone https://github.com/your-username/TenantVerse.git
 cd TenantVerse
-```
 
-### 2. Backend Setup
+# 2. Install dependencies
+npm install
+cd backend && npm install && cd ..
 
-```bash
-# Navigate to backend directory
+# 3. Start backend (in-memory database)
 cd backend
-
-# Install dependencies
-npm install
-
-# Create .env file
-cp .env.example .env
-
-# Edit .env with your configuration:
-# - MONGODB_URI (your MongoDB connection string)
-# - JWT_SECRET (generate a secure random string)
-# - STRIPE_SECRET_KEY (from Stripe dashboard)
-# - STRIPE_WEBHOOK_SECRET (from Stripe webhook settings)
-# - STRIPE_PRICE_ID_* (create products in Stripe and add price IDs)
-
-# Start MongoDB (if running locally)
-# macOS: brew services start mongodb-community
-# Linux: sudo systemctl start mongod
-# Windows: net start MongoDB
-
-# Seed the database with demo data
-npm run seed
-
-# Start the backend server
+set JWT_SECRET=my_dev_secret_key_2024
 npm run dev
-```
+# Backend will start on http://localhost:5000
 
-The backend will run on `http://localhost:5000`
-
-### 3. Frontend Setup
-
-```bash
-# Navigate back to root directory
+# 4. Start frontend (new terminal)
 cd ..
-
-# Install dependencies
-npm install
-
-# Create .env.local file
-cp .env.example .env.local
-
-# Edit .env.local:
-# NEXT_PUBLIC_API_URL=http://localhost:5000/api
-
-# Start the development server
 npm run dev
+# Frontend will start on http://localhost:9002
 ```
 
-The frontend will run on `http://localhost:9002`
+**Access:** http://localhost:9002
 
-### 4. Access the Application
+### Demo Credentials (Auto-Seeded)
 
-- **Landing Page**: http://localhost:9002
-- **Login**: http://localhost:9002/login
-- **Signup**: http://localhost:9002/signup
+| Role | Email | Password |
+|------|-------|----------|
+| Super Admin | admin@tenantverse.com | admin123 |
+| Tenant Owner (Acme) | owner@acme.com | password123 |
+| Tenant Owner (Stark) | owner@stark.com | password123 |
 
-## 👤 Demo Credentials
-
-After running the seed script, you can use these credentials:
-
-### Super Admin
-- Email: `admin@tenantverse.com`
-- Password: `admin123`
-
-### Tenant Owners
-- Email: `owner@acme.com` (or any tenant slug)
-- Password: `password123`
-
-### Team Members
-- Email: `john@acme.com`, `jane@acme.com`, etc.
-- Password: `password123`
+---
 
 ## 📁 Project Structure
 
 ```
-TenantVerse-main/
-├── backend/                 # Express API server
+TenantVerse/
+├── backend/                     # Express API
 │   ├── src/
-│   │   ├── models/         # MongoDB models
-│   │   ├── routes/         # API routes
-│   │   ├── middleware/     # Auth & validation middleware
-│   │   ├── scripts/        # Seed scripts
-│   │   └── server.ts       # Express app entry point
+│   │   ├── models/             # Mongoose schemas
+│   │   ├── routes/             # API endpoints
+│   │   ├── middleware/         # Auth & validation
+│   │   ├── utils/              # Helpers & logger
+│   │   └── server.ts           # Entry point
 │   └── package.json
 ├── src/
-│   ├── app/                # Next.js app router pages
-│   │   ├── (auth)/         # Auth pages (login, signup)
-│   │   ├── t/[tenant]/     # Tenant dashboard pages
-│   │   └── super-admin/    # Admin panel
-│   ├── components/         # React components
-│   ├── lib/                # Utilities & API client
-│   └── middleware.ts       # Next.js middleware
+│   ├── app/
+│   │   ├── (auth)/             # Login/Signup
+│   │   ├── t/[tenant]/         # Tenant dashboards
+│   │   │   ├── billing/        # Subscription page
+│   │   │   ├── team/           # Team management
+│   │   │   ├── settings/       # Tenant settings
+│   │   │   └── guides/         # AI-powered guides
+│   │   └── super-admin/        # Admin panel
+│   ├── components/ui/          # Reusable components
+│   ├── lib/                    # API client
+│   └── middleware.ts           # Route protection
 └── package.json
 ```
 
+---
+
 ## 🔐 Environment Variables
 
-### Backend (.env)
+### Backend `.env`
 ```env
+# Required
+JWT_SECRET=your_secret_key_here
+
+# Optional (uses in-memory database if not provided)
+MONGODB_URI=mongodb://localhost:27017/tenantverse
+
+# Optional
+FRONTEND_URL=http://localhost:9002
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb://localhost:27017/tenantverse
-JWT_SECRET=your-secret-key
-JWT_EXPIRE=7d
-FRONTEND_URL=http://localhost:9002
+
+# For Stripe payments (optional)
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_ID_STARTER=price_...
-STRIPE_PRICE_ID_PRO=price_...
-STRIPE_PRICE_ID_ENTERPRISE=price_...
+
+# For AI features (optional)
+GOOGLE_GENAI_API_KEY=...
 ```
 
-### Frontend (.env.local)
+### Frontend `.env.local`
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
+# Optional for AI
+GOOGLE_GENAI_API_KEY=...
 ```
-
-## 🧪 API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - Register new user & tenant
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user
-
-### Tenants
-- `GET /api/tenants/:slug` - Get tenant details
-- `PUT /api/tenants/:slug` - Update tenant
-- `DELETE /api/tenants/:slug` - Delete tenant
-
-### Users
-- `GET /api/users` - List all users in tenant
-- `POST /api/users/invite` - Invite new user
-- `PUT /api/users/:id/role` - Update user role
-- `DELETE /api/users/:id` - Remove user
-
-### Subscriptions
-- `GET /api/subscriptions/plans` - Get available plans
-- `GET /api/subscriptions/current` - Get current subscription
-- `POST /api/subscriptions/create-checkout` - Create Stripe checkout
-- `POST /api/subscriptions/cancel` - Cancel subscription
-- `POST /api/subscriptions/webhook` - Stripe webhook handler
-
-### Dashboard
-- `GET /api/dashboard/stats` - Get dashboard statistics
-
-### Admin
-- `GET /api/admin/tenants` - List all tenants (super admin)
-- `PUT /api/admin/tenants/:id/status` - Update tenant status
-
-## 🚢 Production Deployment
-
-### Backend
-1. Set `NODE_ENV=production`
-2. Use a production MongoDB instance (MongoDB Atlas recommended)
-3. Use strong, randomly generated `JWT_SECRET`
-4. Configure Stripe webhook endpoint
-5. Deploy to services like Railway, Render, or AWS
-
-### Frontend
-1. Set `NEXT_PUBLIC_API_URL` to your production API URL
-2. Build: `npm run build`
-3. Start: `npm start`
-4. Deploy to Vercel, Netlify, or similar
-
-## 🔒 Security Features
-
-- Password hashing with bcrypt
-- JWT token authentication
-- Role-based access control (RBAC)
-- Tenant data isolation
-- Input validation with express-validator
-- CORS configuration
-- Environment variable protection
-
-
-## 📝 License
-
-MIT License - See [LICENSE](LICENSE) file for details
-
-Copyright (c) 2025 Unni T A
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-## 👨‍💻 Author
-
-Developed by Unni T A — Full-Stack Developer
-
-## 🎯 Why This Project Matters
-
-TenantVerse showcases **production-ready full-stack engineering** with:
-
-- **Real-world complexity**: Multi-tenant architecture, payment processing, role-based access
-- **Production quality**: Error handling, security, logging, monitoring
-- **Best practices**: TypeScript, clean architecture, comprehensive documentation
-- **Deployment ready**: CI/CD, cloud deployment, environment configuration
-
-This is not a tutorial project—it's a **complete, deployable SaaS platform** that demonstrates enterprise-level engineering capabilities.
-
-## 🚀 Quick Deploy
-
-### Deploy Backend (Render)
-1. Connect GitHub repository to [Render](https://render.com)
-2. Create new Web Service
-3. Build Command: `cd backend && npm install && npm run build`
-4. Start Command: `cd backend && npm start`
-5. Set environment variables (see Environment Variables section)
-
-### Deploy Frontend (Vercel)
-1. Connect GitHub repository to [Vercel](https://vercel.com)
-2. Framework: Next.js (auto-detected)
-3. Set `NEXT_PUBLIC_API_URL` environment variable
-4. Deploy automatically on push to main branch
-
-## ✅ CI/CD Status
-
-This project uses GitHub Actions for continuous integration:
-- ✅ Automated linting and type checking
-- ✅ Build verification for frontend and backend
-- ✅ Runs on every push and pull request
-
-View workflow status: [GitHub Actions](https://github.com/unnita1235/TenantVerse/actions)
-
-## 🤝 Contributing
-
-This is a private project. For questions or issues, please contact the maintainer.
-
 
 ---
 
-**Built with ❤️ by a Full-Stack Engineer passionate about production-ready code**
+## 📖 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Create account + tenant
+- `POST /api/auth/login` - Login
+- `GET /api/auth/me` - Get current user
+
+### Tenants
+- `GET /api/tenants/:slug` - Get tenant
+- `PUT /api/tenants/:slug` - Update tenant
+- `DELETE /api/tenants/:slug` - Delete tenant
+
+### Team Management
+- `GET /api/users` - List users
+- `POST /api/users/invite` - Invite user
+- `PUT /api/users/:id/role` - Update role
+- `DELETE /api/users/:id` - Remove user
+
+### Subscriptions (requires Stripe)
+- `GET /api/subscriptions/plans` - Plans
+- `POST /api/subscriptions/create-checkout` - Checkout
+- `POST /api/subscriptions/cancel` - Cancel
+- `POST /api/subscriptions/webhook` - Stripe webhook
+
+### Dashboard & Admin
+- `GET /api/dashboard/stats` - Analytics
+- `GET /api/admin/tenants` - All tenants (super admin)
+
+---
+
+## 🚢 Deployment
+
+### Vercel (Frontend)
+1. Connect GitHub repo to Vercel
+2. Set environment variable: `NEXT_PUBLIC_API_URL`
+3. Deploy automatically
+
+### Railway/Render (Backend)
+1. Connect GitHub repo
+2. Set build: `cd backend && npm install && npm run build`
+3. Set start: `cd backend && npm start`
+4. Configure environment variables
+
+**Note:** You'll need to configure MongoDB Atlas or similar for production database.
+
+---
+
+## 🎓 What You'll Learn
+
+- Multi-tenant data architecture
+- JWT authentication & authorization
+- Role-based access control (RBAC)
+- Stripe payment integration
+- MongoDB schema design
+- Next.js App Router patterns
+- TypeScript best practices
+- Error handling & logging
+- API design patterns
+
+---
+
+## ⚠️ Known Limitations
+
+- **Email not configured** - User invitations log to console
+- **Stripe requires setup** - Needs active Stripe account
+- **AI features optional** - Requires Genkit API key
+- **Not deployed live** - Deployment config provided but requires setup
+
+---
+
+## 🎯 Ideal For
+
+- 👨‍💻 **Developers** learning multi-tenant SaaS architecture
+- 🏢 **Startups** needing a SaaS boilerplate
+- 📚 **Portfolio projects** demonstrating full-stack skills
+- 🎓 **Students** studying modern web development
+
+---
+
+## 📝 License
+
+MIT License - Copyright (c) 2025 Unni T A
+
+---
+
+## 👨‍💻 Author
+
+**Unni T A** - Full-Stack Developer
+
+This project demonstrates production-level architecture and best practices for building multi-tenant SaaS applications.
+
+---
+
+**⭐ If this helped you, consider starring the repo!**

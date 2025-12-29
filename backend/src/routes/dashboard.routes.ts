@@ -4,7 +4,6 @@ import Tenant from '../models/Tenant.model';
 import { authenticate, requireTenant, AuthRequest } from '../middleware/auth.middleware';
 import { asyncHandler } from '../middleware/error.middleware';
 import { NotFoundError, ValidationError } from '../utils/errors';
-import { logger } from '../utils/logger';
 
 const router = express.Router();
 

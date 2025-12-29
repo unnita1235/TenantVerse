@@ -25,13 +25,24 @@ export default function LoginPage() {
 
     try {
       const response = await apiClient.login(email, password);
-      
-      if (response.success && response.data?.token && response.data?.tenant) {
+
+      // API client spreads backend response, so token/tenant are at top level alongside success
+      const responseAny = response as any;
+
+      if (response.success && responseAny.token) {
         // Token is already set by apiClient, but also set cookie for middleware
         if (typeof document !== 'undefined') {
-          document.cookie = `token=${response.data.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+          document.cookie = `token=${responseAny.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
         }
-        router.push(`/t/${response.data.tenant.slug}`);
+
+        // Super admin has no tenant, redirect to super-admin page
+        if (responseAny.tenant) {
+          router.push(`/t/${responseAny.tenant.slug}`);
+        } else if (responseAny.user?.role === 'super_admin') {
+          router.push('/super-admin');
+        } else {
+          setError('Login successful but no tenant associated. Please contact support.');
+        }
       } else {
         setError(response.message || 'Login failed');
       }
@@ -57,13 +68,13 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="m@example.com" 
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required 
+              required
             />
           </div>
           <div className="grid gap-2">
@@ -73,12 +84,12 @@ export default function LoginPage() {
                 Forgot your password?
               </Link>
             </div>
-            <Input 
-              id="password" 
-              type="password" 
+            <Input
+              id="password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required 
+              required
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>

@@ -46,7 +46,7 @@ export const authenticate = async (
     };
 
     next();
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof AuthenticationError || error instanceof NotFoundError) {
       res.status(error.statusCode).json({ success: false, message: error.message });
       return;

@@ -1,7 +1,6 @@
-import express, { Response } from 'express';
+import express from 'express';
 import { body, validationResult } from 'express-validator';
 import User from '../models/User.model';
-import Tenant from '../models/Tenant.model';
 import {
   authenticate,
   requireRole,
@@ -32,9 +31,10 @@ router.get('/', async (req: AuthRequest, res) => {
       .sort({ createdAt: -1 });
 
     res.json({ success: true, users });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get users error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ success: false, message });
   }
 });
 
@@ -59,9 +59,10 @@ router.get('/:id', async (req: AuthRequest, res) => {
     }
 
     res.json({ success: true, user });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get user error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ success: false, message });
   }
 });
 
@@ -117,9 +118,10 @@ router.post(
         },
         message: 'User invited successfully. Temporary password sent via email.',
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Invite user error:', error);
-      res.status(500).json({ success: false, message: error.message });
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, message });
     }
   },
 );
@@ -172,9 +174,10 @@ router.put(
           role: user.role,
         },
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Update user role error:', error);
-      res.status(500).json({ success: false, message: error.message });
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, message });
     }
   },
 );
@@ -219,9 +222,10 @@ router.delete(
       await User.deleteOne({ _id: user._id });
 
       res.json({ success: true, message: 'User removed successfully' });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Delete user error:', error);
-      res.status(500).json({ success: false, message: error.message });
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, message });
     }
   },
 );
