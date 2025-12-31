@@ -1,100 +1,80 @@
-# TenantVerse
+# TenantVerse - Property Management UI
 
-> Full-Stack Multi-Tenant SaaS Boilerplate with Authentication, RBAC, and Payment Integration
+> A modern, responsive property management SaaS landing page and dashboard interface built with Next.js 15 and TypeScript.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+**Status**: 🎨 Frontend Prototype  
+**Live Demo**: https://tenant-verse-one.vercel.app
 
 ---
 
-## 🎯 What This Project Is
+## 📸 What This Is
 
-TenantVerse is a **full-stack SaaS starter/boilerplate** demonstrating enterprise-level multi-tenant architecture. It's built to showcase modern development practices and can serve as a foundation for building production SaaS applications.
+TenantVerse is a **frontend UI prototype** for a property management SaaS platform. It demonstrates modern web design, responsive layouts, and professional UI/UX implementation using Next.js and Tailwind CSS.
 
-**Key Highlight:** Complete multi-tenant isolation, role-based access control, and payment infrastructure (Stripe integration) - all with TypeScript and modern frameworks.
+**Important**: This is currently a frontend-only project. Backend features (authentication, database, payments) are planned but not yet implemented.
 
 ---
 
-## ✨ Core Features
+## ✨ Current Features
 
-### Fully Implemented
-- ✅ **Multi-Tenant Architecture** - Complete data isolation per tenant
-- ✅ **JWT Authentication** - Secure token-based auth with bcrypt password hashing
-- ✅ **Role-Based Access Control (RBAC)** - Super Admin, Owner, Admin, Member roles
-- ✅ **Team Management** - User invitations, role updates, member removal
-- ✅ **Dashboard & Analytics** - Real-time stats and activity tracking
-- ✅ **REST API** - Comprehensive Express backend with proper error handling
-- ✅ **Modern Frontend** - Next.js 15 with TypeScript, Tailwind CSS, Radix UI
-- ✅ **Super Admin Panel** - Platform-wide tenant management
+### What Works Now
+- ✅ **Responsive Landing Page** - Marketing site with hero section, features, pricing
+- ✅ **Dashboard UI** - Property management interface mockup
+- ✅ **Modern Design System** - Consistent styling with Tailwind CSS
+- ✅ **Multi-page Layout** - Navigation between different sections
+- ✅ **Mobile-First Design** - Works on all device sizes
 
-### Requires Configuration
-- ⚙️ **Stripe Payments** - Full integration code (needs Stripe API keys)
-- ⚙️ **AI Features** - Google Genkit for onboarding (needs API key)
-- ⚙️ **Email Service** - Invitation system (needs SMTP/email provider)
+### What's Coming (Roadmap)
+- 🚧 User authentication (planned)
+- 🚧 Backend API with Node.js + Express
+- 🚧 Database integration (PostgreSQL/MongoDB)
+- 🚧 Actual property CRUD operations
+- 🚧 Stripe payment integration
+- 🚧 Multi-tenant architecture
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend**
+**Frontend**:
 - Next.js 15 (App Router)
-- TypeScript (strict mode)
-- Tailwind CSS
-- Radix UI Components
-- React Hook Form + Zod
-- Google Genkit (AI)
-
-**Backend**
-- Node.js + Express
 - TypeScript
-- MongoDB + Mongoose
-- JWT Authentication
-- Stripe SDK
-- MongoDB Memory Server (dev fallback)
+- Tailwind CSS
+- shadcn/ui components
+- Radix UI primitives
+
+**Deployment**:
+- Vercel (automatic deployments)
+
+**Coming Soon**:
+- Node.js + Express (backend)
+- PostgreSQL (database)
+- Prisma ORM
+- JWT authentication
 
 ---
 
-## 🚀 Quick Start (2 Minutes)
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18+
-- (Optional) MongoDB - project works with in-memory fallback
+- npm or yarn
 
 ### Installation
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/your-username/TenantVerse.git
+# Clone the repository
+git clone https://github.com/unnita1235/TenantVerse.git
 cd TenantVerse
 
-# 2. Install dependencies
+# Install dependencies
 npm install
-cd backend && npm install && cd ..
 
-# 3. Start backend (in-memory database)
-cd backend
-set JWT_SECRET=my_dev_secret_key_2024
+# Run development server
 npm run dev
-# Backend will start on http://localhost:5000
 
-# 4. Start frontend (new terminal)
-cd ..
-npm run dev
-# Frontend will start on http://localhost:9002
+# Open http://localhost:3000
 ```
-
-**Access:** http://localhost:9002
-
-### Demo Credentials (Auto-Seeded)
-
-| Role | Email | Password |
-|------|-------|----------|
-| Super Admin | admin@tenantverse.com | admin123 |
-| Tenant Owner (Acme) | owner@acme.com | password123 |
-| Tenant Owner (Stark) | owner@stark.com | password123 |
 
 ---
 
@@ -102,154 +82,131 @@ npm run dev
 
 ```
 TenantVerse/
-├── backend/                     # Express API
-│   ├── src/
-│   │   ├── models/             # Mongoose schemas
-│   │   ├── routes/             # API endpoints
-│   │   ├── middleware/         # Auth & validation
-│   │   ├── utils/              # Helpers & logger
-│   │   └── server.ts           # Entry point
-│   └── package.json
 ├── src/
-│   ├── app/
-│   │   ├── (auth)/             # Login/Signup
-│   │   ├── t/[tenant]/         # Tenant dashboards
-│   │   │   ├── billing/        # Subscription page
-│   │   │   ├── team/           # Team management
-│   │   │   ├── settings/       # Tenant settings
-│   │   │   └── guides/         # AI-powered guides
-│   │   └── super-admin/        # Admin panel
-│   ├── components/ui/          # Reusable components
-│   ├── lib/                    # API client
-│   └── middleware.ts           # Route protection
+│   ├── app/              # Next.js pages (App Router)
+│   │   ├── page.tsx      # Landing page
+│   │   ├── login/        # Login UI (no auth yet)
+│   │   └── dashboard/    # Dashboard UI mockup
+│   ├── components/       # React components
+│   │   ├── ui/          # shadcn/ui components
+│   │   ├── Header.tsx
+│   │   └── Footer.tsx
+│   └── lib/
+│       └── utils.ts      # Utility functions
+├── public/               # Static assets
 └── package.json
 ```
 
 ---
 
-## 🔐 Environment Variables
+## 🎯 What This Project Demonstrates
 
-### Backend `.env`
-```env
-# Required
-JWT_SECRET=your_secret_key_here
+### Frontend Skills
+- Modern React patterns with Next.js 15
+- TypeScript for type safety
+- Responsive design with Tailwind CSS
+- Component-based architecture
+- Clean, maintainable code structure
 
-# Optional (uses in-memory database if not provided)
-MONGODB_URI=mongodb://localhost:27017/tenantverse
+### What It Doesn't Have Yet
+- No backend server
+- No database
+- No user authentication
+- No payment processing
+- No actual data persistence
 
-# Optional
-FRONTEND_URL=http://localhost:9002
-PORT=5000
-NODE_ENV=development
+---
 
-# For Stripe payments (optional)
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
+## 🔧 Available Scripts
 
-# For AI features (optional)
-GOOGLE_GENAI_API_KEY=...
-```
-
-### Frontend `.env.local`
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-# Optional for AI
-GOOGLE_GENAI_API_KEY=...
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run start      # Start production server
+npm run lint       # Run ESLint
 ```
 
 ---
 
-## 📖 API Endpoints
+## 📝 Current Limitations
 
-### Authentication
-- `POST /api/auth/register` - Create account + tenant
-- `POST /api/auth/login` - Login
-- `GET /api/auth/me` - Get current user
+This is a **UI prototype** designed to showcase frontend development skills. Key limitations:
 
-### Tenants
-- `GET /api/tenants/:slug` - Get tenant
-- `PUT /api/tenants/:slug` - Update tenant
-- `DELETE /api/tenants/:slug` - Delete tenant
-
-### Team Management
-- `GET /api/users` - List users
-- `POST /api/users/invite` - Invite user
-- `PUT /api/users/:id/role` - Update role
-- `DELETE /api/users/:id` - Remove user
-
-### Subscriptions (requires Stripe)
-- `GET /api/subscriptions/plans` - Plans
-- `POST /api/subscriptions/create-checkout` - Checkout
-- `POST /api/subscriptions/cancel` - Cancel
-- `POST /api/subscriptions/webhook` - Stripe webhook
-
-### Dashboard & Admin
-- `GET /api/dashboard/stats` - Analytics
-- `GET /api/admin/tenants` - All tenants (super admin)
+1. **No Authentication**: Login/signup pages are UI only
+2. **No Database**: All data is static/hardcoded
+3. **No API**: No backend server running
+4. **No Persistence**: Changes don't save anywhere
+5. **Demo Only**: Not ready for production use
 
 ---
 
-## 🚢 Deployment
+## 🗺️ Development Roadmap
 
-### Vercel (Frontend)
-1. Connect GitHub repo to Vercel
-2. Set environment variable: `NEXT_PUBLIC_API_URL`
-3. Deploy automatically
+### Phase 1 (Current) - Frontend ✅
+- [x] Landing page design
+- [x] Dashboard UI
+- [x] Responsive layout
+- [x] Component library
 
-### Railway/Render (Backend)
-1. Connect GitHub repo
-2. Set build: `cd backend && npm install && npm run build`
-3. Set start: `cd backend && npm start`
-4. Configure environment variables
+### Phase 2 (Next 1-2 months) - Backend
+- [ ] Set up Express.js server
+- [ ] PostgreSQL database setup
+- [ ] Basic CRUD API endpoints
+- [ ] JWT authentication
+- [ ] Connect frontend to backend
 
-**Note:** You'll need to configure MongoDB Atlas or similar for production database.
-
----
-
-## 🎓 What You'll Learn
-
-- Multi-tenant data architecture
-- JWT authentication & authorization
-- Role-based access control (RBAC)
-- Stripe payment integration
-- MongoDB schema design
-- Next.js App Router patterns
-- TypeScript best practices
-- Error handling & logging
-- API design patterns
+### Phase 3 (2-3 months) - Features
+- [ ] Property management
+- [ ] Tenant tracking
+- [ ] Payment integration
+- [ ] Email notifications
+- [ ] Multi-tenancy support
 
 ---
 
-## ⚠️ Known Limitations
+## 🎨 Design System
 
-- **Email not configured** - User invitations log to console
-- **Stripe requires setup** - Needs active Stripe account
-- **AI features optional** - Requires Genkit API key
-- **Not deployed live** - Deployment config provided but requires setup
-
----
-
-## 🎯 Ideal For
-
-- 👨‍💻 **Developers** learning multi-tenant SaaS architecture
-- 🏢 **Startups** needing a SaaS boilerplate
-- 📚 **Portfolio projects** demonstrating full-stack skills
-- 🎓 **Students** studying modern web development
+**Colors**: Custom Tailwind palette  
+**Typography**: Inter font family  
+**Components**: shadcn/ui + custom components  
+**Icons**: Lucide React
 
 ---
 
-## 📝 License
+## 📄 License
 
-MIT License - Copyright (c) 2025 Unni T A
-
----
-
-## 👨‍💻 Author
-
-**Unni T A** - Full-Stack Developer
-
-This project demonstrates production-level architecture and best practices for building multi-tenant SaaS applications.
+MIT License - This is a portfolio/learning project
 
 ---
 
-**⭐ If this helped you, consider starring the repo!**
+## 👤 Author
+
+**Unni T A**  
+Frontend Developer
+
+- GitHub: [@unnita1235](https://github.com/unnita1235)
+- Email: unnita1235@gmail.com
+- Portfolio: https://github.com/unnita1235
+
+---
+
+## 🙏 Acknowledgments
+
+- Next.js team for excellent framework
+- Vercel for easy deployment
+- shadcn for beautiful UI components
+- Tailwind CSS for styling system
+
+---
+
+## 💡 Learning Journey
+
+This project is part of my journey learning full-stack development. The frontend is complete and demonstrates my UI/UX skills. I'm currently learning backend development to make this a fully functional application.
+
+**Status**: Active development - Backend coming soon!
+
+---
+
+**Built with ❤️ using Next.js and TypeScript**
+
+*Last updated: January 2026*
