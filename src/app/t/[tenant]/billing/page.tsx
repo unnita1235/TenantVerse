@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Loader2 } from 'lucide-react';
@@ -9,10 +8,25 @@ import { apiClient } from '@/lib/api';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
-export default function BillingPage({ params }: { params: { tenant: string } }) {
-  const router = useRouter();
-  const [plans, setPlans] = useState<any[]>([]);
-  const [currentSubscription, setCurrentSubscription] = useState<any>(null);
+interface Plan {
+  id: string;
+  name: string;
+  description: string;
+  price: string | number;
+  features: string[];
+  [key: string]: unknown;
+}
+
+interface Subscription {
+  plan?: string;
+  status?: string;
+  endDate?: string;
+  [key: string]: unknown;
+}
+
+export default function BillingPage() {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [currentSubscription, setCurrentSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<string | null>(null);
   const { toast } = useToast();
@@ -56,10 +70,11 @@ export default function BillingPage({ params }: { params: { tenant: string } }) 
         });
         setProcessing(null);
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to create checkout session',
+        description: err.message || 'Failed to create checkout session',
         variant: 'destructive',
       });
       setProcessing(null);
@@ -87,10 +102,11 @@ export default function BillingPage({ params }: { params: { tenant: string } }) 
           variant: 'destructive',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to cancel subscription',
+        description: err.message || 'Failed to cancel subscription',
         variant: 'destructive',
       });
     } finally {

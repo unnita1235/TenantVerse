@@ -5,10 +5,6 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
 
-  // Public routes that don't require authentication
-  const publicRoutes = ['/login', '/signup', '/'];
-  const isPublicRoute = publicRoutes.includes(pathname) || pathname.startsWith('/api');
-
   // Protected routes
   const isProtectedRoute = pathname.startsWith('/t/') || pathname.startsWith('/super-admin');
 

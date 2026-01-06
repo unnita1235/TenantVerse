@@ -33,7 +33,7 @@ export default function OnboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Team Details</CardTitle>
-            <CardDescription>Provide information about your team members and how they'll use TenantVerse.</CardDescription>
+            <CardDescription>Provide information about your team members and how they&apos;ll use TenantVerse.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-2">

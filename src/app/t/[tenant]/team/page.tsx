@@ -34,7 +34,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { apiClient } from '@/lib/api';
+import { apiClient, User } from '@/lib/api';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
@@ -44,8 +44,8 @@ const roleVariant: { [key: string]: 'default' | 'secondary' | 'outline' } = {
   member: 'outline',
 };
 
-export default function TeamPage({ params }: { params: { tenant: string } }) {
-  const [users, setUsers] = useState<any[]>([]);
+export default function TeamPage() {
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteData, setInviteData] = useState({ email: '', name: '', role: 'member' });
@@ -86,10 +86,11 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
           variant: 'destructive',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to invite user',
+        description: err.message || 'Failed to invite user',
         variant: 'destructive',
       });
     }
@@ -111,10 +112,11 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
           variant: 'destructive',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update role',
+        description: err.message || 'Failed to update role',
         variant: 'destructive',
       });
     }
@@ -138,10 +140,11 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
           variant: 'destructive',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to remove user',
+        description: err.message || 'Failed to remove user',
         variant: 'destructive',
       });
     }

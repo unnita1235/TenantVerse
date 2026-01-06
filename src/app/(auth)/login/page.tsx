@@ -27,18 +27,23 @@ export default function LoginPage() {
       const response = await apiClient.login(email, password);
 
       // API client spreads backend response, so token/tenant are at top level alongside success
-      const responseAny = response as any;
+      type LoginResponse = typeof response & {
+        token?: string;
+        tenant?: { slug: string };
+        user?: { role: string };
+      };
+      const responseData = response as LoginResponse;
 
-      if (response.success && responseAny.token) {
+      if (response.success && responseData.token) {
         // Token is already set by apiClient, but also set cookie for middleware
         if (typeof document !== 'undefined') {
-          document.cookie = `token=${responseAny.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+          document.cookie = `token=${responseData.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
         }
 
         // Super admin has no tenant, redirect to super-admin page
-        if (responseAny.tenant) {
-          router.push(`/t/${responseAny.tenant.slug}`);
-        } else if (responseAny.user?.role === 'super_admin') {
+        if (responseData.tenant) {
+          router.push(`/t/${responseData.tenant.slug}`);
+        } else if (responseData.user?.role === 'super_admin') {
           router.push('/super-admin');
         } else {
           setError('Login successful but no tenant associated. Please contact support.');
@@ -46,8 +51,9 @@ export default function LoginPage() {
       } else {
         setError(response.message || 'Login failed');
       }
-    } catch (err: any) {
-      setError(err.message || 'An error occurred');
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message || 'An error occurred');
     } finally {
       setLoading(false);
     }

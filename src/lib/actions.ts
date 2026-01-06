@@ -2,7 +2,13 @@
 import { suggestRbacRoles, SuggestRbacRolesInput } from '@/ai/flows/team-onboarding-assistance';
 import { generatePersonalizedUserGuide, PersonalizedUserGuideInput } from '@/ai/flows/personalized-user-guide-generation';
 
-export async function getRbacSuggestions(previousState: any, formData: FormData) {
+interface PreviousState {
+  success: boolean;
+  data: unknown;
+  error: string | null;
+}
+
+export async function getRbacSuggestions(_previousState: PreviousState, formData: FormData) {
   try {
     const input: SuggestRbacRolesInput = {
       teamMemberProfiles: (formData.get('profiles') as string).split('\n').filter(p => p.trim() !== ''),
@@ -15,13 +21,13 @@ export async function getRbacSuggestions(previousState: any, formData: FormData)
 
     const result = await suggestRbacRoles(input);
     return { success: true, data: result, error: null };
-  } catch (error) {
+  } catch {
     // Error logging would be handled by error tracking service in production
     return { success: false, data: null, error: 'Failed to get suggestions. Please try again.' };
   }
 }
 
-export async function getPersonalizedGuide(previousState: any, formData: FormData) {
+export async function getPersonalizedGuide(_previousState: PreviousState, formData: FormData) {
   try {
     const input: PersonalizedUserGuideInput = {
       tenantName: formData.get('tenantName') as string,
@@ -36,7 +42,7 @@ export async function getPersonalizedGuide(previousState: any, formData: FormDat
 
     const result = await generatePersonalizedUserGuide(input);
     return { success: true, data: result, error: null };
-  } catch (error) {
+  } catch {
     // Error logging would be handled by error tracking service in production
     return { success: false, data: null, error: 'Failed to generate guide. Please try again.' };
   }

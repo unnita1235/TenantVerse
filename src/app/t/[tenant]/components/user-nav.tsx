@@ -15,12 +15,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CreditCard, LifeBuoy, LogOut, Settings, User } from 'lucide-react';
 import Link from 'next/link';
-import { apiClient } from '@/lib/api';
+import { apiClient, User as UserType } from '@/lib/api';
 
 export function UserNav() {
   const router = useRouter();
   const params = useParams();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const tenantSlug = params?.tenant as string;
 
   useEffect(() => {

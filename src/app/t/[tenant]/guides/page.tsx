@@ -35,7 +35,7 @@ export default function GuidesPage({ params }: { params: { tenant: string } }) {
         <Card>
           <CardHeader>
             <CardTitle>User Profile</CardTitle>
-            <CardDescription>Define the user's role and context within your organization.</CardDescription>
+            <CardDescription>Define the user&apos;s role and context within your organization.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-2">

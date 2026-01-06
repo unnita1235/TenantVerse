@@ -58,8 +58,9 @@ export default function SignupPage() {
       } else {
         setError(response.message || 'Registration failed');
       }
-    } catch (err: any) {
-      setError(err.message || 'An error occurred');
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message || 'An error occurred');
     } finally {
       setLoading(false);
     }

@@ -32,9 +32,25 @@ const statusVariant: { [key: string]: 'default' | 'secondary' | 'outline' | 'des
   cancelled: 'destructive',
 };
 
+interface TenantData {
+  _id: string;
+  name: string;
+  slug: string;
+  status: string;
+  createdAt: string;
+  [key: string]: unknown;
+}
+
+interface SummaryData {
+  total?: number;
+  active?: number;
+  trial?: number;
+  [key: string]: unknown;
+}
+
 export default function SuperAdminPage() {
-  const [tenants, setTenants] = useState<any[]>([]);
-  const [summary, setSummary] = useState<any>(null);
+  const [tenants, setTenants] = useState<TenantData[]>([]);
+  const [summary, setSummary] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -72,10 +88,11 @@ export default function SuperAdminPage() {
           variant: 'destructive',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update status',
+        description: err.message || 'Failed to update status',
         variant: 'destructive',
       });
     }

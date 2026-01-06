@@ -1,41 +1,37 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { apiClient } from '@/lib/api';
+import { apiClient, Tenant } from '@/lib/api';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
 export default function SettingsPage({ params }: { params: { tenant: string } }) {
-  const router = useRouter();
-  const [tenant, setTenant] = useState<any>(null);
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchTenant();
-  }, []);
-
-  const fetchTenant = async () => {
+  const fetchTenant = useCallback(async () => {
     try {
       const response = await apiClient.getTenant(params.tenant);
       if (response.success && response.data) {
-        setTenant(response.data);
-        setName(response.data.name || '');
+        setName((response.data as Tenant).name || '');
       }
     } catch (error) {
       console.error('Failed to fetch tenant:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.tenant]);
+
+  useEffect(() => {
+    fetchTenant();
+  }, [fetchTenant]);
 
   const handleSave = async () => {
     setSaving(true);
@@ -54,10 +50,11 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
           variant: 'destructive',
         });
       }
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to update settings',
+        description: err.message || 'Failed to update settings',
         variant: 'destructive',
       });
     } finally {
@@ -71,17 +68,18 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
     }
 
     try {
-      const response = await apiClient.updateTenant(params.tenant, {});
       // Note: Delete endpoint would need to be implemented
+      await apiClient.updateTenant(params.tenant, {});
       toast({
         title: 'Error',
         description: 'Delete functionality requires backend implementation',
         variant: 'destructive',
       });
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as Error;
       toast({
         title: 'Error',
-        description: error.message || 'Failed to delete organization',
+        description: err.message || 'Failed to delete organization',
         variant: 'destructive',
       });
     }
@@ -100,13 +98,13 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
     <div className="space-y-8 max-w-2xl">
       <div>
         <h1 className="font-headline text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your organization's settings.</p>
+        <p className="text-muted-foreground">Manage your organization&apos;s settings.</p>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Organization Details</CardTitle>
-          <CardDescription>Update your organization's name and other details.</CardDescription>
+          <CardDescription>Update your organization&apos;s name and other details.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
