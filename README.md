@@ -5,6 +5,14 @@
 **Status**: 🎨 Frontend Prototype  
 **Live Demo**: https://tenant-verse-one.vercel.app
 
+## 🚀 Deployment Status
+
+**Frontend:** ✅ Live on Vercel - https://tenant-verse-one.vercel.app
+
+**Backend:** 🆕 Ready to deploy! See [QUICK_DEPLOY.md](./QUICK_DEPLOY.md) for 5-minute setup guide
+
+> **New in January 2026:** Complete backend deployment solution with MongoDB and Render ready to go!
+
 ---
 
 ## 📸 What This Is
