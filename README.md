@@ -1,473 +1,487 @@
 # TenantVerse - Property Management SaaS
 
-[![Status](https://img.shields.io/badge/status-production_ready-success?style=flat-square)](https://github.com/unnita1235/TenantVerse)
-[![Frontend](https://img.shields.io/badge/frontend-Live-blue?style=flat-square&logo=vercel)](https://tenant-verse-one.vercel.app)
+[![Status: Production Ready](https://img.shields.io/badge/status-production%20ready-success?style=flat-square)](https://github.com/unnita1235/TenantVerse)
+[![Frontend: Live](https://img.shields.io/badge/frontend-live-blue?style=flat-square&logo=vercel)](https://tenant-verse-one.vercel.app)
+[![Backend: Live](https://img.shields.io/badge/backend-live-success?style=flat-square&logo=render)](https://tenantverse.onrender.com/api/health)
 [![TypeScript](https://img.shields.io/badge/typescript-5.3.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![Node](https://img.shields.io/badge/node-18%2B-green?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-18+-green?style=flat-square&logo=node.js)](https://nodejs.org/)
 
-A production-ready, full-stack property management Software-as-a-Service platform built with modern web technologies. Features a responsive Next.js frontend and Express.js backend with MongoDB, complete with authentication, payment processing, and Docker containerization.
+A full-stack property management platform built with modern web technologies. This project demonstrates real-world development with Next.js 15, Express.js, and MongoDB, including authentication, payment processing, and containerization.
 
-**[Live Demo](https://tenant-verse-one.vercel.app)** · **[API Documentation](#api-documentation)** · **[Deployment Guide](QUICK_DEPLOY.md)**
+**Live Demo:** [tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
 
 ---
 
-## 🎯 Project Overview
-
-TenantVerse is a comprehensive property management solution designed for landlords and property managers. It provides an intuitive interface for managing properties, tenants, payments, and communications in one centralized platform.
-
-### ✨ Core Features
-
-**Property Management**
-- Multi-property dashboard with analytics
-- - Property details and documentation
-  - - Maintenance tracking and scheduling
-    - - Expense tracking and reports
-     
-      - **Tenant Management**
-      - - Tenant profiles and contact information
-        - - Lease agreement management
-          - - Document storage and verification
-            - - Tenant communication logs
-             
-              - **Financial Management**
-              - - Rent payment tracking and reminders
-                - - Stripe payment integration
-                  - - Invoice generation
-                    - - Financial reporting and analytics
-                     
-                      - **Authentication & Security**
-                      - - JWT-based authentication
-                        - - Secure password hashing (bcryptjs)
-                          - - Role-based access control
-                            - - Environment variable protection
-                             
-                              - ---
-
-                              ## 🚀 Tech Stack
-
-                              ### Frontend
-                              - **Framework**: Next.js 15 (App Router)
-                              - - **Language**: TypeScript 5.3.3
-                                - - **Styling**: Tailwind CSS
-                                  - - **UI Components**: shadcn/ui + Radix UI
-                                    - - **Deployment**: Vercel
-                                     
-                                      - ### Backend
-                                      - - **Runtime**: Node.js 18+
-                                        - - **Framework**: Express.js 4.18.2
-                                          - - **Language**: TypeScript
-                                            - - **Database**: MongoDB 8.0.3 (Mongoose)
-                                              - - **Authentication**: JWT (jsonwebtoken 9.0.2)
-                                                - - **Validation**: Zod 3.22.4 + express-validator
-                                                  - - **Payments**: Stripe 14.9.0
-                                                    - - **Testing**: Jest 30.2.0
-                                                      - - **Linting**: ESLint 9.39.2 + Prettier
-                                                       
-                                                        - ### DevOps
-                                                        - - **Containerization**: Docker & Docker Compose
-                                                          - - **CI/CD**: GitHub Actions
-                                                            - - **Code Quality**: DeepSource
-                                                              - - **Version Control**: Git
-                                                               
-                                                                - ---
-
-                                                                ## 🏗️ Project Structure
-
-                                                                ```
-                                                                TenantVerse/
-                                                                ├── src/                           # Frontend (Next.js)
-                                                                │   ├── app/                       # App Router pages
-                                                                │   │   ├── page.tsx              # Landing page
-                                                                │   │   ├── login/                # Authentication
-                                                                │   │   ├── dashboard/            # Dashboard UI
-                                                                │   │   └── layout.tsx            # Root layout
-                                                                │   ├── components/               # React components
-                                                                │   │   ├── ui/                   # shadcn/ui components
-                                                                │   │   ├── Header.tsx
-                                                                │   │   ├── Footer.tsx
-                                                                │   │   └── ...
-                                                                │   └── lib/                      # Utilities
-                                                                │
-                                                                ├── backend/                       # Backend (Express.js)
-                                                                │   ├── src/
-                                                                │   │   ├── server.ts             # Entry point
-                                                                │   │   ├── routes/               # API routes
-                                                                │   │   │   ├── auth.ts
-                                                                │   │   │   ├── properties.ts
-                                                                │   │   │   ├── tenants.ts
-                                                                │   │   │   └── payments.ts
-                                                                │   │   ├── models/               # MongoDB models
-                                                                │   │   │   ├── User.model.ts
-                                                                │   │   │   ├── Property.model.ts
-                                                                │   │   │   └── Tenant.model.ts
-                                                                │   │   ├── middleware/           # Express middleware
-                                                                │   │   │   ├── auth.ts
-                                                                │   │   │   └── validation.ts
-                                                                │   │   ├── services/             # Business logic
-                                                                │   │   └── scripts/              # Seeding & utilities
-                                                                │   ├── package.json
-                                                                │   ├── Dockerfile
-                                                                │   └── tsconfig.json
-                                                                │
-                                                                ├── Dockerfile                     # Frontend containerization
-                                                                ├── docker-compose.yml            # Local development setup
-                                                                ├── DEPLOYMENT.md                 # Deployment guide
-                                                                ├── QUICK_DEPLOY.md               # Quick setup (5 minutes)
-                                                                └── README.md                      # This file
-                                                                ```
-
-                                                                ---
-
-                                                                ## ⚡ Quick Start
-
-                                                                ### Prerequisites
-                                                                - Node.js 18+ and npm/yarn
-                                                                - - MongoDB instance (local or MongoDB Atlas)
-                                                                  - - Docker & Docker Compose (optional, for containerization)
-                                                                   
-                                                                    - ### Frontend Setup
-                                                                   
-                                                                    - ```bash
-                                                                      # Clone repository
-                                                                      git clone https://github.com/unnita1235/TenantVerse.git
-                                                                      cd TenantVerse
-
-                                                                      # Install dependencies
-                                                                      npm install
-
-                                                                      # Run development server
-                                                                      npm run dev
-
-                                                                      # Open http://localhost:3000
-                                                                      ```
-
-                                                                      ### Backend Setup
-
-                                                                      ```bash
-                                                                      cd backend
-
-                                                                      # Install dependencies
-                                                                      npm install
-
-                                                                      # Create .env from .env.example
-                                                                      cp .env.example .env
-
-                                                                      # Configure environment variables
-                                                                      # MONGODB_URI=your_mongodb_connection_string
-                                                                      # STRIPE_SECRET_KEY=your_stripe_key
-                                                                      # JWT_SECRET=your_jwt_secret
-
-                                                                      # Seed database with demo data
-                                                                      npm run seed
-
-                                                                      # Start development server
-                                                                      npm run dev
-
-                                                                      # Backend runs on http://localhost:3001
-                                                                      ```
-
-                                                                      ### Docker Setup (Recommended)
-
-                                                                      ```bash
-                                                                      # Start both services with Docker Compose
-                                                                      docker-compose up
-
-                                                                      # Frontend: http://localhost:3000
-                                                                      # Backend: http://localhost:3001
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 📚 API Documentation
-
-                                                                      ### Authentication Endpoints
-
-                                                                      ```
-                                                                      POST   /api/auth/register          # Register new user
-                                                                      POST   /api/auth/login             # Login user
-                                                                      POST   /api/auth/logout            # Logout user
-                                                                      POST   /api/auth/refresh           # Refresh JWT token
-                                                                      GET    /api/auth/me                # Get current user profile
-                                                                      ```
-
-                                                                      ### Property Endpoints
-
-                                                                      ```
-                                                                      GET    /api/properties             # List all properties
-                                                                      GET    /api/properties/:id         # Get property details
-                                                                      POST   /api/properties             # Create property
-                                                                      PUT    /api/properties/:id         # Update property
-                                                                      DELETE /api/properties/:id         # Delete property
-                                                                      ```
-
-                                                                      ### Tenant Endpoints
-
-                                                                      ```
-                                                                      GET    /api/tenants                # List all tenants
-                                                                      GET    /api/tenants/:id            # Get tenant details
-                                                                      POST   /api/tenants                # Create tenant
-                                                                      PUT    /api/tenants/:id            # Update tenant
-                                                                      DELETE /api/tenants/:id            # Delete tenant
-                                                                      ```
-
-                                                                      ### Payment Endpoints
-
-                                                                      ```
-                                                                      GET    /api/payments               # List payments
-                                                                      POST   /api/payments               # Create payment (Stripe)
-                                                                      GET    /api/payments/:id           # Get payment details
-                                                                      PUT    /api/payments/:id/status    # Update payment status
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 📊 Database Schema
-
-                                                                      ### User Model
-                                                                      ```typescript
-                                                                      {
-                                                                        _id: ObjectId,
-                                                                        email: String (unique),
-                                                                        password: String (hashed),
-                                                                        firstName: String,
-                                                                        lastName: String,
-                                                                        role: String (admin, manager, viewer),
-                                                                        createdAt: Date,
-                                                                        updatedAt: Date
-                                                                      }
-                                                                      ```
-
-                                                                      ### Property Model
-                                                                      ```typescript
-                                                                      {
-                                                                        _id: ObjectId,
-                                                                        owner: ObjectId (ref: User),
-                                                                        name: String,
-                                                                        address: String,
-                                                                        type: String (residential, commercial),
-                                                                        units: Number,
-                                                                        purchasePrice: Number,
-                                                                        mortgageAmount: Number,
-                                                                        createdAt: Date,
-                                                                        updatedAt: Date
-                                                                      }
-                                                                      ```
-
-                                                                      ### Tenant Model
-                                                                      ```typescript
-                                                                      {
-                                                                        _id: ObjectId,
-                                                                        property: ObjectId (ref: Property),
-                                                                        firstName: String,
-                                                                        lastName: String,
-                                                                        email: String,
-                                                                        phone: String,
-                                                                        leaseStart: Date,
-                                                                        leaseEnd: Date,
-                                                                        rentAmount: Number,
-                                                                        createdAt: Date,
-                                                                        updatedAt: Date
-                                                                      }
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 🚢 Deployment
-
-                                                                      ### Frontend Deployment (Vercel)
-
-                                                                      Already live at: https://tenant-verse-one.vercel.app
-
-                                                                      ```bash
-                                                                      # Automatic deployment on push to main
-                                                                      # Connect GitHub repo to Vercel for continuous deployment
-                                                                      ```
-
-                                                                      ### Backend Deployment (Render/Railway)
-
-                                                                      See [QUICK_DEPLOY.md](QUICK_DEPLOY.md) for 5-minute setup or [DEPLOYMENT.md](DEPLOYMENT.md) for comprehensive guide.
-
-                                                                      ```bash
-                                                                      # Using Render
-                                                                      npm run build
-                                                                      # Deploy dist/ folder to Render Web Service
-
-                                                                      # Using Railway
-                                                                      railway up
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 🔐 Environment Configuration
-
-                                                                      ### Frontend (.env.local)
-                                                                      ```env
-                                                                      NEXT_PUBLIC_API_URL=http://localhost:3001/api
-                                                                      NEXT_PUBLIC_APP_NAME=TenantVerse
-                                                                      ```
-
-                                                                      ### Backend (.env)
-                                                                      ```env
-                                                                      NODE_ENV=production
-                                                                      PORT=3001
-                                                                      MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tenantverse
-
-                                                                      JWT_SECRET=your_super_secret_jwt_key
-                                                                      JWT_EXPIRES_IN=7d
-
-                                                                      STRIPE_SECRET_KEY=sk_live_...
-                                                                      STRIPE_WEBHOOK_SECRET=whsec_...
-
-                                                                      CORS_ORIGIN=https://tenant-verse-one.vercel.app
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 📝 Available Scripts
-
-                                                                      ### Frontend
-                                                                      ```bash
-                                                                      npm run dev      # Start development server
-                                                                      npm run build    # Build for production
-                                                                      npm run start    # Start production server
-                                                                      npm run lint     # Run ESLint
-                                                                      npm run format   # Format code with Prettier
-                                                                      ```
-
-                                                                      ### Backend
-                                                                      ```bash
-                                                                      npm run dev      # Start development server with hot reload
-                                                                      npm run build    # Compile TypeScript to JavaScript
-                                                                      npm run start    # Start production server
-                                                                      npm run seed     # Seed database with demo data
-                                                                      npm run test     # Run Jest tests
-                                                                      npm run lint     # Run ESLint
-                                                                      npm run format   # Format code with Prettier
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 🧪 Testing
-
-                                                                      ```bash
-                                                                      cd backend
-
-                                                                      # Run tests
-                                                                      npm run test
-
-                                                                      # Run tests with coverage
-                                                                      npm run test -- --coverage
-
-                                                                      # Run specific test file
-                                                                      npm run test -- auth.test.ts
-                                                                      ```
-
-                                                                      ---
-
-                                                                      ## 🔄 Git Workflow
-
-                                                                      ```bash
-                                                                      # Create feature branch
-                                                                      git checkout -b feature/your-feature
-
-                                                                      # Make changes and commit
-                                                                      git add .
-                                                                      git commit -m "feat: add your feature"
-
-                                                                      # Push and create PR
-                                                                      git push origin feature/your-feature
-                                                                      ```
-
-                                                                      ### Commit Message Format
-                                                                      - `feat:` - New feature
-                                                                      - - `fix:` - Bug fix
-                                                                        - - `docs:` - Documentation
-                                                                          - - `style:` - Code style
-                                                                            - - `refactor:` - Code refactor
-                                                                              - - `test:` - Tests
-                                                                                - - `chore:` - Build/dependencies
-                                                                                 
-                                                                                  - ---
-
-                                                                                  ## 📈 Performance Metrics
-
-                                                                                  - **Frontend Bundle Size**: ~150KB gzipped
-                                                                                  - - **API Response Time**: <200ms (avg)
-                                                                                    - - **Database Query Time**: <50ms (avg)
-                                                                                      - - **Lighthouse Score**: 95+ (Performance)
-                                                                                        - - **Code Coverage**: 85%+
-                                                                                         
-                                                                                          - ---
-
-                                                                                          ## 🐛 Known Issues & Roadmap
-
-                                                                                          ### Current Release
-                                                                                          - ✅ Full-stack architecture
-                                                                                          - - ✅ Authentication & authorization
-                                                                                            - - ✅ Property management
-                                                                                              - - ✅ Tenant tracking
-                                                                                                - - ✅ Payment processing
-                                                                                                  - - ✅ Docker containerization
-                                                                                                   
-                                                                                                    - ### Planned Features
-                                                                                                    - - 🔜 Advanced analytics dashboard
-                                                                                                      - - 🔜 Mobile app (React Native)
-                                                                                                        - - 🔜 Email notifications
-                                                                                                          - - 🔜 SMS alerts
-                                                                                                            - - 🔜 Automated rent reminders
-                                                                                                              - - 🔜 Maintenance request system
-                                                                                                                - - 🔜 Document OCR
-                                                                                                                  - - 🔜 Multi-currency support
-                                                                                                                   
-                                                                                                                    - ---
-                                                                                                                    
-                                                                                                                    ## 🤝 Contributing
-                                                                                                                    
-                                                                                                                    Contributions are welcome! Please follow these steps:
-                                                                                                                    
-                                                                                                                    1. Fork the repository
-                                                                                                                    2. 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-                                                                                                                       3. 3. Commit changes (`git commit -m 'feat: add amazing feature'`)
-                                                                                                                          4. 4. Push to branch (`git push origin feature/amazing-feature`)
-                                                                                                                             5. 5. Open a Pull Request
-                                                                                                                               
-                                                                                                                                6. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-                                                                                                                               
-                                                                                                                                7. ---
-                                                                                                                               
-                                                                                                                                8. ## 📄 License
-                                                                                                                               
-                                                                                                                                9. This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
-                                                                                                                               
-                                                                                                                                10. ---
-                                                                                                                               
-                                                                                                                                11. ## 👨‍💻 Author
-                                                                                                                               
-                                                                                                                                12. **Unni T A**
-                                                                                                                                13. - GitHub: [@unnita1235](https://github.com/unnita1235)
-                                                                                                                                    - - Email: unnita1235@gmail.com
-                                                                                                                                      - - Portfolio: [github.com/unnita1235](https://github.com/unnita1235)
-                                                                                                                                       
-                                                                                                                                        - ---
-                                                                                                                                        
-                                                                                                                                        ## 🙏 Acknowledgments
-                                                                                                                                        
-                                                                                                                                        - [Next.js](https://nextjs.org/) - React framework
-                                                                                                                                        - - [Express.js](https://expressjs.com/) - Backend framework
-                                                                                                                                          - - [MongoDB](https://www.mongodb.com/) - Database
-                                                                                                                                            - - [Tailwind CSS](https://tailwindcss.com/) - Styling
-                                                                                                                                              - - [shadcn/ui](https://ui.shadcn.com/) - Component library
-                                                                                                                                                - - [Vercel](https://vercel.com/) - Hosting & deployment
-                                                                                                                                                  - - [Stripe](https://stripe.com/) - Payment processing
-                                                                                                                                                   
-                                                                                                                                                    - ---
-                                                                                                                                                    
-                                                                                                                                                    ## 📞 Support
-                                                                                                                                                    
-                                                                                                                                                    For support, email unnita1235@gmail.com or open an issue on GitHub.
-                                                                                                                                                    
-                                                                                                                                                    ---
-                                                                                                                                                    
-                                                                                                                                                    **Last Updated**: January 2026
-                                                                                                                                                    **Status**: Production Ready ✅
+## 📋 Table of Contents
+
+- [What This Is](#what-this-is)
+- - [Tech Stack](#tech-stack)
+  - - [Core Features](#core-features)
+    - - [Project Structure](#project-structure)
+      - - [Getting Started](#getting-started)
+        - - [Deployment](#deployment)
+          - - [API Documentation](#api-documentation)
+            - - [Database Schema](#database-schema)
+              - - [What's NOT Here](#whats-not-here)
+                - - [Contributing](#contributing)
+                  - - [License](#license)
+                   
+                    - ---
+
+                    ## What This Is
+
+                    TenantVerse is a **functional property management application** designed for landlords and property managers. It's a real-world full-stack project showcasing:
+
+                    - ✅ Production-grade code structure and best practices
+                    - - ✅ Complete authentication system (JWT with refresh tokens)
+                      - - ✅ Database integration with MongoDB Atlas
+                        - - ✅ Containerized deployment with Docker
+                          - - ✅ Automated CI/CD pipeline with GitHub Actions
+                            - - ✅ Responsive UI with TypeScript and Tailwind CSS
+                              - - ✅ RESTful API with comprehensive error handling
+                                - - ✅ Payment integration with Stripe (basic implementation)
+                                 
+                                  - **Honest Assessment:** This is a learning/portfolio project built with production standards, not a battle-tested SaaS running at enterprise scale. It's suitable for demonstrating development skills and understanding full-stack architecture.
+                                 
+                                  - ---
+
+                                  ## 🛠 Tech Stack
+
+                                  ### Frontend
+                                  - **Framework:** Next.js 15 (React 19)
+                                  - - **Language:** TypeScript 5.3.3
+                                    - - **Styling:** Tailwind CSS + PostCSS
+                                      - - **State Management:** React Context API
+                                        - - **HTTP Client:** Fetch API
+                                          - - **Deployment:** Vercel
+                                           
+                                            - ### Backend
+                                            - - **Runtime:** Node.js 18+
+                                              - - **Framework:** Express.js
+                                                - - **Language:** TypeScript
+                                                  - - **Database:** MongoDB Atlas (Free tier)
+                                                    - - **Authentication:** JWT (jsonwebtoken)
+                                                      - - **Email:** Nodemailer (Gmail SMTP)
+                                                        - - **Deployment:** Render.com
+                                                         
+                                                          - ### DevOps & Tools
+                                                          - - **Containerization:** Docker & Docker Compose
+                                                            - - **CI/CD:** GitHub Actions
+                                                              - - **Code Quality:** ESLint, Prettier
+                                                                - - **Package Manager:** npm
+                                                                 
+                                                                  - ---
+
+                                                                  ## ✨ Core Features
+
+                                                                  ### 1. Property Management
+                                                                  - Create, read, update, delete properties
+                                                                  - - Categorize by type (apartment, house, commercial)
+                                                                    - - Track property details and maintenance history
+                                                                      - - Photo/document storage support
+                                                                       
+                                                                        - ### 2. Tenant Management
+                                                                        - - Add and manage tenants
+                                                                          - - Track lease agreements and dates
+                                                                            - - Record contact information
+                                                                              - - Link tenants to specific properties
+                                                                               
+                                                                                - ### 3. Payment Processing
+                                                                                - - Record rent payments
+                                                                                  - - Payment status tracking
+                                                                                    - - Payment history per tenant
+                                                                                      - - Basic Stripe integration for demonstration
+                                                                                       
+                                                                                        - ### 4. Communication
+                                                                                        - - In-app messaging between landlords and tenants
+                                                                                          - - Email notifications via Nodemailer
+                                                                                            - - Message history and search
+                                                                                             
+                                                                                              - ### 5. Authentication & Security
+                                                                                              - - User registration and login with JWT
+                                                                                                - - Password hashing with bcryptjs
+                                                                                                  - - Refresh token mechanism
+                                                                                                    - - Protected API endpoints
+                                                                                                      - - Role-based access control (Admin/User)
+                                                                                                       
+                                                                                                        - ### 6. Responsive Design
+                                                                                                        - - Mobile-first approach
+                                                                                                          - - Works on desktop, tablet, and mobile
+                                                                                                            - - Dark mode support
+                                                                                                              - - Accessible UI components
+                                                                                                               
+                                                                                                                - ---
+                                                                                                                
+                                                                                                                ## 📁 Project Structure
+                                                                                                                
+                                                                                                                ```
+                                                                                                                TenantVerse/
+                                                                                                                ├── frontend/                 # Next.js 15 application
+                                                                                                                │   ├── app/                 # App router structure
+                                                                                                                │   │   ├── (auth)/         # Authentication pages
+                                                                                                                │   │   ├── dashboard/      # Main dashboard
+                                                                                                                │   │   ├── properties/     # Property management
+                                                                                                                │   │   ├── tenants/        # Tenant management
+                                                                                                                │   │   ├── messages/       # Messaging system
+                                                                                                                │   │   └── settings/       # User settings
+                                                                                                                │   ├── components/         # Reusable React components
+                                                                                                                │   ├── lib/               # Utility functions
+                                                                                                                │   ├── styles/            # Global CSS
+                                                                                                                │   └── public/            # Static assets
+                                                                                                                │
+                                                                                                                ├── backend/                 # Express.js API
+                                                                                                                │   ├── src/
+                                                                                                                │   │   ├── controllers/   # Route handlers
+                                                                                                                │   │   ├── models/       # Mongoose schemas
+                                                                                                                │   │   ├── routes/       # API endpoints
+                                                                                                                │   │   ├── middleware/   # Authentication, validation
+                                                                                                                │   │   ├── utils/        # Helper functions
+                                                                                                                │   │   └── server.ts     # Express app setup
+                                                                                                                │   └── Dockerfile        # Container configuration
+                                                                                                                │
+                                                                                                                ├── docker-compose.yml      # Local development setup
+                                                                                                                ├── Dockerfile             # Backend containerization
+                                                                                                                ├── .env.example           # Environment variables template
+                                                                                                                └── README.md              # This file
+                                                                                                                ```
+                                                                                                                
+                                                                                                                ---
+                                                                                                                
+                                                                                                                ## 🚀 Getting Started
+                                                                                                                
+                                                                                                                ### Prerequisites
+                                                                                                                - Node.js 18 or higher
+                                                                                                                - - npm or yarn
+                                                                                                                  - - MongoDB Atlas account (free tier available)
+                                                                                                                    - - Git
+                                                                                                                     
+                                                                                                                      - ### 1. Clone the Repository
+                                                                                                                     
+                                                                                                                      - ```bash
+                                                                                                                        git clone https://github.com/unnita1235/TenantVerse.git
+                                                                                                                        cd TenantVerse
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        ### 2. Frontend Setup
+                                                                                                                        
+                                                                                                                        ```bash
+                                                                                                                        cd frontend
+                                                                                                                        npm install
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        Create `.env.local`:
+                                                                                                                        ```
+                                                                                                                        NEXT_PUBLIC_API_URL=http://localhost:5000/api
+                                                                                                                        NEXT_PUBLIC_APP_NAME=TenantVerse
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        Run development server:
+                                                                                                                        ```bash
+                                                                                                                        npm run dev
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        Frontend runs on `http://localhost:3000`
+                                                                                                                        
+                                                                                                                        ### 3. Backend Setup
+                                                                                                                        
+                                                                                                                        ```bash
+                                                                                                                        cd backend
+                                                                                                                        npm install
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        Create `.env`:
+                                                                                                                        ```
+                                                                                                                        PORT=5000
+                                                                                                                        MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/tenantverse
+                                                                                                                        JWT_SECRET=your_secret_key_here
+                                                                                                                        JWT_REFRESH_SECRET=your_refresh_secret_here
+                                                                                                                        NODE_ENV=development
+                                                                                                                        EMAIL_USER=your-email@gmail.com
+                                                                                                                        EMAIL_PASSWORD=your-app-password
+                                                                                                                        STRIPE_SECRET_KEY=your_stripe_key
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        Run the server:
+                                                                                                                        ```bash
+                                                                                                                        npm run dev
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        Backend runs on `http://localhost:5000`
+                                                                                                                        
+                                                                                                                        ### 4. Using Docker Compose (Optional)
+                                                                                                                        
+                                                                                                                        ```bash
+                                                                                                                        docker-compose up
+                                                                                                                        ```
+                                                                                                                        
+                                                                                                                        This starts both frontend and backend with all dependencies.
+                                                                                                                        
+                                                                                                                        ---
+                                                                                                                        
+                                                                                                                        ## 🌐 Deployment
+                                                                                                                        
+                                                                                                                        ### Frontend Deployment (Vercel)
+                                                                                                                        
+                                                                                                                        1. Push code to GitHub
+                                                                                                                        2. 2. Connect repository to Vercel
+                                                                                                                           3. 3. Set environment variables
+                                                                                                                              4. 4. Deploy
+                                                                                                                                
+                                                                                                                                 5. **Live URL:** [tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
+                                                                                                                                
+                                                                                                                                 6. ### Backend Deployment (Render.com)
+                                                                                                                                
+                                                                                                                                 7. 1. Create new Web Service on Render
+                                                                                                                                    2. 2. Connect GitHub repository
+                                                                                                                                       3. 3. Set build command: `npm install && npm run build`
+                                                                                                                                          4. 4. Set start command: `npm start`
+                                                                                                                                             5. 5. Add environment variables in dashboard
+                                                                                                                                                6. 6. Deploy
+                                                                                                                                                  
+                                                                                                                                                   7. **Live API:** [tenantverse.onrender.com/api/health](https://tenantverse.onrender.com/api/health)
+                                                                                                                                                  
+                                                                                                                                                   8. #### Database (MongoDB Atlas)
+                                                                                                                                                  
+                                                                                                                                                   9. - Create free tier cluster on MongoDB Atlas
+                                                                                                                                                      - - Create database user with read/write permissions
+                                                                                                                                                        - - Use connection string in `MONGODB_URI`
+                                                                                                                                                         
+                                                                                                                                                          - ---
+                                                                                                                                                          
+                                                                                                                                                          ## 📚 API Documentation
+                                                                                                                                                          
+                                                                                                                                                          ### Base URL
+                                                                                                                                                          - **Production:** `https://tenantverse.onrender.com/api`
+                                                                                                                                                          - - **Local:** `http://localhost:5000/api`
+                                                                                                                                                           
+                                                                                                                                                            - ### Authentication Endpoints
+                                                                                                                                                            - - `POST /auth/register` - User registration
+                                                                                                                                                              - - `POST /auth/login` - User login
+                                                                                                                                                                - - `POST /auth/refresh` - Refresh access token
+                                                                                                                                                                  - - `POST /auth/logout` - User logout
+                                                                                                                                                                   
+                                                                                                                                                                    - ### Property Endpoints
+                                                                                                                                                                    - - `GET /properties` - List all properties
+                                                                                                                                                                      - - `POST /properties` - Create property
+                                                                                                                                                                        - - `GET /properties/:id` - Get property details
+                                                                                                                                                                          - - `PUT /properties/:id` - Update property
+                                                                                                                                                                            - - `DELETE /properties/:id` - Delete property
+                                                                                                                                                                             
+                                                                                                                                                                              - ### Tenant Endpoints
+                                                                                                                                                                              - - `GET /tenants` - List all tenants
+                                                                                                                                                                                - - `POST /tenants` - Add tenant
+                                                                                                                                                                                  - - `GET /tenants/:id` - Get tenant details
+                                                                                                                                                                                    - - `PUT /tenants/:id` - Update tenant
+                                                                                                                                                                                      - - `DELETE /tenants/:id` - Delete tenant
+                                                                                                                                                                                       
+                                                                                                                                                                                        - ### Payment Endpoints
+                                                                                                                                                                                        - - `GET /payments` - List payments
+                                                                                                                                                                                          - - `POST /payments` - Record payment
+                                                                                                                                                                                            - - `GET /payments/:id` - Payment details
+                                                                                                                                                                                             
+                                                                                                                                                                                              - ### Message Endpoints
+                                                                                                                                                                                              - - `GET /messages` - Get messages
+                                                                                                                                                                                                - - `POST /messages` - Send message
+                                                                                                                                                                                                  - - `GET /conversations/:id` - Get conversation
+                                                                                                                                                                                                   
+                                                                                                                                                                                                    - Full API documentation available in `DEPLOYMENT.md`
+                                                                                                                                                                                                   
+                                                                                                                                                                                                    - ---
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    ## 🗄 Database Schema
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    ### Collections
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    **Users**
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                      _id: ObjectId
+                                                                                                                                                                                                      name: String
+                                                                                                                                                                                                      email: String (unique)
+                                                                                                                                                                                                      password: String (hashed)
+                                                                                                                                                                                                      phone: String
+                                                                                                                                                                                                      role: Enum [admin, user]
+                                                                                                                                                                                                      createdAt: Date
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    **Properties**
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                      _id: ObjectId
+                                                                                                                                                                                                      owner: ObjectId (ref: User)
+                                                                                                                                                                                                      address: String
+                                                                                                                                                                                                      type: Enum [apartment, house, commercial]
+                                                                                                                                                                                                      bedrooms: Number
+                                                                                                                                                                                                      bathrooms: Number
+                                                                                                                                                                                                      rentAmount: Number
+                                                                                                                                                                                                      description: String
+                                                                                                                                                                                                      photos: [String]
+                                                                                                                                                                                                      createdAt: Date
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    **Tenants**
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                      _id: ObjectId
+                                                                                                                                                                                                      owner: ObjectId (ref: User)
+                                                                                                                                                                                                      property: ObjectId (ref: Property)
+                                                                                                                                                                                                      name: String
+                                                                                                                                                                                                      email: String
+                                                                                                                                                                                                      phone: String
+                                                                                                                                                                                                      leaseStart: Date
+                                                                                                                                                                                                      leaseEnd: Date
+                                                                                                                                                                                                      status: Enum [active, inactive]
+                                                                                                                                                                                                      createdAt: Date
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    **Payments**
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                      _id: ObjectId
+                                                                                                                                                                                                      tenant: ObjectId (ref: Tenant)
+                                                                                                                                                                                                      property: ObjectId (ref: Property)
+                                                                                                                                                                                                      amount: Number
+                                                                                                                                                                                                      month: String
+                                                                                                                                                                                                      status: Enum [pending, paid]
+                                                                                                                                                                                                      paidOn: Date
+                                                                                                                                                                                                      createdAt: Date
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    **Messages**
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                      _id: ObjectId
+                                                                                                                                                                                                      sender: ObjectId (ref: User)
+                                                                                                                                                                                                      recipient: ObjectId (ref: User)
+                                                                                                                                                                                                      subject: String
+                                                                                                                                                                                                      content: String
+                                                                                                                                                                                                      read: Boolean
+                                                                                                                                                                                                      createdAt: Date
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    ```
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    ---
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    ## ⚠️ What's NOT Here
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    ### Features We Didn't Build
+                                                                                                                                                                                                    - **Automated Rent Reminders:** No cron job scheduled emails
+                                                                                                                                                                                                    - - **Advanced Analytics:** No data visualization or reporting
+                                                                                                                                                                                                      - - **Maintenance Ticketing System:** No work order tracking
+                                                                                                                                                                                                        - - **Document Management:** No PDF generation or archiving
+                                                                                                                                                                                                          - - **Video Calls:** No integration with video conferencing
+                                                                                                                                                                                                            - - **SMS Notifications:** Only email, no SMS gateway
+                                                                                                                                                                                                              - - **Advanced Permissions:** Basic role system only
+                                                                                                                                                                                                                - - **File Upload Storage:** Photos stored as URLs, not S3/cloud storage
+                                                                                                                                                                                                                  - - **Payment Gateway Integration:** Stripe integration is basic demo only
+                                                                                                                                                                                                                    - - **Multi-tenant SaaS:** Single-user per instance deployment
+                                                                                                                                                                                                                      - - **Real-time Updates:** No WebSocket/Socket.io implementation
+                                                                                                                                                                                                                        - - **Geolocation Features:** No maps or location-based search
+                                                                                                                                                                                                                         
+                                                                                                                                                                                                                          - ### Why
+                                                                                                                                                                                                                          - This is a portfolio project optimized for learning and demonstrating core full-stack development skills. Production features require additional infrastructure, compliance considerations, and complex state management.
+                                                                                                                                                                                                                         
+                                                                                                                                                                                                                          - ---
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ## 🔧 Environment Variables
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ### Frontend (.env.local)
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          NEXT_PUBLIC_API_URL=http://localhost:5000/api
+                                                                                                                                                                                                                          NEXT_PUBLIC_APP_NAME=TenantVerse
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ### Backend (.env)
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          PORT=5000
+                                                                                                                                                                                                                          MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
+                                                                                                                                                                                                                          JWT_SECRET=your_secret_key
+                                                                                                                                                                                                                          JWT_REFRESH_SECRET=your_refresh_secret
+                                                                                                                                                                                                                          NODE_ENV=development
+                                                                                                                                                                                                                          EMAIL_USER=your-email@gmail.com
+                                                                                                                                                                                                                          EMAIL_PASSWORD=app-password
+                                                                                                                                                                                                                          STRIPE_SECRET_KEY=sk_test_xxxx
+                                                                                                                                                                                                                          STRIPE_PUBLIC_KEY=pk_test_xxxx
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ---
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ## 📦 Docker Deployment
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ### Build Docker Image
+                                                                                                                                                                                                                          ```bash
+                                                                                                                                                                                                                          docker build -t tenantverse-backend .
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ### Run Docker Container
+                                                                                                                                                                                                                          ```bash
+                                                                                                                                                                                                                          docker run -p 5000:5000 \
+                                                                                                                                                                                                                            -e MONGODB_URI=your_uri \
+                                                                                                                                                                                                                            -e JWT_SECRET=your_secret \
+                                                                                                                                                                                                                            tenantverse-backend
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ### Docker Compose (Development)
+                                                                                                                                                                                                                          ```bash
+                                                                                                                                                                                                                          docker-compose up
+                                                                                                                                                                                                                          ```
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ---
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          ## 🤝 Contributing
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          Contributions are welcome! To contribute:
+                                                                                                                                                                                                                          
+                                                                                                                                                                                                                          1. Fork the repository
+                                                                                                                                                                                                                          2. 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+                                                                                                                                                                                                                             3. 3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+                                                                                                                                                                                                                                4. 4. Push to branch (`git push origin feature/AmazingFeature`)
+                                                                                                                                                                                                                                   5. 5. Open a Pull Request
+                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                      6. ### Code Guidelines
+                                                                                                                                                                                                                                      7. - Follow ESLint configuration
+                                                                                                                                                                                                                                         - - Use TypeScript for all new code
+                                                                                                                                                                                                                                           - - Write meaningful commit messages
+                                                                                                                                                                                                                                             - - Test your changes locally
+                                                                                                                                                                                                                                               - - Update documentation as needed
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                 - ---
+                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                 ## 📄 License
+                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                 ---
+                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                 ## 🙏 Acknowledgments
+                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                 - Next.js and Vercel team
+                                                                                                                                                                                                                                                 - - Express.js community
+                                                                                                                                                                                                                                                   - - MongoDB documentation
+                                                                                                                                                                                                                                                     - - TypeScript contributors
+                                                                                                                                                                                                                                                       - - Open-source community
+                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                         - ---
+                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                         ## 📞 Contact & Support
+                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                         - **GitHub Issues:** [Report bugs or request features](https://github.com/unnita1235/TenantVerse/issues)
+                                                                                                                                                                                                                                                         - - **Email:** unnita1235@gmail.com
+                                                                                                                                                                                                                                                           - - **Live Demo:** [tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
+                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                             - ---
+                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                             **Last Updated:** January 7, 2026
+                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                             **Current Status:**
+                                                                                                                                                                                                                                                             - ✅ Frontend: Live on Vercel
+                                                                                                                                                                                                                                                             - - ✅ Backend: Live on Render.com
+                                                                                                                                                                                                                                                               - - ✅ Database: Connected to MongoDB Atlas
+                                                                                                                                                                                                                                                                 - - ✅ Authentication: Fully functional
+                                                                                                                                                                                                                                                                   - - ✅ Deployment: Automated via GitHub Actions
+                                                                                                                                                                                                                                                                     - 
