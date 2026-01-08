@@ -29,7 +29,7 @@ export default function BillingPage({ params }: { params: { tenant: string } }) 
       ]);
 
       if (plansResponse.success && plansResponse.data) {
-        setPlans(plansResponse.data);
+        setPlans((plansResponse.data as any).plans || []);
       }
 
       if (subscriptionResponse.success && subscriptionResponse.data) {

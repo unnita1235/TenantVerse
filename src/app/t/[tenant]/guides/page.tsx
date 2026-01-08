@@ -21,7 +21,7 @@ function SubmitButton() {
 
 export default function GuidesPage({ params }: { params: { tenant: string } }) {
   const initialState = { success: false, data: null, error: null };
-  const [state, formAction] = useFormState(getPersonalizedGuide, initialState);
+  const [state, formAction] = useFormState(getPersonalizedGuide, initialState as any);
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
@@ -62,7 +62,7 @@ export default function GuidesPage({ params }: { params: { tenant: string } }) {
                 required
               />
             </div>
-             <div className="grid gap-2">
+            <div className="grid gap-2">
               <Label htmlFor="expectedAppUsage">Expected App Usage</Label>
               <Textarea
                 id="expectedAppUsage"
@@ -100,7 +100,7 @@ export default function GuidesPage({ params }: { params: { tenant: string } }) {
               <pre className="whitespace-pre-wrap font-body text-sm bg-muted/50 p-4 rounded-lg">{state.data.userGuide}</pre>
             </CardContent>
           </Card>
-           <Card>
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-headline">
                 <ListChecks className="text-accent" />

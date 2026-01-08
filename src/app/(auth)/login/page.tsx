@@ -27,6 +27,7 @@ export default function LoginPage() {
       const response = await apiClient.login(email, password);
 
       // API client spreads backend response, so token/tenant are at top level alongside success
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const responseAny = response as any;
 
       if (response.success && responseAny.token) {
@@ -46,6 +47,7 @@ export default function LoginPage() {
       } else {
         setError(response.message || 'Login failed');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || 'An error occurred');
     } finally {

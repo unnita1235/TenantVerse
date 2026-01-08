@@ -20,11 +20,11 @@ function SubmitButton() {
 
 export default function OnboardPage() {
   const initialState = { success: false, data: null, error: null };
-  const [state, formAction] = useFormState(getRbacSuggestions, initialState);
+  const [state, formAction] = useFormState(getRbacSuggestions, initialState as any);
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
-       <div>
+      <div>
         <h1 className="font-headline text-3xl font-bold tracking-tight">AI Team Onboarding</h1>
         <p className="text-muted-foreground">Describe your team and let AI suggest the best roles for them.</p>
       </div>
@@ -45,7 +45,7 @@ export default function OnboardPage() {
                 rows={5}
                 required
               />
-               <p className="text-sm text-muted-foreground">Enter one team member profile per line.</p>
+              <p className="text-sm text-muted-foreground">Enter one team member profile per line.</p>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="usage">Expected App Usage</Label>
@@ -63,7 +63,7 @@ export default function OnboardPage() {
           </CardFooter>
         </Card>
       </form>
-      
+
       {state.error && (
         <Alert variant="destructive">
           <Terminal className="h-4 w-4" />
@@ -83,7 +83,7 @@ export default function OnboardPage() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc space-y-2 pl-5 text-sm">
-              {state.data.suggestedRoles.map((role, index) => (
+              {state.data.suggestedRoles.map((role: any, index: number) => (
                 <li key={index}>{role}</li>
               ))}
             </ul>

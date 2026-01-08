@@ -28,7 +28,7 @@ export default function SettingsPage({ params }: { params: { tenant: string } })
       const response = await apiClient.getTenant(params.tenant);
       if (response.success && response.data) {
         setTenant(response.data);
-        setName(response.data.name || '');
+        setName((response.data as any).name || '');
       }
     } catch (error) {
       console.error('Failed to fetch tenant:', error);

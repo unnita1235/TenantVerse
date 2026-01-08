@@ -59,7 +59,7 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
     try {
       const response = await apiClient.getUsers();
       if (response.success && response.data) {
-        setUsers(response.data);
+        setUsers((response.data as any).users || []);
       }
     } catch (error) {
       console.error('Failed to fetch users:', error);
@@ -272,7 +272,7 @@ export default function TeamPage({ params }: { params: { tenant: string } }) {
                         }}>
                           Change Role
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => handleDelete(user._id || user.id)}
                         >

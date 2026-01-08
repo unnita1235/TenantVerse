@@ -48,7 +48,7 @@ export default function SignupPage() {
         organizationName: formData.organizationName,
         organizationSlug: formData.organizationSlug || undefined
       });
-      
+
       if (response.success && response.data?.token && response.data?.tenant) {
         // Token is already set by apiClient, but also set cookie for middleware
         if (typeof document !== 'undefined') {
@@ -58,6 +58,7 @@ export default function SignupPage() {
       } else {
         setError(response.message || 'Registration failed');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || 'An error occurred');
     } finally {
@@ -80,29 +81,29 @@ export default function SignupPage() {
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="name">Your Name</Label>
-            <Input 
-              id="name" 
-              placeholder="John Doe" 
+            <Input
+              id="name"
+              placeholder="John Doe"
               value={formData.name}
               onChange={handleChange}
-              required 
+              required
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="organizationName">Organization Name</Label>
-            <Input 
-              id="organizationName" 
-              placeholder="Acme Inc." 
+            <Input
+              id="organizationName"
+              placeholder="Acme Inc."
               value={formData.organizationName}
               onChange={handleChange}
-              required 
+              required
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="organizationSlug">Organization Slug (URL)</Label>
-            <Input 
-              id="organizationSlug" 
-              placeholder="acme" 
+            <Input
+              id="organizationSlug"
+              placeholder="acme"
               value={formData.organizationSlug}
               onChange={handleChange}
               pattern="[a-z0-9-]+"
@@ -110,23 +111,23 @@ export default function SignupPage() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="m@example.com" 
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
               value={formData.email}
               onChange={handleChange}
-              required 
+              required
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input 
-              id="password" 
-              type="password" 
+            <Input
+              id="password"
+              type="password"
               value={formData.password}
               onChange={handleChange}
-              required 
+              required
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
