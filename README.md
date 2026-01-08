@@ -46,6 +46,18 @@ This project serves as a comprehensive portfolio piece demonstrating the ability
 
 ---
 
+## 📸 Screenshots
+
+| Landing Page | Login Page |
+|:---:|:---:|
+| ![Landing Page](screenshots/landing.png) | ![Login Page](screenshots/login.png) |
+
+| Signup Page |
+|:---:|
+| ![Signup Page](screenshots/signup.png) |
+
+---
+
 ## ✨ Features
 
 ### 1. Multi-Role Management
