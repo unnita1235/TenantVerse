@@ -1,48 +1,14 @@
-# TenantVerse - Property Management SaaS
+# TenantVerse
 
-[![Status: Production Ready](https://img.shields.io/badge/status-production%20ready-success?style=flat-square)](https://github.com/unnita1235/TenantVerse)
-[![Frontend: Live](https://img.shields.io/badge/frontend-live-blue?style=flat-square&logo=vercel)](https://tenant-verse-one.vercel.app)
-[![Backend: Live](https://img.shields.io/badge/backend-live-success?style=flat-square&logo=render)](https://tenantverse.onrender.com/api/health)
-[![TypeScript](https://img.shields.io/badge/typescript-5.3.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+> Production-ready Property & Tenant Management SaaS Platform
 
-A full-stack property management platform built with modern web technologies. This project demonstrates real-world development with **Next.js 15**, **Express.js**, and **MongoDB**, featuring authentication, payment processing simulation, and containerization.
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://tenant-verse-one.vercel.app)
+[![CI Status](https://github.com/unnita1235/TenantVerse/workflows/CI/badge.svg)](https://github.com/unnita1235/TenantVerse/actions)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 
-**Live Demo:** [tenant-verse-one.vercel.app](https://tenant-verse-one.vercel.app)
-
----
-
-## 📋 Table of Contents
-
-- [Honest Assessment](#honest-assessment)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started (Automated)](#getting-started-automated)
-- [Manual Setup](#manual-setup)
-- [Project Structure](#project-structure)
-- [Deployment](#deployment)
-- [API Documentation](#api-documentation)
-- [Database Schema](#database-schema)
-- [License](#license)
-
----
-
-## Honest Assessment
-
-TenantVerse is a **functional property management application** designed to showcase full-stack development capabilities.
-
-**What it IS:**
-*   ✅ **Modern Stack:** Built with the latest Next.js 15 (React 19) and strict TypeScript.
-*   ✅ **Architected for Scale:** Separate frontend and backend services, container-ready.
-*   ✅ **Secure:** JWT authentication with access/refresh token rotation.
-*   ✅ **Production-Minded:** Includes CI/CD pipelines, environment configuration, and error handling.
-
-**What it is NOT (Yet):**
-*   ❌ **Enterprise SaaS:** It is not currently battling-tested for thousands of concurrent users.
-*   ❌ **Fully Featured ERP:** It lacks advanced accounting, automated bank reconciliation, or legal compliance generation.
-*   ❌ **Mobile Native:** It is a responsive web app, not a native iOS/Android application.
-
-This project serves as a comprehensive portfolio piece demonstrating the ability to build, deploy, and maintain a complex web application.
+**Frontend:** https://tenant-verse-one.vercel.app  
+**Backend:** *Requires deployment* (see setup instructions)
 
 ---
 
@@ -56,133 +22,298 @@ This project serves as a comprehensive portfolio piece demonstrating the ability
 |:---:|
 | ![Signup Page](screenshots/signup.png) |
 
----
+## Overview
 
-## ✨ Features
-
-### 1. Multi-Role Management
-*   **Property Management:** Create and track properties with details and photos.
-*   **Tenant Tracking:** Manage lease agreements, dates, and contact info.
-
-### 2. Financials
-*   **Rent Tracking:** Record statements and payment status.
-*   **Stripe Integration:** Basic implementation for payment processing (demonstration mode).
-
-### 3. Communication & Operations
-*   **In-App Messaging:** Direct communication between landlords and tenants.
-*   **Email Notifications:** Integrated via Nodemailer.
-
-### 4. Security & Tech
-*   **RBAC:** Role-Based Access Control (Admin vs. User).
-*   **Data Integrity:** Mongoose schemas with strict validation.
+TenantVerse is a multi-tenant SaaS platform for property and tenant management, featuring role-based access control, subscription management, and team collaboration. Built with enterprise-grade architecture demonstrating full-stack capabilities.
 
 ---
 
-## 🛠 Tech Stack
+## Key Features
 
-### Frontend
-*   **Framework:** Next.js 15 (App Router)
-*   **Language:** TypeScript 5.3+
-*   **Styling:** Tailwind CSS, Shadcn/UI
-*   **State:** React Context & Hooks
+### Multi-Tenancy
+- Isolated tenant workspaces
+- Custom subdomain support (planned)
+- Tenant-specific data isolation
+- Per-tenant configuration
 
-### Backend
-*   **Runtime:** Node.js 20+
-*   **Framework:** Express.js
-*   **Database:** MongoDB Atlas
-*   **Auth:** JWT (Access + Refresh Tokens)
+### Authentication & Authorization
+- JWT-based authentication
+- Role-based access control (Owner, Admin, Member)
+- Team member invitations
+- Session management
 
-### DevOps
-*   **CI/CD:** GitHub Actions
-*   **Containerization:** Docker & Docker Compose
-*   **Hosting:** Vercel (Frontend), Render (Backend)
+### Subscription Management
+- Stripe integration
+- Multiple pricing tiers (Starter, Pro, Enterprise)
+- Subscription lifecycle management
+- Usage-based billing support
+
+### Team Management
+- Invite team members
+- Role assignment
+- Permission management
+- Activity tracking
+
+### Dashboard
+- Real-time statistics
+- Activity feed
+- Tenant management
+- User analytics
 
 ---
 
-## 🚀 Getting Started (Automated)
+## Tech Stack
 
-We have included a PowerShell script to fully automate the local setup process (install, build, and run).
+**Frontend**
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS
+- Radix UI + shadcn/ui
+- React Hook Form + Zod
+
+**Backend**
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT authentication
+- Stripe API
+- TypeScript
+
+**Infrastructure**
+- Frontend: Vercel
+- Backend: Railway/Render (deployment required)
+- Database: MongoDB Atlas (recommended)
+- CI/CD: GitHub Actions
+
+---
+
+## Getting Started
 
 ### Prerequisites
-*   Node.js 18+ installed.
-*   Git installed.
-*   PowerShell (standard on Windows).
+- Node.js 18+
+- MongoDB (local or Atlas)
+- Stripe account (for payments)
 
-### Steps
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/unnita1235/TenantVerse.git
-    cd TenantVerse
-    ```
+### Installation
 
-2.  **Run the Automation Script:**
-    ```powershell
-    .\DEPLOYMENT_AUTOMATION.ps1
-    ```
-    *This script will automatically install dependencies for both frontend and backend, build them, and start the services.*
-
-3.  **Access the App:**
-    *   Frontend: `http://localhost:3000`
-    *   Backend: `http://localhost:5000`
-
----
-
-## ⚙️ Manual Setup
-
-If you prefer to run things manually:
-
-**1. Backend Setup**
 ```bash
+# Clone repository
+git clone https://github.com/unnita1235/TenantVerse.git
+cd TenantVerse
+
+# Backend setup
 cd backend
 npm install
-# Create .env file based on .env.example
-npm run dev
-```
+cp .env.example .env
+# Edit .env with your configuration
+npm run seed  # Seed demo data
+npm run dev   # Runs on http://localhost:5000
 
-**2. Frontend Setup**
-```bash
-cd frontend
+# Frontend setup (in new terminal)
+cd ..
 npm install
-# Create .env.local file
-npm run dev
+cp .env.example .env.local
+# Edit .env.local with backend API URL
+npm run dev   # Runs on http://localhost:9002
 ```
 
 ---
 
-## 📁 Project Structure
+## Environment Variables
+
+### Backend (.env)
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017/tenantverse
+JWT_SECRET=your_secret_key
+JWT_EXPIRE=7d
+FRONTEND_URL=http://localhost:9002
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PRICE_ID_STARTER=price_...
+STRIPE_PRICE_ID_PRO=price_...
+STRIPE_PRICE_ID_ENTERPRISE=price_...
+```
+
+### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+---
+
+## Demo Credentials
+
+After running `npm run seed`:
+
+**Super Admin**
+- Email: `admin@tenantverse.com`
+- Password: `admin123`
+
+**Tenant Owner**
+- Email: `owner@acme.com`
+- Password: `password123`
+
+**Team Member**
+- Email: `john@acme.com`
+- Password: `password123`
+
+---
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register user & create tenant
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user
+
+### Tenants
+- `GET /api/tenants/:slug` - Get tenant details
+- `PUT /api/tenants/:slug` - Update tenant
+- `DELETE /api/tenants/:slug` - Delete tenant
+
+### Users
+- `GET /api/users` - List tenant users
+- `POST /api/users/invite` - Invite user
+- `PUT /api/users/:id/role` - Update role
+- `DELETE /api/users/:id` - Remove user
+
+### Subscriptions
+- `GET /api/subscriptions/plans` - List plans
+- `POST /api/subscriptions/create-checkout` - Create checkout session
+- `POST /api/subscriptions/cancel` - Cancel subscription
+- `POST /api/subscriptions/webhook` - Stripe webhook
+
+### Dashboard
+- `GET /api/dashboard/stats` - Get statistics
+
+### Admin (Super Admin Only)
+- `GET /api/admin/tenants` - List all tenants
+- `PUT /api/admin/tenants/:id/status` - Update status
+
+---
+
+## Project Structure
 
 ```
 TenantVerse/
-├── DEPLOYMENT_AUTOMATION.ps1 # One-click setup script
-├── frontend/                 # Next.js Application
-│   ├── src/app/             # App Router Pages
-│   ├── src/components/      # UI Components
-│   └── ...
-├── backend/                  # Express API
-│   ├── src/controllers/     # Logic Layer
-│   ├── src/models/          # DB Schemas
-│   └── ...
-└── ...
+├── backend/              # Express API
+│   ├── src/
+│   │   ├── models/      # Mongoose models
+│   │   ├── routes/      # API routes
+│   │   ├── middleware/  # Auth & validation
+│   │   └── scripts/     # Seed scripts
+│   └── package.json
+├── src/
+│   ├── app/
+│   │   ├── (auth)/      # Auth pages
+│   │   ├── t/[tenant]/  # Tenant dashboard
+│   │   └── super-admin/ # Admin panel
+│   ├── components/      # React components
+│   └── lib/             # Utilities & API
+└── package.json
 ```
 
 ---
 
-## 🌐 Deployment
+## Security Features
+
+- Password hashing with bcrypt
+- JWT token authentication
+- Role-based access control (RBAC)
+- Tenant data isolation
+- Input validation
+- CORS configuration
+- Environment variable protection
+
+---
+
+## Deployment
 
 ### Frontend (Vercel)
-Connect your GitHub repository to Vercel. The `next.config.ts` is configured for Vercel deployment.
+1. Connect GitHub repository
+2. Framework: Next.js (auto-detected)
+3. Set `NEXT_PUBLIC_API_URL` environment variable
+4. Deploy
 
-### Backend (Render)
-Connect your GitHub repository to Render.
-*   **Build Command:** `npm install && npm run build`
-*   **Start Command:** `npm start`
+### Backend (Railway/Render)
+1. Connect GitHub repository
+2. Build: `cd backend && npm install && npm run build`
+3. Start: `cd backend && npm start`
+4. Set environment variables
+5. Deploy
+
+**Note:** Backend must be deployed separately for full functionality.
 
 ---
 
-## 📄 License
+## Current Status
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+✅ **Working Features:**
+- User authentication
+- Tenant creation
+- Team management
+- Role-based access
+- Dashboard UI
+- CI/CD pipeline
+
+🚧 **In Progress:**
+- Stripe integration (setup required)
+- Subscription management
+- Email notifications
+
+📅 **Planned:**
+- Custom subdomains
+- Advanced analytics
+- File storage
+- Audit logs
 
 ---
 
-**Built by [Unnita](https://github.com/unnita1235)**
+## CI/CD Pipeline
+
+GitHub Actions workflow:
+- ✅ Automated linting
+- ✅ Type checking
+- ✅ Build verification
+- ✅ Runs on push/PR
+
+View status: [GitHub Actions](https://github.com/unnita1235/TenantVerse/actions)
+
+---
+
+## Contributing
+
+This is a portfolio/demonstration project. For questions or issues, please open a GitHub issue.
+
+---
+
+## License
+
+MIT License - See [LICENSE](LICENSE)
+
+---
+
+## Author
+
+**Unni T A**
+- GitHub: [@unnita1235](https://github.com/unnita1235)
+- Email: unnita1235@gmail.com
+
+---
+
+## Documentation
+
+Additional documentation available in the repository:
+- [Architecture](ARCHITECTURE.md)
+- [Production Checklist](PRODUCTION_CHECKLIST.md)
+- [Deployment](DEPLOYMENT.md)
+- [GitHub Setup](GITHUB_SETUP.md)
+
+---
+
+**TenantVerse** - Enterprise-grade Multi-tenant SaaS Platform
+
+*Note: This is a demonstration project showcasing production-ready full-stack engineering with multi-tenancy, RBAC, and subscription management.*
