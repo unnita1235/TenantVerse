@@ -146,6 +146,12 @@ class ApiClient {
     });
   }
 
+  async deleteTenantBySlug(slug: string) {
+    return this.request(`/tenants/${slug}`, {
+      method: 'DELETE',
+    });
+  }
+
   // Users
   async getUsers() {
     return this.request<{ users: User[] }>('/users');
@@ -215,6 +221,12 @@ class ApiClient {
     return this.request(`/admin/tenants/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status }),
+    });
+  }
+
+  async deleteTenant(id: string) {
+    return this.request(`/admin/tenants/${id}`, {
+      method: 'DELETE',
     });
   }
 }
